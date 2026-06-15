@@ -573,10 +573,13 @@ def main():
             stock_flow_5d = float(st_df["today_net_flow_m"].iloc[-st_n5:].sum())
             stock_flow_20d = float(st_df["today_net_flow_m"].iloc[-st_n20:].sum())
             
-            # 計算 5 日累計漲跌幅
-            idx_5d_ago = -min(6, len(st_df))
-            price_5d_ago = float(st_df["price"].iloc[idx_5d_ago])
-            stock_return_5d = float((price - price_5d_ago) / price_5d_ago * 100) if price_5d_ago > 0 else 0.0
+            # 計算 5 日累計漲跌幅：使用今日收盤價 (iloc[-1]) 與 5 天前（前第 5 個交易日，即 iloc[-6]）收盤價進行百分比計算
+            if len(st_df) >= 6:
+                price_today = float(st_df["price"].iloc[-1])
+                price_5d_ago = float(st_df["price"].iloc[-6])
+                stock_return_5d = ((price_today - price_5d_ago) / price_5d_ago * 100) if price_5d_ago > 0 else 0.0
+            else:
+                stock_return_5d = 0.0
             
             individual_stocks_data.append({
                 "stock_id": stock_id,

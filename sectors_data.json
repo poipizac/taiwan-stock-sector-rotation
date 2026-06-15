@@ -1,681 +1,723 @@
 {
     "market_info": {
         "date": "20260615",
-        "market_close": 0.0,
-        "market_return_pct": 0.0
+        "market_close": 45396.99,
+        "market_return_pct": 2.78
     },
     "sectors": [
         {
             "sector_name": "ETF",
-            "flow_5d_m": -26721.13,
-            "flow_20d_m": -83942.31,
-            "size_20d_m": 424987.22,
-            "acceleration_m": 14121.27,
+            "flow_5d_m": -25664.9,
+            "flow_20d_m": -82886.08,
+            "size_20d_m": 438926.17,
+            "acceleration_m": 15177.5,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "0050",
                     "stock_name": "元大台灣50",
-                    "today_net_flow_m": 2419.76,
-                    "today_return_pct": 0.12
+                    "today_net_flow_m": 3136.45,
+                    "today_return_pct": 3.24
                 },
                 {
-                    "stock_id": "0056",
-                    "stock_name": "元大高股息",
-                    "today_net_flow_m": 194.39,
-                    "today_return_pct": 0.36
+                    "stock_id": "0052",
+                    "stock_name": "富邦科技",
+                    "today_net_flow_m": 988.95,
+                    "today_return_pct": 3.36
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "0050",
                     "stock_name": "元大台灣50",
-                    "price": 81.2,
-                    "volume": 3842614.0,
-                    "today_return_pct": 0.12,
-                    "return_5d_pct": -19.56,
-                    "today_net_flow_m": 2419.76,
-                    "flow_5d_m": -27128.91,
-                    "flow_20d_m": -90657.11
+                    "price": 105.25,
+                    "volume": 100402843.0,
+                    "today_return_pct": 3.24,
+                    "return_5d_pct": 4.26,
+                    "today_net_flow_m": 3136.45,
+                    "flow_5d_m": -26412.22,
+                    "flow_20d_m": -89940.42
                 },
                 {
                     "stock_id": "0052",
                     "stock_name": "富邦科技",
-                    "price": 54.0,
-                    "volume": 35003.0,
-                    "today_return_pct": -3.57,
-                    "return_5d_pct": -8.24,
-                    "today_net_flow_m": 866.93,
-                    "flow_5d_m": 380.57,
-                    "flow_20d_m": -2428.62
+                    "price": 61.6,
+                    "volume": 31567997.0,
+                    "today_return_pct": 3.36,
+                    "return_5d_pct": 4.67,
+                    "today_net_flow_m": 988.95,
+                    "flow_5d_m": 502.58,
+                    "flow_20d_m": -2306.61
                 },
                 {
                     "stock_id": "0056",
                     "stock_name": "元大高股息",
-                    "price": 24.95,
-                    "volume": 879671.0,
-                    "today_return_pct": 0.36,
-                    "return_5d_pct": -49.54,
-                    "today_net_flow_m": 194.39,
-                    "flow_5d_m": 115.07,
-                    "flow_20d_m": 9207.27
+                    "price": 51.5,
+                    "volume": 33706671.0,
+                    "today_return_pct": 1.78,
+                    "return_5d_pct": 4.15,
+                    "today_net_flow_m": 401.25,
+                    "flow_5d_m": 321.93,
+                    "flow_20d_m": 9414.13
                 },
                 {
-                    "stock_id": "0061",
-                    "stock_name": "元大寶滬深",
-                    "price": 18.86,
-                    "volume": 1115150.0,
-                    "today_return_pct": -0.05,
-                    "return_5d_pct": -22.23,
-                    "today_net_flow_m": 2.9,
-                    "flow_5d_m": 11.73,
-                    "flow_20d_m": 78.45
+                    "stock_id": "0053",
+                    "stock_name": "元大電子",
+                    "price": 240.9,
+                    "volume": 34356.0,
+                    "today_return_pct": 2.97,
+                    "return_5d_pct": 4.33,
+                    "today_net_flow_m": 4.93,
+                    "flow_5d_m": -36.5,
+                    "flow_20d_m": -50.04
                 },
                 {
                     "stock_id": "0055",
                     "stock_name": "元大MSCI金融",
-                    "price": 16.16,
-                    "volume": 29000.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -57.64,
-                    "today_net_flow_m": 1.89,
-                    "flow_5d_m": -13.01,
-                    "flow_20d_m": -30.98
+                    "price": 41.0,
+                    "volume": 969126.0,
+                    "today_return_pct": 3.22,
+                    "return_5d_pct": 7.47,
+                    "today_net_flow_m": 4.79,
+                    "flow_5d_m": -10.11,
+                    "flow_20d_m": -28.08
                 }
             ]
         },
         {
             "sector_name": "光電業",
-            "flow_5d_m": -30.84,
-            "flow_20d_m": -2038.12,
-            "size_20d_m": 134861.9,
-            "acceleration_m": -206.4,
+            "flow_5d_m": 96.55,
+            "flow_20d_m": -1910.74,
+            "size_20d_m": 137640.21,
+            "acceleration_m": -79.01,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "2374",
                     "stock_name": "佳能",
-                    "today_net_flow_m": 35.32,
-                    "today_return_pct": 3.16
+                    "today_net_flow_m": 125.29,
+                    "today_return_pct": 4.3
                 },
                 {
-                    "stock_id": "4976",
-                    "stock_name": "佳凌",
-                    "today_net_flow_m": 27.98,
-                    "today_return_pct": 0.0
+                    "stock_id": "3714",
+                    "stock_name": "富采",
+                    "today_net_flow_m": 119.75,
+                    "today_return_pct": 2.95
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "8105",
                     "stock_name": "凌巨",
-                    "price": 19.35,
-                    "volume": 9231830.0,
-                    "today_return_pct": 0.52,
-                    "return_5d_pct": -1.78,
-                    "today_net_flow_m": -219.43,
-                    "flow_5d_m": -246.86,
-                    "flow_20d_m": -308.08
+                    "price": 21.4,
+                    "volume": 33846926.0,
+                    "today_return_pct": -4.68,
+                    "return_5d_pct": 8.63,
+                    "today_net_flow_m": -242.68,
+                    "flow_5d_m": -270.11,
+                    "flow_20d_m": -331.33
                 },
                 {
                     "stock_id": "2393",
                     "stock_name": "億光",
-                    "price": 44.9,
-                    "volume": 1267888.0,
-                    "today_return_pct": 1.24,
-                    "return_5d_pct": -31.87,
-                    "today_net_flow_m": -82.92,
-                    "flow_5d_m": 155.91,
-                    "flow_20d_m": -181.08
+                    "price": 70.5,
+                    "volume": 3927408.0,
+                    "today_return_pct": -0.56,
+                    "return_5d_pct": 6.98,
+                    "today_net_flow_m": -130.19,
+                    "flow_5d_m": 108.64,
+                    "flow_20d_m": -228.35
                 },
                 {
                     "stock_id": "2374",
                     "stock_name": "佳能",
-                    "price": 21.2,
-                    "volume": 2867143.0,
-                    "today_return_pct": 3.16,
-                    "return_5d_pct": -70.8,
-                    "today_net_flow_m": 35.32,
-                    "flow_5d_m": -77.7,
-                    "flow_20d_m": -612.58
+                    "price": 75.2,
+                    "volume": 6051215.0,
+                    "today_return_pct": 4.3,
+                    "return_5d_pct": 3.58,
+                    "today_net_flow_m": 125.29,
+                    "flow_5d_m": 12.27,
+                    "flow_20d_m": -522.61
                 },
                 {
-                    "stock_id": "8215",
-                    "stock_name": "明基材",
-                    "price": 18.2,
-                    "volume": 376334.0,
-                    "today_return_pct": -0.55,
-                    "return_5d_pct": -34.65,
-                    "today_net_flow_m": -30.19,
-                    "flow_5d_m": -63.24,
-                    "flow_20d_m": 89.5
+                    "stock_id": "3714",
+                    "stock_name": "富采",
+                    "price": 66.3,
+                    "volume": 10146584.0,
+                    "today_return_pct": 2.95,
+                    "return_5d_pct": 2.31,
+                    "today_net_flow_m": 119.75,
+                    "flow_5d_m": 312.83,
+                    "flow_20d_m": -586.97
                 },
                 {
-                    "stock_id": "4976",
-                    "stock_name": "佳凌",
-                    "price": 37.7,
-                    "volume": 546516.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": 16.54,
-                    "today_net_flow_m": 27.98,
-                    "flow_5d_m": -27.26,
-                    "flow_20d_m": -20.91
+                    "stock_id": "5234",
+                    "stock_name": "達興材料",
+                    "price": 389.0,
+                    "volume": 473951.0,
+                    "today_return_pct": -0.38,
+                    "return_5d_pct": 0.0,
+                    "today_net_flow_m": -71.94,
+                    "flow_5d_m": -143.95,
+                    "flow_20d_m": -585.23
                 }
             ]
         },
         {
             "sector_name": "其他",
-            "flow_5d_m": 2262.07,
-            "flow_20d_m": 4171.32,
-            "size_20d_m": 90595.97,
-            "acceleration_m": -1088.2,
+            "flow_5d_m": 2218.47,
+            "flow_20d_m": 4127.72,
+            "size_20d_m": 93759.09,
+            "acceleration_m": -1131.8,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "9919",
-                    "stock_name": "康那香",
-                    "today_net_flow_m": 2.8,
-                    "today_return_pct": 1.29
+                    "stock_id": "9933",
+                    "stock_name": "中鼎",
+                    "today_net_flow_m": 90.16,
+                    "today_return_pct": 4.52
                 },
                 {
-                    "stock_id": "9942",
-                    "stock_name": "茂順",
-                    "today_net_flow_m": 2.17,
-                    "today_return_pct": 0.56
+                    "stock_id": "5284",
+                    "stock_name": "jpp-KY",
+                    "today_net_flow_m": 43.07,
+                    "today_return_pct": 3.02
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "5871",
                     "stock_name": "中租-KY",
-                    "price": 84.2,
-                    "volume": 4252950.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -27.1,
-                    "today_net_flow_m": -243.32,
-                    "flow_5d_m": 1357.42,
-                    "flow_20d_m": 3715.75
+                    "price": 118.5,
+                    "volume": 10845697.0,
+                    "today_return_pct": -2.47,
+                    "return_5d_pct": 2.6,
+                    "today_net_flow_m": -342.44,
+                    "flow_5d_m": 1258.3,
+                    "flow_20d_m": 3616.63
                 },
                 {
                     "stock_id": "9945",
                     "stock_name": "潤泰新",
-                    "price": 30.85,
-                    "volume": 2202355.0,
-                    "today_return_pct": -0.32,
-                    "return_5d_pct": 25.41,
-                    "today_net_flow_m": -110.47,
-                    "flow_5d_m": -117.23,
-                    "flow_20d_m": -606.37
-                },
-                {
-                    "stock_id": "9938",
-                    "stock_name": "百和",
-                    "price": 120.5,
-                    "volume": 500459.0,
-                    "today_return_pct": -1.23,
-                    "return_5d_pct": 167.78,
-                    "today_net_flow_m": -100.96,
-                    "flow_5d_m": -89.14,
-                    "flow_20d_m": -270.71
+                    "price": 27.05,
+                    "volume": 18348885.0,
+                    "today_return_pct": 0.93,
+                    "return_5d_pct": 9.96,
+                    "today_net_flow_m": -96.86,
+                    "flow_5d_m": -103.62,
+                    "flow_20d_m": -592.76
                 },
                 {
                     "stock_id": "9933",
                     "stock_name": "中鼎",
-                    "price": 44.35,
-                    "volume": 1149115.0,
-                    "today_return_pct": -1.33,
-                    "return_5d_pct": 6.1,
-                    "today_net_flow_m": 93.42,
-                    "flow_5d_m": 139.07,
-                    "flow_20d_m": 878.51
+                    "price": 42.8,
+                    "volume": 8082505.0,
+                    "today_return_pct": 4.52,
+                    "return_5d_pct": 2.39,
+                    "today_net_flow_m": 90.16,
+                    "flow_5d_m": 135.8,
+                    "flow_20d_m": 875.25
+                },
+                {
+                    "stock_id": "9917",
+                    "stock_name": "中保科",
+                    "price": 119.0,
+                    "volume": 1822708.0,
+                    "today_return_pct": -2.46,
+                    "return_5d_pct": 2.15,
+                    "today_net_flow_m": -73.97,
+                    "flow_5d_m": 83.48,
+                    "flow_20d_m": 201.14
                 },
                 {
                     "stock_id": "9941",
                     "stock_name": "裕融",
-                    "price": 105.5,
-                    "volume": 408502.0,
-                    "today_return_pct": -0.47,
-                    "return_5d_pct": 27.11,
-                    "today_net_flow_m": -65.42,
-                    "flow_5d_m": 464.65,
-                    "flow_20d_m": 851.78
+                    "price": 83.0,
+                    "volume": 2848199.0,
+                    "today_return_pct": -1.54,
+                    "return_5d_pct": 0.0,
+                    "today_net_flow_m": -51.47,
+                    "flow_5d_m": 478.6,
+                    "flow_20d_m": 865.73
                 }
             ]
         },
         {
             "sector_name": "其他電子業",
-            "flow_5d_m": -1308.54,
-            "flow_20d_m": 1646.76,
-            "size_20d_m": 113393.9,
-            "acceleration_m": 226.37,
+            "flow_5d_m": -3281.99,
+            "flow_20d_m": -326.68,
+            "size_20d_m": 121530.24,
+            "acceleration_m": -1747.07,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "2354",
-                    "stock_name": "鴻準",
-                    "today_net_flow_m": 58.25,
-                    "today_return_pct": 0.0
-                },
-                {
-                    "stock_id": "6215",
-                    "stock_name": "和椿",
-                    "today_net_flow_m": 0.0,
-                    "today_return_pct": 1.09
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "8021",
                     "stock_name": "尖點",
-                    "price": 20.95,
-                    "volume": 144588.0,
-                    "today_return_pct": 0.48,
-                    "return_5d_pct": -95.45,
-                    "today_net_flow_m": -75.21,
-                    "flow_5d_m": -1045.98,
-                    "flow_20d_m": 1747.98
+                    "price": 506.0,
+                    "volume": 14855629.0,
+                    "today_return_pct": -3.07,
+                    "return_5d_pct": 10.0,
+                    "today_net_flow_m": -2025.42,
+                    "flow_5d_m": -2996.2,
+                    "flow_20d_m": -202.24
                 },
                 {
                     "stock_id": "2354",
                     "stock_name": "鴻準",
-                    "price": 85.0,
-                    "volume": 1651750.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": 50.71,
-                    "today_net_flow_m": 58.25,
-                    "flow_5d_m": -0.47,
-                    "flow_20d_m": 621.53
+                    "price": 57.7,
+                    "volume": 5234094.0,
+                    "today_return_pct": 1.23,
+                    "return_5d_pct": 2.3,
+                    "today_net_flow_m": 39.54,
+                    "flow_5d_m": -19.18,
+                    "flow_20d_m": 602.82
                 },
                 {
-                    "stock_id": "6192",
-                    "stock_name": "巨路",
-                    "price": 55.5,
-                    "volume": 100700.0,
-                    "today_return_pct": 1.28,
-                    "return_5d_pct": -56.13,
-                    "today_net_flow_m": -1.4,
-                    "flow_5d_m": -85.95,
-                    "flow_20d_m": 5.53
+                    "stock_id": "6658",
+                    "stock_name": "聯策",
+                    "price": 184.0,
+                    "volume": 982201.0,
+                    "today_return_pct": 7.29,
+                    "return_5d_pct": -2.39,
+                    "today_net_flow_m": -17.01,
+                    "flow_5d_m": -32.78,
+                    "flow_20d_m": -299.28
+                },
+                {
+                    "stock_id": "6438",
+                    "stock_name": "迅得",
+                    "price": 152.0,
+                    "volume": 335629.0,
+                    "today_return_pct": 1.67,
+                    "return_5d_pct": 2.36,
+                    "today_net_flow_m": 15.93,
+                    "flow_5d_m": -22.12,
+                    "flow_20d_m": -0.1
                 },
                 {
                     "stock_id": "8499",
                     "stock_name": "鼎炫-KY",
-                    "price": 105.0,
-                    "volume": 131130.0,
-                    "today_return_pct": 1.94,
-                    "return_5d_pct": -61.61,
-                    "today_net_flow_m": -1.09,
-                    "flow_5d_m": -23.7,
-                    "flow_20d_m": 46.36
+                    "price": 289.0,
+                    "volume": 69209.0,
+                    "today_return_pct": 1.58,
+                    "return_5d_pct": 5.67,
+                    "today_net_flow_m": -3.0,
+                    "flow_5d_m": -25.61,
+                    "flow_20d_m": 44.45
+                }
+            ]
+        },
+        {
+            "sector_name": "創新板股票",
+            "flow_5d_m": 33.07,
+            "flow_20d_m": 360.95,
+            "size_20d_m": 8821.19,
+            "acceleration_m": 38.91,
+            "bottom_fishing_score": 35.41,
+            "bottom_fishing_stocks": [
+                {
+                    "stock_id": "6949",
+                    "stock_name": "沛爾生醫-創",
+                    "today_net_flow_m": 9.14,
+                    "today_return_pct": 3.21
+                }
+            ],
+            "individual_stocks": [
+                {
+                    "stock_id": "7827",
+                    "stock_name": "漢康-KY創",
+                    "price": 163.5,
+                    "volume": 669654.0,
+                    "today_return_pct": 2.19,
+                    "return_5d_pct": 4.47,
+                    "today_net_flow_m": 37.93,
+                    "flow_5d_m": 26.79,
+                    "flow_20d_m": 545.94
                 },
                 {
-                    "stock_id": "8201",
-                    "stock_name": "無敵",
-                    "price": 13.1,
-                    "volume": 51009.0,
-                    "today_return_pct": 1.55,
-                    "return_5d_pct": -1.5,
-                    "today_net_flow_m": -0.08,
-                    "flow_5d_m": -0.56,
-                    "flow_20d_m": 1.19
+                    "stock_id": "6949",
+                    "stock_name": "沛爾生醫-創",
+                    "price": 740.0,
+                    "volume": 341664.0,
+                    "today_return_pct": 3.21,
+                    "return_5d_pct": 9.31,
+                    "today_net_flow_m": 9.14,
+                    "flow_5d_m": 27.33,
+                    "flow_20d_m": -107.94
+                },
+                {
+                    "stock_id": "4590",
+                    "stock_name": "富田-創",
+                    "price": 76.7,
+                    "volume": 120271.0,
+                    "today_return_pct": 0.79,
+                    "return_5d_pct": 4.64,
+                    "today_net_flow_m": 3.15,
+                    "flow_5d_m": 23.17,
+                    "flow_20d_m": 38.7
+                },
+                {
+                    "stock_id": "7730",
+                    "stock_name": "暉盛-創",
+                    "price": 175.5,
+                    "volume": 162742.0,
+                    "today_return_pct": -2.77,
+                    "return_5d_pct": -2.23,
+                    "today_net_flow_m": -1.51,
+                    "flow_5d_m": -8.34,
+                    "flow_20d_m": -2.14
+                },
+                {
+                    "stock_id": "7803",
+                    "stock_name": "雲象科技-創",
+                    "price": 23.35,
+                    "volume": 198948.0,
+                    "today_return_pct": 2.41,
+                    "return_5d_pct": 2.41,
+                    "today_net_flow_m": 1.38,
+                    "flow_5d_m": 0.18,
+                    "flow_20d_m": 4.08
                 }
             ]
         },
         {
             "sector_name": "化學工業",
-            "flow_5d_m": -162.91,
-            "flow_20d_m": -240.97,
-            "size_20d_m": 28216.04,
-            "acceleration_m": -13.76,
+            "flow_5d_m": -213.46,
+            "flow_20d_m": -291.52,
+            "size_20d_m": 29319.12,
+            "acceleration_m": -64.3,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "1709",
-                    "stock_name": "和益",
-                    "today_net_flow_m": 1.05,
-                    "today_return_pct": 0.0
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "1708",
                     "stock_name": "東鹼",
-                    "price": 29.6,
-                    "volume": 917430.0,
-                    "today_return_pct": 2.25,
-                    "return_5d_pct": -33.03,
-                    "today_net_flow_m": -67.18,
-                    "flow_5d_m": -301.39,
-                    "flow_20d_m": -367.5
+                    "price": 47.4,
+                    "volume": 13791213.0,
+                    "today_return_pct": -1.25,
+                    "return_5d_pct": 7.24,
+                    "today_net_flow_m": -107.57,
+                    "flow_5d_m": -341.78,
+                    "flow_20d_m": -407.9
                 },
                 {
                     "stock_id": "1727",
                     "stock_name": "中華化",
-                    "price": 14.0,
-                    "volume": 29351.0,
-                    "today_return_pct": 0.72,
-                    "return_5d_pct": -84.91,
-                    "today_net_flow_m": -2.02,
-                    "flow_5d_m": 85.22,
-                    "flow_20d_m": -14.66
+                    "price": 85.6,
+                    "volume": 5068440.0,
+                    "today_return_pct": 0.23,
+                    "return_5d_pct": -7.76,
+                    "today_net_flow_m": -12.34,
+                    "flow_5d_m": 74.9,
+                    "flow_20d_m": -24.98
                 },
                 {
                     "stock_id": "1709",
                     "stock_name": "和益",
-                    "price": 18.2,
-                    "volume": 208077.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -9.0,
-                    "today_net_flow_m": 1.05,
-                    "flow_5d_m": 53.26,
-                    "flow_20d_m": 141.19
+                    "price": 21.15,
+                    "volume": 1553034.0,
+                    "today_return_pct": -0.94,
+                    "return_5d_pct": 5.75,
+                    "today_net_flow_m": 1.22,
+                    "flow_5d_m": 53.43,
+                    "flow_20d_m": 141.36
                 }
             ]
         },
         {
             "sector_name": "化學生技醫療",
-            "flow_5d_m": 608.4,
-            "flow_20d_m": 2799.99,
-            "size_20d_m": 169213.22,
-            "acceleration_m": 415.9,
-            "bottom_fishing_score": 531.4,
+            "flow_5d_m": 409.79,
+            "flow_20d_m": 2601.38,
+            "size_20d_m": 171562.15,
+            "acceleration_m": 217.29,
+            "bottom_fishing_score": 332.79,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "4763",
-                    "stock_name": "材料*-KY",
-                    "today_net_flow_m": 180.4,
-                    "today_return_pct": 0.0
-                },
-                {
                     "stock_id": "1714",
                     "stock_name": "和桐",
-                    "today_net_flow_m": 84.76,
-                    "today_return_pct": 2.43
-                }
-            ],
-            "individual_stocks": [
-                {
-                    "stock_id": "4763",
-                    "stock_name": "材料*-KY",
-                    "price": 163.5,
-                    "volume": 46001.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": 286.07,
-                    "today_net_flow_m": 180.4,
-                    "flow_5d_m": 287.1,
-                    "flow_20d_m": 583.96
-                },
-                {
-                    "stock_id": "1714",
-                    "stock_name": "和桐",
-                    "price": 10.55,
-                    "volume": 6630235.0,
-                    "today_return_pct": 2.43,
-                    "return_5d_pct": -16.6,
-                    "today_net_flow_m": 84.76,
-                    "flow_5d_m": 200.79,
-                    "flow_20d_m": 323.95
+                    "today_net_flow_m": 134.18,
+                    "today_return_pct": 9.87
                 },
                 {
                     "stock_id": "1723",
                     "stock_name": "中碳",
-                    "price": 125.0,
-                    "volume": 381957.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": 48.28,
-                    "today_net_flow_m": 55.55,
-                    "flow_5d_m": 114.57,
-                    "flow_20d_m": 281.17
+                    "today_net_flow_m": 39.99,
+                    "today_return_pct": 3.45
+                }
+            ],
+            "individual_stocks": [
+                {
+                    "stock_id": "1714",
+                    "stock_name": "和桐",
+                    "price": 16.7,
+                    "volume": 50826789.0,
+                    "today_return_pct": 9.87,
+                    "return_5d_pct": 32.02,
+                    "today_net_flow_m": 134.18,
+                    "flow_5d_m": 250.2,
+                    "flow_20d_m": 373.36
                 },
                 {
                     "stock_id": "1722",
                     "stock_name": "台肥",
-                    "price": 37.75,
-                    "volume": 1321237.0,
-                    "today_return_pct": -1.44,
-                    "return_5d_pct": -20.86,
-                    "today_net_flow_m": 41.24,
-                    "flow_5d_m": 179.8,
-                    "flow_20d_m": 583.92
+                    "price": 48.85,
+                    "volume": 4738434.0,
+                    "today_return_pct": 0.93,
+                    "return_5d_pct": 2.41,
+                    "today_net_flow_m": 53.37,
+                    "flow_5d_m": 191.93,
+                    "flow_20d_m": 596.05
                 },
                 {
-                    "stock_id": "1707",
-                    "stock_name": "葡萄王",
-                    "price": 209.0,
-                    "volume": 2118231.0,
-                    "today_return_pct": 0.72,
-                    "return_5d_pct": 107.96,
-                    "today_net_flow_m": -27.08,
-                    "flow_5d_m": -14.49,
-                    "flow_20d_m": -77.73
+                    "stock_id": "4764",
+                    "stock_name": "雙鍵",
+                    "price": 278.0,
+                    "volume": 1712253.0,
+                    "today_return_pct": 5.7,
+                    "return_5d_pct": 2.77,
+                    "today_net_flow_m": -52.4,
+                    "flow_5d_m": 5.77,
+                    "flow_20d_m": -641.73
+                },
+                {
+                    "stock_id": "4763",
+                    "stock_name": "材料*-KY",
+                    "price": 44.8,
+                    "volume": 4128273.0,
+                    "today_return_pct": 0.79,
+                    "return_5d_pct": 5.79,
+                    "today_net_flow_m": 49.43,
+                    "flow_5d_m": 156.13,
+                    "flow_20d_m": 452.99
+                },
+                {
+                    "stock_id": "1717",
+                    "stock_name": "長興",
+                    "price": 71.2,
+                    "volume": 6957653.0,
+                    "today_return_pct": 1.14,
+                    "return_5d_pct": -0.14,
+                    "today_net_flow_m": -41.46,
+                    "flow_5d_m": -56.86,
+                    "flow_20d_m": 591.33
                 }
             ]
         },
         {
             "sector_name": "半導體業",
-            "flow_5d_m": -8456.38,
-            "flow_20d_m": -51089.96,
-            "size_20d_m": 1441988.41,
-            "acceleration_m": 3391.47,
+            "flow_5d_m": -10699.52,
+            "flow_20d_m": -53333.11,
+            "size_20d_m": 1509479.84,
+            "acceleration_m": 1148.32,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "6202",
                     "stock_name": "盛群",
-                    "today_net_flow_m": 389.55,
-                    "today_return_pct": 0.0
+                    "today_net_flow_m": 354.24,
+                    "today_return_pct": 9.76
                 },
                 {
                     "stock_id": "8131",
                     "stock_name": "福懋科",
-                    "today_net_flow_m": 82.75,
-                    "today_return_pct": 2.63
+                    "today_net_flow_m": 200.78,
+                    "today_return_pct": 5.14
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "6202",
-                    "stock_name": "盛群",
-                    "price": 71.7,
-                    "volume": 1679620.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": 38.68,
-                    "today_net_flow_m": 389.55,
-                    "flow_5d_m": 573.15,
-                    "flow_20d_m": 923.93
-                },
-                {
                     "stock_id": "8150",
                     "stock_name": "南茂",
-                    "price": 26.5,
-                    "volume": 7870779.0,
-                    "today_return_pct": -1.3,
-                    "return_5d_pct": -69.61,
-                    "today_net_flow_m": -294.94,
-                    "flow_5d_m": 394.15,
-                    "flow_20d_m": -1667.07
+                    "price": 95.9,
+                    "volume": 44055468.0,
+                    "today_return_pct": -1.13,
+                    "return_5d_pct": 9.98,
+                    "today_net_flow_m": -1067.34,
+                    "flow_5d_m": -378.25,
+                    "flow_20d_m": -2439.48
                 },
                 {
-                    "stock_id": "5471",
-                    "stock_name": "松翰",
-                    "price": 37.85,
-                    "volume": 1177500.0,
-                    "today_return_pct": -1.05,
-                    "return_5d_pct": -21.15,
-                    "today_net_flow_m": 94.78,
-                    "flow_5d_m": 236.5,
-                    "flow_20d_m": -57.87
-                },
-                {
-                    "stock_id": "8131",
-                    "stock_name": "福懋科",
-                    "price": 31.2,
-                    "volume": 592300.0,
-                    "today_return_pct": 2.63,
-                    "return_5d_pct": -51.1,
-                    "today_net_flow_m": 82.75,
-                    "flow_5d_m": 233.95,
-                    "flow_20d_m": 978.29
+                    "stock_id": "8028",
+                    "stock_name": "昇陽半導體",
+                    "price": 318.5,
+                    "volume": 6151855.0,
+                    "today_return_pct": 1.11,
+                    "return_5d_pct": 4.77,
+                    "today_net_flow_m": -511.12,
+                    "flow_5d_m": -202.09,
+                    "flow_20d_m": 1260.36
                 },
                 {
                     "stock_id": "8261",
                     "stock_name": "富鼎",
-                    "price": 29.8,
-                    "volume": 384832.0,
-                    "today_return_pct": 1.36,
-                    "return_5d_pct": -80.9,
-                    "today_net_flow_m": -64.5,
-                    "flow_5d_m": -698.24,
-                    "flow_20d_m": -1675.18
+                    "price": 186.0,
+                    "volume": 20951191.0,
+                    "today_return_pct": 7.2,
+                    "return_5d_pct": 19.23,
+                    "today_net_flow_m": -402.56,
+                    "flow_5d_m": -1036.31,
+                    "flow_20d_m": -2013.25
+                },
+                {
+                    "stock_id": "6257",
+                    "stock_name": "矽格",
+                    "price": 222.0,
+                    "volume": 6718746.0,
+                    "today_return_pct": 0.23,
+                    "return_5d_pct": 10.45,
+                    "today_net_flow_m": -392.13,
+                    "flow_5d_m": 240.5,
+                    "flow_20d_m": -1813.49
+                },
+                {
+                    "stock_id": "7769",
+                    "stock_name": "鴻勁",
+                    "price": 7205.0,
+                    "volume": 459268.0,
+                    "today_return_pct": -0.07,
+                    "return_5d_pct": 2.42,
+                    "today_net_flow_m": -358.66,
+                    "flow_5d_m": -1500.32,
+                    "flow_20d_m": -6989.8
                 }
             ]
         },
         {
             "sector_name": "塑膠工業",
-            "flow_5d_m": 2843.16,
-            "flow_20d_m": 19152.93,
-            "size_20d_m": 226493.91,
-            "acceleration_m": 3698.5,
-            "bottom_fishing_score": 3185.29,
+            "flow_5d_m": 2291.31,
+            "flow_20d_m": 18601.09,
+            "size_20d_m": 236586.47,
+            "acceleration_m": 3146.65,
+            "bottom_fishing_score": 2633.45,
             "bottom_fishing_stocks": [
+                {
+                    "stock_id": "1303",
+                    "stock_name": "南亞",
+                    "today_net_flow_m": 1650.58,
+                    "today_return_pct": 9.86
+                },
                 {
                     "stock_id": "1326",
                     "stock_name": "台化",
-                    "today_net_flow_m": 1224.8,
-                    "today_return_pct": 3.04
-                },
-                {
-                    "stock_id": "1301",
-                    "stock_name": "台塑",
-                    "today_net_flow_m": 1151.07,
-                    "today_return_pct": 1.5
+                    "today_net_flow_m": 642.93,
+                    "today_return_pct": 5.74
                 }
             ],
             "individual_stocks": [
                 {
+                    "stock_id": "1303",
+                    "stock_name": "南亞",
+                    "price": 117.0,
+                    "volume": 85711486.0,
+                    "today_return_pct": 9.86,
+                    "return_5d_pct": 20.0,
+                    "today_net_flow_m": 1650.58,
+                    "flow_5d_m": 2731.73,
+                    "flow_20d_m": 14885.13
+                },
+                {
                     "stock_id": "1326",
                     "stock_name": "台化",
-                    "price": 98.3,
-                    "volume": 9590411.0,
-                    "today_return_pct": 3.04,
-                    "return_5d_pct": 101.64,
-                    "today_net_flow_m": 1224.8,
-                    "flow_5d_m": 664.29,
-                    "flow_20d_m": 2862.6
+                    "price": 51.6,
+                    "volume": 28349053.0,
+                    "today_return_pct": 5.74,
+                    "return_5d_pct": 5.85,
+                    "today_net_flow_m": 642.93,
+                    "flow_5d_m": 82.42,
+                    "flow_20d_m": 2280.73
                 },
                 {
                     "stock_id": "1301",
                     "stock_name": "台塑",
-                    "price": 94.7,
-                    "volume": 7429342.0,
-                    "today_return_pct": 1.5,
-                    "return_5d_pct": 106.54,
-                    "today_net_flow_m": 1151.07,
-                    "flow_5d_m": -205.8,
-                    "flow_20d_m": 1128.25
-                },
-                {
-                    "stock_id": "1303",
-                    "stock_name": "南亞",
-                    "price": 75.2,
-                    "volume": 6441978.0,
-                    "today_return_pct": 0.67,
-                    "return_5d_pct": -22.87,
-                    "today_net_flow_m": 1060.89,
-                    "flow_5d_m": 2142.04,
-                    "flow_20d_m": 14295.44
+                    "price": 47.25,
+                    "volume": 36177136.0,
+                    "today_return_pct": 4.42,
+                    "return_5d_pct": 3.05,
+                    "today_net_flow_m": 574.32,
+                    "flow_5d_m": -782.55,
+                    "flow_20d_m": 551.5
                 },
                 {
                     "stock_id": "1312",
                     "stock_name": "國喬",
-                    "price": 28.45,
-                    "volume": 9367102.0,
-                    "today_return_pct": 1.25,
-                    "return_5d_pct": 108.42,
-                    "today_net_flow_m": -44.92,
-                    "flow_5d_m": -51.18,
-                    "flow_20d_m": -82.1
+                    "price": 12.7,
+                    "volume": 8911473.0,
+                    "today_return_pct": -1.93,
+                    "return_5d_pct": -6.96,
+                    "today_net_flow_m": -20.05,
+                    "flow_5d_m": -26.31,
+                    "flow_20d_m": -57.23
                 },
                 {
                     "stock_id": "1304",
                     "stock_name": "台聚",
-                    "price": 16.2,
-                    "volume": 3327984.0,
-                    "today_return_pct": -0.31,
-                    "return_5d_pct": 26.56,
-                    "today_net_flow_m": 19.71,
-                    "flow_5d_m": 23.36,
-                    "flow_20d_m": 125.26
+                    "price": 12.7,
+                    "volume": 4593878.0,
+                    "today_return_pct": 0.0,
+                    "return_5d_pct": -0.78,
+                    "today_net_flow_m": 15.45,
+                    "flow_5d_m": 19.1,
+                    "flow_20d_m": 121.0
                 }
             ]
         },
         {
             "sector_name": "存託憑證",
-            "flow_5d_m": 116.93,
-            "flow_20d_m": 137.79,
-            "size_20d_m": 23975.57,
-            "acceleration_m": -24.42,
+            "flow_5d_m": 129.64,
+            "flow_20d_m": 150.49,
+            "size_20d_m": 24877.08,
+            "acceleration_m": -11.72,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "9105",
                     "stock_name": "泰金寶-DR",
-                    "today_net_flow_m": 6.78,
-                    "today_return_pct": 0.34
+                    "today_net_flow_m": 23.1,
+                    "today_return_pct": 4.41
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "9105",
                     "stock_name": "泰金寶-DR",
-                    "price": 2.92,
-                    "volume": 1249498.0,
-                    "today_return_pct": 0.34,
-                    "return_5d_pct": -71.79,
-                    "today_net_flow_m": 6.78,
-                    "flow_5d_m": 140.26,
-                    "flow_20d_m": 118.56
+                    "price": 9.95,
+                    "volume": 83273130.0,
+                    "today_return_pct": 4.41,
+                    "return_5d_pct": -3.86,
+                    "today_net_flow_m": 23.1,
+                    "flow_5d_m": 156.58,
+                    "flow_20d_m": 134.88
                 },
                 {
                     "stock_id": "9136",
                     "stock_name": "巨騰-DR",
-                    "price": 8.48,
-                    "volume": 1177344.0,
-                    "today_return_pct": 3.79,
-                    "return_5d_pct": -52.23,
-                    "today_net_flow_m": -3.11,
-                    "flow_5d_m": -21.63,
-                    "flow_20d_m": 0.04
+                    "price": 16.65,
+                    "volume": 4061034.0,
+                    "today_return_pct": -4.03,
+                    "return_5d_pct": -6.2,
+                    "today_net_flow_m": -6.1,
+                    "flow_5d_m": -24.63,
+                    "flow_20d_m": -2.95
                 },
                 {
                     "stock_id": "9103",
                     "stock_name": "美德醫療-DR",
-                    "price": 1.42,
-                    "volume": 319000.0,
-                    "today_return_pct": -0.7,
-                    "return_5d_pct": -76.57,
-                    "today_net_flow_m": -0.22,
-                    "flow_5d_m": -1.7,
-                    "flow_20d_m": 19.18
+                    "price": 5.46,
+                    "volume": 2359685.0,
+                    "today_return_pct": -2.85,
+                    "return_5d_pct": -9.9,
+                    "today_net_flow_m": -0.84,
+                    "flow_5d_m": -2.32,
+                    "flow_20d_m": 18.56
                 },
                 {
                     "stock_id": "9110",
                     "stock_name": "越南控-DR",
-                    "price": 3.49,
-                    "volume": 22000.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -8.16,
-                    "today_net_flow_m": 0.0,
-                    "flow_5d_m": 0.0,
-                    "flow_20d_m": 0.0
-                },
-                {
-                    "stock_id": "9157",
-                    "stock_name": "陽光能源-DR",
-                    "price": 1.39,
-                    "volume": 80555.0,
-                    "today_return_pct": 0.72,
-                    "return_5d_pct": 0.0,
+                    "price": 3.55,
+                    "volume": 8000.0,
+                    "today_return_pct": 1.43,
+                    "return_5d_pct": -6.58,
                     "today_net_flow_m": 0.0,
                     "flow_5d_m": 0.0,
                     "flow_20d_m": 0.0
@@ -684,2049 +726,1928 @@
         },
         {
             "sector_name": "居家生活",
-            "flow_5d_m": 90.8,
-            "flow_20d_m": 329.67,
-            "size_20d_m": 8931.27,
-            "acceleration_m": -56.92,
+            "flow_5d_m": 78.54,
+            "flow_20d_m": 317.41,
+            "size_20d_m": 9004.85,
+            "acceleration_m": -69.19,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "2062",
-                    "stock_name": "橋椿",
-                    "today_net_flow_m": 1.94,
-                    "today_return_pct": 0.97
-                },
-                {
-                    "stock_id": "9924",
-                    "stock_name": "福興",
-                    "today_net_flow_m": 0.28,
-                    "today_return_pct": 0.0
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "8464",
                     "stock_name": "億豐",
-                    "price": 274.0,
-                    "volume": 403150.0,
-                    "today_return_pct": -0.54,
-                    "return_5d_pct": -16.34,
-                    "today_net_flow_m": -21.85,
-                    "flow_5d_m": 38.64,
-                    "flow_20d_m": 231.56
+                    "price": 344.0,
+                    "volume": 463820.0,
+                    "today_return_pct": -1.29,
+                    "return_5d_pct": 5.04,
+                    "today_net_flow_m": -27.43,
+                    "flow_5d_m": 33.06,
+                    "flow_20d_m": 225.97
                 },
                 {
                     "stock_id": "9911",
                     "stock_name": "櫻花",
-                    "price": 37.05,
-                    "volume": 123722.0,
-                    "today_return_pct": 0.14,
-                    "return_5d_pct": -55.89,
-                    "today_net_flow_m": -4.9,
-                    "flow_5d_m": 39.43,
-                    "flow_20d_m": 73.48
-                },
-                {
-                    "stock_id": "2062",
-                    "stock_name": "橋椿",
-                    "price": 36.6,
-                    "volume": 251001.0,
-                    "today_return_pct": 0.97,
-                    "return_5d_pct": 93.14,
-                    "today_net_flow_m": 1.94,
-                    "flow_5d_m": 8.29,
-                    "flow_20d_m": 6.73
-                },
-                {
-                    "stock_id": "9934",
-                    "stock_name": "成霖",
-                    "price": 21.6,
-                    "volume": 610500.0,
-                    "today_return_pct": 1.41,
-                    "return_5d_pct": 100.93,
-                    "today_net_flow_m": -1.74,
-                    "flow_5d_m": 7.85,
-                    "flow_20d_m": 23.01
+                    "price": 83.5,
+                    "volume": 368699.0,
+                    "today_return_pct": -0.95,
+                    "return_5d_pct": -0.6,
+                    "today_net_flow_m": -11.05,
+                    "flow_5d_m": 33.29,
+                    "flow_20d_m": 67.34
                 },
                 {
                     "stock_id": "9935",
                     "stock_name": "慶豐富",
-                    "price": 24.65,
-                    "volume": 750996.0,
-                    "today_return_pct": -4.46,
-                    "return_5d_pct": 29.74,
-                    "today_net_flow_m": 1.6,
-                    "flow_5d_m": 10.1,
-                    "flow_20d_m": 23.76
+                    "price": 19.4,
+                    "volume": 292312.0,
+                    "today_return_pct": 0.78,
+                    "return_5d_pct": 2.11,
+                    "today_net_flow_m": 1.26,
+                    "flow_5d_m": 9.76,
+                    "flow_20d_m": 23.42
+                },
+                {
+                    "stock_id": "2062",
+                    "stock_name": "橋椿",
+                    "price": 19.2,
+                    "volume": 233017.0,
+                    "today_return_pct": 0.26,
+                    "return_5d_pct": 1.32,
+                    "today_net_flow_m": 1.02,
+                    "flow_5d_m": 7.36,
+                    "flow_20d_m": 5.81
+                },
+                {
+                    "stock_id": "9934",
+                    "stock_name": "成霖",
+                    "price": 10.45,
+                    "volume": 1011922.0,
+                    "today_return_pct": -0.48,
+                    "return_5d_pct": -2.79,
+                    "today_net_flow_m": -0.84,
+                    "flow_5d_m": 8.75,
+                    "flow_20d_m": 23.91
                 }
             ]
         },
         {
             "sector_name": "建材營造",
-            "flow_5d_m": 2718.38,
-            "flow_20d_m": 1940.26,
-            "size_20d_m": 70032.48,
-            "acceleration_m": -599.94,
+            "flow_5d_m": 2688.15,
+            "flow_20d_m": 1910.02,
+            "size_20d_m": 72587.95,
+            "acceleration_m": -630.18,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "2542",
-                    "stock_name": "興富發",
-                    "today_net_flow_m": 77.38,
-                    "today_return_pct": 1.2
+                    "stock_id": "2535",
+                    "stock_name": "達欣工",
+                    "today_net_flow_m": 31.65,
+                    "today_return_pct": 4.05
                 },
                 {
-                    "stock_id": "2515",
-                    "stock_name": "中工",
-                    "today_net_flow_m": 20.9,
-                    "today_return_pct": 1.38
+                    "stock_id": "9946",
+                    "stock_name": "三發地產",
+                    "today_net_flow_m": 22.44,
+                    "today_return_pct": 7.52
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "2548",
                     "stock_name": "華固",
-                    "price": 69.3,
-                    "volume": 205401.0,
-                    "today_return_pct": -0.86,
-                    "return_5d_pct": -31.72,
-                    "today_net_flow_m": -94.33,
-                    "flow_5d_m": 221.29,
-                    "flow_20d_m": -1416.42
+                    "price": 103.0,
+                    "volume": 2583589.0,
+                    "today_return_pct": -2.83,
+                    "return_5d_pct": 1.48,
+                    "today_net_flow_m": -140.19,
+                    "flow_5d_m": 175.42,
+                    "flow_20d_m": -1462.29
                 },
                 {
                     "stock_id": "2542",
                     "stock_name": "興富發",
-                    "price": 42.0,
-                    "volume": 3378287.0,
-                    "today_return_pct": 1.2,
-                    "return_5d_pct": 0.24,
-                    "today_net_flow_m": 77.38,
-                    "flow_5d_m": 1109.53,
-                    "flow_20d_m": 1082.26
+                    "price": 45.45,
+                    "volume": 12409166.0,
+                    "today_return_pct": 1.11,
+                    "return_5d_pct": 8.47,
+                    "today_net_flow_m": 83.73,
+                    "flow_5d_m": 1115.88,
+                    "flow_20d_m": 1088.61
+                },
+                {
+                    "stock_id": "2504",
+                    "stock_name": "國產",
+                    "price": 36.65,
+                    "volume": 4183878.0,
+                    "today_return_pct": -0.81,
+                    "return_5d_pct": 3.53,
+                    "today_net_flow_m": -64.14,
+                    "flow_5d_m": -42.82,
+                    "flow_20d_m": -231.39
                 },
                 {
                     "stock_id": "2501",
                     "stock_name": "國建",
-                    "price": 16.7,
-                    "volume": 845869.0,
-                    "today_return_pct": -1.18,
-                    "return_5d_pct": -30.27,
-                    "today_net_flow_m": 30.23,
-                    "flow_5d_m": 208.26,
-                    "flow_20d_m": 461.52
-                },
-                {
-                    "stock_id": "1316",
-                    "stock_name": "上曜",
-                    "price": 23.15,
-                    "volume": 498738.0,
-                    "today_return_pct": -2.73,
-                    "return_5d_pct": 121.53,
-                    "today_net_flow_m": -23.27,
-                    "flow_5d_m": -64.38,
-                    "flow_20d_m": -27.15
+                    "price": 27.0,
+                    "volume": 8222268.0,
+                    "today_return_pct": 1.89,
+                    "return_5d_pct": 12.73,
+                    "today_net_flow_m": 48.88,
+                    "flow_5d_m": 226.91,
+                    "flow_20d_m": 480.17
                 },
                 {
                     "stock_id": "2515",
                     "stock_name": "中工",
-                    "price": 8.08,
-                    "volume": 8477540.0,
-                    "today_return_pct": 1.38,
-                    "return_5d_pct": -37.61,
-                    "today_net_flow_m": 20.9,
-                    "flow_5d_m": 22.47,
-                    "flow_20d_m": -122.33
+                    "price": 13.1,
+                    "volume": 9793112.0,
+                    "today_return_pct": 1.95,
+                    "return_5d_pct": 1.16,
+                    "today_net_flow_m": 33.88,
+                    "flow_5d_m": 35.45,
+                    "flow_20d_m": -109.35
                 }
             ]
         },
         {
             "sector_name": "數位雲端",
-            "flow_5d_m": 2348.09,
-            "flow_20d_m": 3254.46,
-            "size_20d_m": 24711.11,
-            "acceleration_m": -481.68,
+            "flow_5d_m": 2363.36,
+            "flow_20d_m": 3269.73,
+            "size_20d_m": 25693.07,
+            "acceleration_m": -466.41,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "3130",
-                    "stock_name": "一零四",
-                    "today_net_flow_m": 0.23,
-                    "today_return_pct": 0.62
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "8454",
                     "stock_name": "富邦媒",
-                    "price": 208.0,
-                    "volume": 36001.0,
-                    "today_return_pct": -0.48,
-                    "return_5d_pct": -46.39,
-                    "today_net_flow_m": 30.69,
-                    "flow_5d_m": 2499.59,
-                    "flow_20d_m": 3479.43
+                    "price": 321.0,
+                    "volume": 1787297.0,
+                    "today_return_pct": -9.96,
+                    "return_5d_pct": -17.27,
+                    "today_net_flow_m": 47.36,
+                    "flow_5d_m": 2516.26,
+                    "flow_20d_m": 3496.1
                 },
                 {
-                    "stock_id": "6165",
-                    "stock_name": "浪凡",
-                    "price": 38.65,
-                    "volume": 549353.0,
-                    "today_return_pct": -2.15,
-                    "return_5d_pct": -20.06,
-                    "today_net_flow_m": 1.31,
-                    "flow_5d_m": 11.21,
-                    "flow_20d_m": -24.93
+                    "stock_id": "7765",
+                    "stock_name": "中華資安",
+                    "price": 251.0,
+                    "volume": 145323.0,
+                    "today_return_pct": 2.24,
+                    "return_5d_pct": -0.79,
+                    "today_net_flow_m": 9.38,
+                    "flow_5d_m": -5.39,
+                    "flow_20d_m": -27.22
                 },
                 {
-                    "stock_id": "3130",
-                    "stock_name": "一零四",
-                    "price": 161.5,
-                    "volume": 7580.0,
-                    "today_return_pct": 0.62,
-                    "return_5d_pct": -27.09,
-                    "today_net_flow_m": 0.23,
-                    "flow_5d_m": -1.48,
-                    "flow_20d_m": -27.34
+                    "stock_id": "6902",
+                    "stock_name": "GOGOLOOK",
+                    "price": 128.5,
+                    "volume": 291657.0,
+                    "today_return_pct": -3.38,
+                    "return_5d_pct": -6.88,
+                    "today_net_flow_m": -6.52,
+                    "flow_5d_m": -26.63,
+                    "flow_20d_m": -1.43
+                },
+                {
+                    "stock_id": "7722",
+                    "stock_name": "LINEPAY",
+                    "price": 327.0,
+                    "volume": 537966.0,
+                    "today_return_pct": 0.0,
+                    "return_5d_pct": 12.18,
+                    "today_net_flow_m": -5.36,
+                    "flow_5d_m": -162.74,
+                    "flow_20d_m": -196.1
+                },
+                {
+                    "stock_id": "8487",
+                    "stock_name": "愛爾達-創",
+                    "price": 80.6,
+                    "volume": 123454.0,
+                    "today_return_pct": -1.71,
+                    "return_5d_pct": 2.28,
+                    "today_net_flow_m": 1.89,
+                    "flow_5d_m": -1.66,
+                    "flow_20d_m": 1.42
                 }
             ]
         },
         {
             "sector_name": "橡膠工業",
-            "flow_5d_m": -402.12,
-            "flow_20d_m": -820.97,
-            "size_20d_m": 21375.24,
-            "acceleration_m": -370.84,
+            "flow_5d_m": -274.53,
+            "flow_20d_m": -693.38,
+            "size_20d_m": 21969.87,
+            "acceleration_m": -243.24,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "2103",
-                    "stock_name": "台橡",
-                    "today_net_flow_m": 36.29,
-                    "today_return_pct": 0.27
-                },
-                {
-                    "stock_id": "2104",
-                    "stock_name": "國際中橡",
-                    "today_net_flow_m": 23.86,
-                    "today_return_pct": 1.39
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "2105",
                     "stock_name": "正新",
-                    "price": 51.2,
-                    "volume": 2737069.0,
-                    "today_return_pct": 0.2,
-                    "return_5d_pct": 52.84,
-                    "today_net_flow_m": -461.04,
-                    "flow_5d_m": -669.4,
-                    "flow_20d_m": -1499.3
-                },
-                {
-                    "stock_id": "2103",
-                    "stock_name": "台橡",
-                    "price": 37.1,
-                    "volume": 1377583.0,
-                    "today_return_pct": 0.27,
-                    "return_5d_pct": 75.41,
-                    "today_net_flow_m": 36.29,
-                    "flow_5d_m": 99.39,
-                    "flow_20d_m": 296.68
-                },
-                {
-                    "stock_id": "2104",
-                    "stock_name": "國際中橡",
-                    "price": 43.75,
-                    "volume": 7875774.0,
-                    "today_return_pct": 1.39,
-                    "return_5d_pct": 314.69,
-                    "today_net_flow_m": 23.86,
-                    "flow_5d_m": 31.09,
-                    "flow_20d_m": 74.87
+                    "price": 33.9,
+                    "volume": 23581243.0,
+                    "today_return_pct": -1.02,
+                    "return_5d_pct": 1.19,
+                    "today_net_flow_m": -305.26,
+                    "flow_5d_m": -513.62,
+                    "flow_20d_m": -1343.52
                 },
                 {
                     "stock_id": "2101",
                     "stock_name": "南港",
-                    "price": 26.5,
-                    "volume": 215676.0,
-                    "today_return_pct": -0.56,
-                    "return_5d_pct": -16.14,
-                    "today_net_flow_m": 17.38,
-                    "flow_5d_m": 108.43,
-                    "flow_20d_m": 248.49
+                    "price": 33.65,
+                    "volume": 3147582.0,
+                    "today_return_pct": 0.9,
+                    "return_5d_pct": 6.49,
+                    "today_net_flow_m": 22.07,
+                    "flow_5d_m": 113.12,
+                    "flow_20d_m": 253.18
+                },
+                {
+                    "stock_id": "2103",
+                    "stock_name": "台橡",
+                    "price": 22.3,
+                    "volume": 6345977.0,
+                    "today_return_pct": 0.9,
+                    "return_5d_pct": 5.44,
+                    "today_net_flow_m": 21.81,
+                    "flow_5d_m": 84.92,
+                    "flow_20d_m": 282.21
                 },
                 {
                     "stock_id": "2108",
                     "stock_name": "南帝",
-                    "price": 23.4,
-                    "volume": 935913.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -20.14,
-                    "today_net_flow_m": 7.0,
-                    "flow_5d_m": 9.95,
-                    "flow_20d_m": 47.69
+                    "price": 30.0,
+                    "volume": 1730564.0,
+                    "today_return_pct": -1.15,
+                    "return_5d_pct": 2.39,
+                    "today_net_flow_m": 8.98,
+                    "flow_5d_m": 11.92,
+                    "flow_20d_m": 49.66
+                },
+                {
+                    "stock_id": "2104",
+                    "stock_name": "國際中橡",
+                    "price": 10.6,
+                    "volume": 2308812.0,
+                    "today_return_pct": 1.92,
+                    "return_5d_pct": 0.47,
+                    "today_net_flow_m": 5.78,
+                    "flow_5d_m": 13.0,
+                    "flow_20d_m": 56.79
                 }
             ]
         },
         {
             "sector_name": "水泥工業",
-            "flow_5d_m": -414.72,
-            "flow_20d_m": -5627.29,
-            "size_20d_m": 33110.68,
-            "acceleration_m": 455.19,
+            "flow_5d_m": -477.54,
+            "flow_20d_m": -5690.11,
+            "size_20d_m": 34506.85,
+            "acceleration_m": 392.37,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "1101",
-                    "stock_name": "台泥",
-                    "today_net_flow_m": 183.0,
-                    "today_return_pct": 0.29
-                },
-                {
-                    "stock_id": "1108",
-                    "stock_name": "幸福",
-                    "today_net_flow_m": 1.09,
-                    "today_return_pct": 0.24
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "1101",
                     "stock_name": "台泥",
-                    "price": 34.1,
-                    "volume": 4315751.0,
-                    "today_return_pct": 0.29,
-                    "return_5d_pct": 42.98,
-                    "today_net_flow_m": 183.0,
-                    "flow_5d_m": 47.79,
-                    "flow_20d_m": -2601.25
+                    "price": 24.85,
+                    "volume": 41019136.0,
+                    "today_return_pct": 1.22,
+                    "return_5d_pct": 4.19,
+                    "today_net_flow_m": 133.36,
+                    "flow_5d_m": -1.85,
+                    "flow_20d_m": -2650.89
                 },
                 {
                     "stock_id": "1102",
                     "stock_name": "亞泥",
-                    "price": 26.75,
-                    "volume": 3347913.0,
-                    "today_return_pct": -0.56,
-                    "return_5d_pct": -20.74,
-                    "today_net_flow_m": -41.51,
-                    "flow_5d_m": -467.81,
-                    "flow_20d_m": -2971.12
+                    "price": 35.45,
+                    "volume": 15860235.0,
+                    "today_return_pct": 0.71,
+                    "return_5d_pct": 5.04,
+                    "today_net_flow_m": -55.01,
+                    "flow_5d_m": -481.31,
+                    "flow_20d_m": -2984.62
                 },
                 {
                     "stock_id": "1104",
                     "stock_name": "環泥",
-                    "price": 22.65,
-                    "volume": 249926.0,
-                    "today_return_pct": -0.66,
-                    "return_5d_pct": -21.63,
-                    "today_net_flow_m": -2.13,
-                    "flow_5d_m": -4.66,
-                    "flow_20d_m": -64.39
+                    "price": 29.1,
+                    "volume": 1080952.0,
+                    "today_return_pct": -0.34,
+                    "return_5d_pct": 0.69,
+                    "today_net_flow_m": -2.74,
+                    "flow_5d_m": -5.26,
+                    "flow_20d_m": -64.99
                 },
                 {
                     "stock_id": "1108",
                     "stock_name": "幸福",
-                    "price": 8.35,
-                    "volume": 257458.0,
-                    "today_return_pct": 0.24,
-                    "return_5d_pct": -38.6,
-                    "today_net_flow_m": 1.09,
-                    "flow_5d_m": 3.62,
-                    "flow_20d_m": 9.29
+                    "price": 13.95,
+                    "volume": 356970.0,
+                    "today_return_pct": 1.09,
+                    "return_5d_pct": 2.57,
+                    "today_net_flow_m": 1.81,
+                    "flow_5d_m": 4.35,
+                    "flow_20d_m": 10.02
                 },
                 {
                     "stock_id": "1110",
                     "stock_name": "東泥",
-                    "price": 14.0,
-                    "volume": 52001.0,
-                    "today_return_pct": 0.36,
-                    "return_5d_pct": -9.09,
-                    "today_net_flow_m": 0.73,
-                    "flow_5d_m": 1.22,
-                    "flow_20d_m": -6.04
+                    "price": 15.8,
+                    "volume": 453411.0,
+                    "today_return_pct": 2.27,
+                    "return_5d_pct": 2.6,
+                    "today_net_flow_m": 0.82,
+                    "flow_5d_m": 1.31,
+                    "flow_20d_m": -5.94
                 }
             ]
         },
         {
             "sector_name": "汽車工業",
-            "flow_5d_m": 334.38,
-            "flow_20d_m": 640.1,
-            "size_20d_m": 76443.45,
-            "acceleration_m": 242.13,
-            "bottom_fishing_score": 297.48,
+            "flow_5d_m": 243.63,
+            "flow_20d_m": 549.35,
+            "size_20d_m": 77713.28,
+            "acceleration_m": 151.39,
+            "bottom_fishing_score": 206.73,
             "bottom_fishing_stocks": [
-                {
-                    "stock_id": "1536",
-                    "stock_name": "和大",
-                    "today_net_flow_m": 78.7,
-                    "today_return_pct": 2.8
-                },
                 {
                     "stock_id": "4551",
                     "stock_name": "智伸科",
-                    "today_net_flow_m": 62.32,
-                    "today_return_pct": 0.3
+                    "today_net_flow_m": 61.4,
+                    "today_return_pct": 9.87
+                },
+                {
+                    "stock_id": "2241",
+                    "stock_name": "艾姆勒",
+                    "today_net_flow_m": 15.78,
+                    "today_return_pct": 3.36
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "1536",
-                    "stock_name": "和大",
-                    "price": 147.0,
-                    "volume": 4375663.0,
-                    "today_return_pct": 2.8,
-                    "return_5d_pct": 202.16,
-                    "today_net_flow_m": 78.7,
-                    "flow_5d_m": 60.68,
-                    "flow_20d_m": -149.84
-                },
-                {
                     "stock_id": "4551",
                     "stock_name": "智伸科",
-                    "price": 169.5,
-                    "volume": 393001.0,
-                    "today_return_pct": 0.3,
-                    "return_5d_pct": 21.51,
-                    "today_net_flow_m": 62.32,
-                    "flow_5d_m": 54.92,
-                    "flow_20d_m": 195.94
+                    "price": 167.0,
+                    "volume": 3128196.0,
+                    "today_return_pct": 9.87,
+                    "return_5d_pct": 19.71,
+                    "today_net_flow_m": 61.4,
+                    "flow_5d_m": 54.0,
+                    "flow_20d_m": 195.02
                 },
                 {
-                    "stock_id": "2231",
-                    "stock_name": "為升",
-                    "price": 275.0,
-                    "volume": 606158.0,
-                    "today_return_pct": -1.79,
-                    "return_5d_pct": 189.17,
-                    "today_net_flow_m": 34.08,
-                    "flow_5d_m": 32.56,
-                    "flow_20d_m": -45.51
+                    "stock_id": "2206",
+                    "stock_name": "三陽工業",
+                    "price": 62.7,
+                    "volume": 1240186.0,
+                    "today_return_pct": -0.48,
+                    "return_5d_pct": -0.95,
+                    "today_net_flow_m": -33.29,
+                    "flow_5d_m": -16.68,
+                    "flow_20d_m": -13.31
                 },
                 {
-                    "stock_id": "1338",
-                    "stock_name": "廣華-KY",
-                    "price": 114.5,
-                    "volume": 1076141.0,
-                    "today_return_pct": 3.15,
-                    "return_5d_pct": 591.84,
-                    "today_net_flow_m": 15.33,
-                    "flow_5d_m": 14.4,
-                    "flow_20d_m": 25.15
+                    "stock_id": "2204",
+                    "stock_name": "中華",
+                    "price": 55.7,
+                    "volume": 1046487.0,
+                    "today_return_pct": -1.59,
+                    "return_5d_pct": 1.64,
+                    "today_net_flow_m": -29.87,
+                    "flow_5d_m": -27.89,
+                    "flow_20d_m": -204.39
+                },
+                {
+                    "stock_id": "1536",
+                    "stock_name": "和大",
+                    "price": 49.95,
+                    "volume": 1100921.0,
+                    "today_return_pct": 1.94,
+                    "return_5d_pct": 2.67,
+                    "today_net_flow_m": 26.74,
+                    "flow_5d_m": 8.72,
+                    "flow_20d_m": -201.8
                 },
                 {
                     "stock_id": "6605",
                     "stock_name": "帝寶",
-                    "price": 95.0,
-                    "volume": 772690.0,
-                    "today_return_pct": 1.6,
-                    "return_5d_pct": -34.48,
-                    "today_net_flow_m": 14.87,
-                    "flow_5d_m": -5.1,
-                    "flow_20d_m": -63.75
+                    "price": 143.5,
+                    "volume": 540498.0,
+                    "today_return_pct": 1.77,
+                    "return_5d_pct": -1.03,
+                    "today_net_flow_m": 22.46,
+                    "flow_5d_m": 2.5,
+                    "flow_20d_m": -56.16
                 }
             ]
         },
         {
             "sector_name": "油電燃氣業",
-            "flow_5d_m": 349.37,
-            "flow_20d_m": 1587.57,
-            "size_20d_m": 28954.93,
-            "acceleration_m": 146.42,
-            "bottom_fishing_score": 268.19,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "6505",
-                    "stock_name": "台塑化",
-                    "today_net_flow_m": 173.48,
-                    "today_return_pct": 2.68
-                },
-                {
-                    "stock_id": "9937",
-                    "stock_name": "全國",
-                    "today_net_flow_m": 1.04,
-                    "today_return_pct": 0.0
-                }
-            ],
+            "flow_5d_m": 222.19,
+            "flow_20d_m": 1460.4,
+            "size_20d_m": 29785.07,
+            "acceleration_m": 19.24,
+            "bottom_fishing_score": 141.01,
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "6505",
                     "stock_name": "台塑化",
-                    "price": 115.0,
-                    "volume": 2557129.0,
-                    "today_return_pct": 2.68,
-                    "return_5d_pct": 118.63,
-                    "today_net_flow_m": 173.48,
-                    "flow_5d_m": 53.51,
-                    "flow_20d_m": 1109.83
+                    "price": 53.3,
+                    "volume": 6606199.0,
+                    "today_return_pct": 0.95,
+                    "return_5d_pct": 1.33,
+                    "today_net_flow_m": 80.4,
+                    "flow_5d_m": -39.56,
+                    "flow_20d_m": 1016.76
                 },
                 {
                     "stock_id": "8926",
                     "stock_name": "台汽電",
-                    "price": 26.95,
-                    "volume": 1930152.0,
-                    "today_return_pct": 0.19,
-                    "return_5d_pct": -59.72,
-                    "today_net_flow_m": -21.83,
-                    "flow_5d_m": 307.36,
-                    "flow_20d_m": 435.59
-                },
-                {
-                    "stock_id": "2616",
-                    "stock_name": "山隆",
-                    "price": 31.95,
-                    "volume": 85205.0,
-                    "today_return_pct": -0.47,
-                    "return_5d_pct": 134.93,
-                    "today_net_flow_m": -2.73,
-                    "flow_5d_m": -0.95,
-                    "flow_20d_m": 3.23
+                    "price": 72.4,
+                    "volume": 11202241.0,
+                    "today_return_pct": -2.43,
+                    "return_5d_pct": 8.22,
+                    "today_net_flow_m": -58.65,
+                    "flow_5d_m": 270.54,
+                    "flow_20d_m": 398.77
                 },
                 {
                     "stock_id": "9937",
                     "stock_name": "全國",
-                    "price": 39.5,
-                    "volume": 33074.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -29.21,
-                    "today_net_flow_m": 1.04,
-                    "flow_5d_m": -2.06,
-                    "flow_20d_m": 2.77
+                    "price": 55.7,
+                    "volume": 47384.0,
+                    "today_return_pct": 0.18,
+                    "return_5d_pct": -0.18,
+                    "today_net_flow_m": 1.46,
+                    "flow_5d_m": -1.64,
+                    "flow_20d_m": 3.19
+                },
+                {
+                    "stock_id": "2616",
+                    "stock_name": "山隆",
+                    "price": 13.65,
+                    "volume": 338364.0,
+                    "today_return_pct": -1.44,
+                    "return_5d_pct": 0.37,
+                    "today_net_flow_m": -1.17,
+                    "flow_5d_m": 0.61,
+                    "flow_20d_m": 4.8
                 },
                 {
                     "stock_id": "9908",
                     "stock_name": "大台北",
-                    "price": 26.85,
-                    "volume": 109037.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -8.21,
-                    "today_net_flow_m": 0.91,
-                    "flow_5d_m": -2.09,
-                    "flow_20d_m": 23.49
+                    "price": 29.55,
+                    "volume": 118565.0,
+                    "today_return_pct": 0.51,
+                    "return_5d_pct": 1.03,
+                    "today_net_flow_m": 1.0,
+                    "flow_5d_m": -2.0,
+                    "flow_20d_m": 23.58
                 }
             ]
         },
         {
             "sector_name": "玻璃陶瓷",
-            "flow_5d_m": -350.92,
-            "flow_20d_m": -751.14,
-            "size_20d_m": 154597.04,
-            "acceleration_m": 602.54,
-            "bottom_fishing_score": 0.0,
+            "flow_5d_m": 397.32,
+            "flow_20d_m": -2.9,
+            "size_20d_m": 160441.12,
+            "acceleration_m": 1350.78,
+            "bottom_fishing_score": 778.71,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "1802",
                     "stock_name": "台玻",
-                    "today_net_flow_m": 297.18,
-                    "today_return_pct": 1.29
+                    "today_net_flow_m": 1016.74,
+                    "today_return_pct": 5.15
                 },
                 {
                     "stock_id": "1809",
                     "stock_name": "中釉",
-                    "today_net_flow_m": 9.49,
-                    "today_return_pct": 0.0
+                    "today_net_flow_m": 40.22,
+                    "today_return_pct": 7.52
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "1802",
                     "stock_name": "台玻",
-                    "price": 19.7,
-                    "volume": 4664630.0,
-                    "today_return_pct": 1.29,
-                    "return_5d_pct": -68.23,
-                    "today_net_flow_m": 297.18,
-                    "flow_5d_m": -218.64,
-                    "flow_20d_m": -293.13
+                    "price": 67.4,
+                    "volume": 82939780.0,
+                    "today_return_pct": 5.15,
+                    "return_5d_pct": 8.71,
+                    "today_net_flow_m": 1016.74,
+                    "flow_5d_m": 500.93,
+                    "flow_20d_m": 426.44
                 },
                 {
                     "stock_id": "1809",
                     "stock_name": "中釉",
-                    "price": 12.15,
-                    "volume": 184441.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -77.37,
-                    "today_net_flow_m": 9.49,
-                    "flow_5d_m": -132.16,
-                    "flow_20d_m": -439.43
+                    "price": 51.5,
+                    "volume": 6672010.0,
+                    "today_return_pct": 7.52,
+                    "return_5d_pct": -4.1,
+                    "today_net_flow_m": 40.22,
+                    "flow_5d_m": -101.43,
+                    "flow_20d_m": -408.7
                 },
                 {
                     "stock_id": "1810",
                     "stock_name": "和成",
-                    "price": 9.67,
-                    "volume": 439502.0,
-                    "today_return_pct": 0.21,
-                    "return_5d_pct": -56.05,
-                    "today_net_flow_m": -1.73,
-                    "flow_5d_m": -0.38,
-                    "flow_20d_m": -18.08
+                    "price": 20.45,
+                    "volume": 2875334.0,
+                    "today_return_pct": -0.49,
+                    "return_5d_pct": -7.05,
+                    "today_net_flow_m": -3.65,
+                    "flow_5d_m": -2.3,
+                    "flow_20d_m": -20.0
                 },
                 {
                     "stock_id": "1817",
                     "stock_name": "凱撒衛",
-                    "price": 45.5,
-                    "volume": 139301.0,
-                    "today_return_pct": 0.11,
-                    "return_5d_pct": 16.22,
-                    "today_net_flow_m": 0.88,
-                    "flow_5d_m": -0.06,
-                    "flow_20d_m": -1.62
+                    "price": 39.95,
+                    "volume": 81302.0,
+                    "today_return_pct": 0.88,
+                    "return_5d_pct": 2.04,
+                    "today_net_flow_m": 0.77,
+                    "flow_5d_m": -0.17,
+                    "flow_20d_m": -1.73
                 },
                 {
                     "stock_id": "1806",
                     "stock_name": "冠軍",
-                    "price": 8.55,
-                    "volume": 575070.0,
-                    "today_return_pct": 0.47,
-                    "return_5d_pct": 5.95,
-                    "today_net_flow_m": 0.44,
-                    "flow_5d_m": 0.31,
-                    "flow_20d_m": 1.12
+                    "price": 8.19,
+                    "volume": 202084.0,
+                    "today_return_pct": 0.37,
+                    "return_5d_pct": 1.49,
+                    "today_net_flow_m": 0.43,
+                    "flow_5d_m": 0.3,
+                    "flow_20d_m": 1.1
                 }
             ]
         },
         {
             "sector_name": "生技醫療業",
-            "flow_5d_m": 1771.46,
-            "flow_20d_m": 2870.22,
-            "size_20d_m": 108431.13,
-            "acceleration_m": -419.34,
-            "bottom_fishing_score": 0.0,
+            "flow_5d_m": 2452.99,
+            "flow_20d_m": 3551.75,
+            "size_20d_m": 111674.73,
+            "acceleration_m": 262.19,
+            "bottom_fishing_score": 1576.67,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "4746",
-                    "stock_name": "台耀",
-                    "today_net_flow_m": 7.98,
-                    "today_return_pct": 0.15
+                    "stock_id": "6472",
+                    "stock_name": "保瑞",
+                    "today_net_flow_m": 235.29,
+                    "today_return_pct": 4.99
                 },
                 {
-                    "stock_id": "4148",
-                    "stock_name": "全宇生技-KY",
-                    "today_net_flow_m": 3.12,
-                    "today_return_pct": 2.38
+                    "stock_id": "6431",
+                    "stock_name": "光麗-KY",
+                    "today_net_flow_m": 0.06,
+                    "today_return_pct": 4.28
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "1789",
-                    "stock_name": "神隆",
-                    "price": 35.0,
-                    "volume": 1140860.0,
-                    "today_return_pct": -1.69,
-                    "return_5d_pct": 72.84,
-                    "today_net_flow_m": 11.8,
-                    "flow_5d_m": 9.05,
-                    "flow_20d_m": 44.37
+                    "stock_id": "6446",
+                    "stock_name": "藥華藥",
+                    "price": 952.0,
+                    "volume": 1805808.0,
+                    "today_return_pct": 0.32,
+                    "return_5d_pct": 2.81,
+                    "today_net_flow_m": 551.95,
+                    "flow_5d_m": 1853.17,
+                    "flow_20d_m": 3268.9
                 },
                 {
-                    "stock_id": "4746",
-                    "stock_name": "台耀",
-                    "price": 68.1,
-                    "volume": 220100.0,
-                    "today_return_pct": 0.15,
-                    "return_5d_pct": 29.71,
-                    "today_net_flow_m": 7.98,
-                    "flow_5d_m": -9.37,
-                    "flow_20d_m": -98.13
+                    "stock_id": "6472",
+                    "stock_name": "保瑞",
+                    "price": 410.0,
+                    "volume": 1958717.0,
+                    "today_return_pct": 4.99,
+                    "return_5d_pct": 4.86,
+                    "today_net_flow_m": 235.29,
+                    "flow_5d_m": 397.0,
+                    "flow_20d_m": 614.96
                 },
                 {
-                    "stock_id": "4137",
-                    "stock_name": "麗豐-KY",
-                    "price": 159.5,
-                    "volume": 1257057.0,
-                    "today_return_pct": -1.54,
-                    "return_5d_pct": 40.53,
-                    "today_net_flow_m": -7.7,
-                    "flow_5d_m": 2.73,
-                    "flow_20d_m": 12.77
+                    "stock_id": "1795",
+                    "stock_name": "美時",
+                    "price": 195.5,
+                    "volume": 1620889.0,
+                    "today_return_pct": -0.51,
+                    "return_5d_pct": 0.0,
+                    "today_net_flow_m": -56.29,
+                    "flow_5d_m": 27.33,
+                    "flow_20d_m": -490.01
                 },
                 {
-                    "stock_id": "4148",
-                    "stock_name": "全宇生技-KY",
-                    "price": 107.5,
-                    "volume": 470028.0,
-                    "today_return_pct": 2.38,
-                    "return_5d_pct": 237.52,
-                    "today_net_flow_m": 3.12,
-                    "flow_5d_m": 2.36,
-                    "flow_20d_m": 1.06
+                    "stock_id": "6782",
+                    "stock_name": "視陽",
+                    "price": 192.0,
+                    "volume": 195848.0,
+                    "today_return_pct": -1.29,
+                    "return_5d_pct": -4.24,
+                    "today_net_flow_m": -21.79,
+                    "flow_5d_m": -29.02,
+                    "flow_20d_m": -67.43
                 },
                 {
-                    "stock_id": "1734",
-                    "stock_name": "杏輝",
-                    "price": 21.55,
-                    "volume": 110678.0,
-                    "today_return_pct": 0.7,
-                    "return_5d_pct": -31.26,
-                    "today_net_flow_m": -2.36,
-                    "flow_5d_m": 9.32,
-                    "flow_20d_m": -8.95
+                    "stock_id": "6861",
+                    "stock_name": "睿生光電",
+                    "price": 311.0,
+                    "volume": 574191.0,
+                    "today_return_pct": 0.0,
+                    "return_5d_pct": -8.93,
+                    "today_net_flow_m": -18.67,
+                    "flow_5d_m": 16.58,
+                    "flow_20d_m": -147.47
                 }
             ]
         },
         {
             "sector_name": "紡織纖維",
-            "flow_5d_m": -565.2,
-            "flow_20d_m": -2405.77,
-            "size_20d_m": 78689.52,
-            "acceleration_m": -262.77,
+            "flow_5d_m": -805.49,
+            "flow_20d_m": -2646.05,
+            "size_20d_m": 80699.84,
+            "acceleration_m": -503.05,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "1434",
-                    "stock_name": "福懋",
-                    "today_net_flow_m": 34.45,
-                    "today_return_pct": 1.32
-                },
-                {
-                    "stock_id": "4426",
-                    "stock_name": "利勤",
-                    "today_net_flow_m": 1.26,
-                    "today_return_pct": 0.1
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "1476",
                     "stock_name": "儒鴻",
-                    "price": 289.5,
-                    "volume": 704566.0,
-                    "today_return_pct": -0.69,
-                    "return_5d_pct": -14.22,
-                    "today_net_flow_m": -416.78,
-                    "flow_5d_m": -815.79,
-                    "flow_20d_m": -955.86
-                },
-                {
-                    "stock_id": "1402",
-                    "stock_name": "遠東新",
-                    "price": 25.45,
-                    "volume": 2680566.0,
-                    "today_return_pct": -0.59,
-                    "return_5d_pct": -4.86,
-                    "today_net_flow_m": 217.74,
-                    "flow_5d_m": 249.75,
-                    "flow_20d_m": -2185.19
+                    "price": 343.5,
+                    "volume": 2555067.0,
+                    "today_return_pct": -0.29,
+                    "return_5d_pct": 1.78,
+                    "today_net_flow_m": -494.52,
+                    "flow_5d_m": -893.53,
+                    "flow_20d_m": -1033.6
                 },
                 {
                     "stock_id": "1477",
                     "stock_name": "聚陽",
-                    "price": 124.5,
-                    "volume": 382874.0,
-                    "today_return_pct": 0.81,
-                    "return_5d_pct": -44.67,
-                    "today_net_flow_m": -188.99,
-                    "flow_5d_m": -45.87,
-                    "flow_20d_m": 317.77
+                    "price": 218.0,
+                    "volume": 3229206.0,
+                    "today_return_pct": -2.68,
+                    "return_5d_pct": -3.11,
+                    "today_net_flow_m": -330.92,
+                    "flow_5d_m": -187.8,
+                    "flow_20d_m": 175.84
                 },
                 {
-                    "stock_id": "1434",
-                    "stock_name": "福懋",
-                    "price": 30.8,
-                    "volume": 869361.0,
-                    "today_return_pct": 1.32,
-                    "return_5d_pct": 90.71,
-                    "today_net_flow_m": 34.45,
-                    "flow_5d_m": 81.86,
-                    "flow_20d_m": 86.34
+                    "stock_id": "1402",
+                    "stock_name": "遠東新",
+                    "price": 27.55,
+                    "volume": 17989540.0,
+                    "today_return_pct": 2.04,
+                    "return_5d_pct": 2.99,
+                    "today_net_flow_m": 235.71,
+                    "flow_5d_m": 267.71,
+                    "flow_20d_m": -2167.23
                 },
                 {
                     "stock_id": "1409",
                     "stock_name": "新纖",
-                    "price": 10.1,
-                    "volume": 1354816.0,
-                    "today_return_pct": -0.49,
-                    "return_5d_pct": -59.27,
-                    "today_net_flow_m": -10.06,
-                    "flow_5d_m": -24.53,
-                    "flow_20d_m": 251.39
+                    "price": 25.45,
+                    "volume": 12568700.0,
+                    "today_return_pct": -0.2,
+                    "return_5d_pct": 2.62,
+                    "today_net_flow_m": -25.35,
+                    "flow_5d_m": -39.82,
+                    "flow_20d_m": 236.1
+                },
+                {
+                    "stock_id": "1434",
+                    "stock_name": "福懋",
+                    "price": 16.75,
+                    "volume": 2034409.0,
+                    "today_return_pct": 0.6,
+                    "return_5d_pct": 3.72,
+                    "today_net_flow_m": 18.73,
+                    "flow_5d_m": 66.15,
+                    "flow_20d_m": 70.63
                 }
             ]
         },
         {
             "sector_name": "綠能環保",
-            "flow_5d_m": 1338.99,
-            "flow_20d_m": 3520.64,
-            "size_20d_m": 56776.5,
-            "acceleration_m": -329.62,
-            "bottom_fishing_score": 0.0,
+            "flow_5d_m": 2017.59,
+            "flow_20d_m": 4199.24,
+            "size_20d_m": 59354.43,
+            "acceleration_m": 348.98,
+            "bottom_fishing_score": 1350.15,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "8473",
-                    "stock_name": "山林水",
-                    "today_net_flow_m": 4.17,
-                    "today_return_pct": 0.51
+                    "stock_id": "7610",
+                    "stock_name": "聯友金屬-創",
+                    "today_net_flow_m": 446.72,
+                    "today_return_pct": 9.75
                 },
                 {
-                    "stock_id": "9930",
-                    "stock_name": "中聯資源",
-                    "today_net_flow_m": 1.88,
-                    "today_return_pct": 0.36
+                    "stock_id": "8438",
+                    "stock_name": "昶昕",
+                    "today_net_flow_m": 7.38,
+                    "today_return_pct": 4.17
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "8422",
-                    "stock_name": "可寧衛*",
-                    "price": 174.0,
-                    "volume": 156600.0,
-                    "today_return_pct": 0.29,
-                    "return_5d_pct": 545.64,
-                    "today_net_flow_m": -52.53,
-                    "flow_5d_m": -500.89,
-                    "flow_20d_m": -409.9
+                    "stock_id": "7610",
+                    "stock_name": "聯友金屬-創",
+                    "price": 1745.0,
+                    "volume": 403024.0,
+                    "today_return_pct": 9.75,
+                    "return_5d_pct": -1.97,
+                    "today_net_flow_m": 446.72,
+                    "flow_5d_m": 825.01,
+                    "flow_20d_m": 1606.86
                 },
                 {
-                    "stock_id": "8341",
-                    "stock_name": "日友",
-                    "price": 237.5,
-                    "volume": 168190.0,
-                    "today_return_pct": -0.42,
-                    "return_5d_pct": 204.88,
-                    "today_net_flow_m": 10.1,
-                    "flow_5d_m": 57.64,
-                    "flow_20d_m": 99.29
+                    "stock_id": "6944",
+                    "stock_name": "兆聯實業",
+                    "price": 1005.0,
+                    "volume": 832223.0,
+                    "today_return_pct": 1.41,
+                    "return_5d_pct": 10.32,
+                    "today_net_flow_m": 215.73,
+                    "flow_5d_m": 1602.01,
+                    "flow_20d_m": 2576.86
+                },
+                {
+                    "stock_id": "6873",
+                    "stock_name": "泓德能源",
+                    "price": 81.2,
+                    "volume": 616208.0,
+                    "today_return_pct": -0.61,
+                    "return_5d_pct": -6.67,
+                    "today_net_flow_m": -15.0,
+                    "flow_5d_m": -65.89,
+                    "flow_20d_m": -151.42
                 },
                 {
                     "stock_id": "3708",
                     "stock_name": "上緯投控",
-                    "price": 82.6,
-                    "volume": 334215.0,
-                    "today_return_pct": -1.2,
-                    "return_5d_pct": -29.4,
-                    "today_net_flow_m": 9.91,
-                    "flow_5d_m": 29.6,
-                    "flow_20d_m": 221.46
+                    "price": 119.0,
+                    "volume": 265264.0,
+                    "today_return_pct": 1.71,
+                    "return_5d_pct": 1.71,
+                    "today_net_flow_m": 14.27,
+                    "flow_5d_m": 33.97,
+                    "flow_20d_m": 225.82
                 },
                 {
-                    "stock_id": "8473",
-                    "stock_name": "山林水",
-                    "price": 58.8,
-                    "volume": 58110.0,
-                    "today_return_pct": 0.51,
-                    "return_5d_pct": 9.09,
-                    "today_net_flow_m": 4.17,
-                    "flow_5d_m": 75.4,
-                    "flow_20d_m": 224.9
-                },
-                {
-                    "stock_id": "9930",
-                    "stock_name": "中聯資源",
-                    "price": 56.2,
-                    "volume": 74782.0,
-                    "today_return_pct": 0.36,
-                    "return_5d_pct": -18.2,
-                    "today_net_flow_m": 1.88,
-                    "flow_5d_m": 4.69,
-                    "flow_20d_m": -1.16
+                    "stock_id": "2072",
+                    "stock_name": "世紀風電",
+                    "price": 176.5,
+                    "volume": 525615.0,
+                    "today_return_pct": -2.49,
+                    "return_5d_pct": -6.61,
+                    "today_net_flow_m": -13.58,
+                    "flow_5d_m": -21.2,
+                    "flow_20d_m": 107.36
                 }
             ]
         },
         {
             "sector_name": "航運業",
-            "flow_5d_m": -48.53,
-            "flow_20d_m": 18023.41,
-            "size_20d_m": 307439.79,
-            "acceleration_m": 787.55,
+            "flow_5d_m": -1207.89,
+            "flow_20d_m": 16864.04,
+            "size_20d_m": 321953.45,
+            "acceleration_m": -371.81,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "2618",
                     "stock_name": "長榮航",
-                    "today_net_flow_m": 379.0,
-                    "today_return_pct": 0.0
-                },
-                {
-                    "stock_id": "2637",
-                    "stock_name": "慧洋-KY",
-                    "today_net_flow_m": 27.74,
-                    "today_return_pct": 0.0
-                }
-            ],
-            "individual_stocks": [
-                {
-                    "stock_id": "2618",
-                    "stock_name": "長榮航",
-                    "price": 15.5,
-                    "volume": 6934611.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -57.42,
-                    "today_net_flow_m": 379.0,
-                    "flow_5d_m": 1709.6,
-                    "flow_20d_m": 2081.75
+                    "today_net_flow_m": 976.83,
+                    "today_return_pct": 3.23
                 },
                 {
                     "stock_id": "2610",
                     "stock_name": "華航",
-                    "price": 12.2,
-                    "volume": 7353768.0,
-                    "today_return_pct": -0.41,
-                    "return_5d_pct": -35.96,
-                    "today_net_flow_m": 292.85,
-                    "flow_5d_m": 860.29,
-                    "flow_20d_m": 1165.48
-                },
+                    "today_net_flow_m": 513.7,
+                    "today_return_pct": 4.9
+                }
+            ],
+            "individual_stocks": [
                 {
                     "stock_id": "2609",
                     "stock_name": "陽明",
-                    "price": 11.25,
-                    "volume": 2537609.0,
-                    "today_return_pct": -1.32,
-                    "return_5d_pct": -78.24,
-                    "today_net_flow_m": -242.52,
-                    "flow_5d_m": -1423.01,
-                    "flow_20d_m": 822.9
-                },
-                {
-                    "stock_id": "2606",
-                    "stock_name": "裕民",
-                    "price": 35.9,
-                    "volume": 2671883.0,
-                    "today_return_pct": -2.18,
-                    "return_5d_pct": -47.36,
-                    "today_net_flow_m": -211.74,
-                    "flow_5d_m": -413.85,
-                    "flow_20d_m": -122.28
+                    "price": 51.2,
+                    "volume": 39646266.0,
+                    "today_return_pct": -2.29,
+                    "return_5d_pct": -0.97,
+                    "today_net_flow_m": -1103.73,
+                    "flow_5d_m": -2284.22,
+                    "flow_20d_m": -38.31
                 },
                 {
                     "stock_id": "2603",
                     "stock_name": "長榮",
-                    "price": 16.5,
-                    "volume": 9162455.0,
-                    "today_return_pct": -0.3,
-                    "return_5d_pct": -92.63,
-                    "today_net_flow_m": -77.94,
-                    "flow_5d_m": -2010.59,
-                    "flow_20d_m": 9229.89
+                    "price": 224.5,
+                    "volume": 20566934.0,
+                    "today_return_pct": -1.54,
+                    "return_5d_pct": 0.22,
+                    "today_net_flow_m": -1060.5,
+                    "flow_5d_m": -2993.14,
+                    "flow_20d_m": 8247.33
+                },
+                {
+                    "stock_id": "2618",
+                    "stock_name": "長榮航",
+                    "price": 39.95,
+                    "volume": 78426978.0,
+                    "today_return_pct": 3.23,
+                    "return_5d_pct": 9.75,
+                    "today_net_flow_m": 976.83,
+                    "flow_5d_m": 2307.44,
+                    "flow_20d_m": 2679.59
+                },
+                {
+                    "stock_id": "2610",
+                    "stock_name": "華航",
+                    "price": 21.4,
+                    "volume": 85921129.0,
+                    "today_return_pct": 4.9,
+                    "return_5d_pct": 12.34,
+                    "today_net_flow_m": 513.7,
+                    "flow_5d_m": 1081.13,
+                    "flow_20d_m": 1386.32
+                },
+                {
+                    "stock_id": "2606",
+                    "stock_name": "裕民",
+                    "price": 67.2,
+                    "volume": 9042610.0,
+                    "today_return_pct": -1.61,
+                    "return_5d_pct": -1.47,
+                    "today_net_flow_m": -396.34,
+                    "flow_5d_m": -598.46,
+                    "flow_20d_m": -306.88
                 }
             ]
         },
         {
             "sector_name": "觀光餐旅",
-            "flow_5d_m": -53.83,
-            "flow_20d_m": -195.79,
-            "size_20d_m": 11230.95,
-            "acceleration_m": 8.12,
+            "flow_5d_m": -112.47,
+            "flow_20d_m": -254.43,
+            "size_20d_m": 11565.82,
+            "acceleration_m": -50.52,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "2723",
-                    "stock_name": "美食-KY",
-                    "today_net_flow_m": 31.64,
-                    "today_return_pct": 2.87
-                },
-                {
-                    "stock_id": "2748",
-                    "stock_name": "雲品",
-                    "today_net_flow_m": 3.84,
-                    "today_return_pct": 0.63
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
-                {
-                    "stock_id": "2723",
-                    "stock_name": "美食-KY",
-                    "price": 412.0,
-                    "volume": 540387.0,
-                    "today_return_pct": 2.87,
-                    "return_5d_pct": 553.97,
-                    "today_net_flow_m": 31.64,
-                    "flow_5d_m": 50.61,
-                    "flow_20d_m": 18.33
-                },
                 {
                     "stock_id": "2731",
                     "stock_name": "雄獅",
-                    "price": 100.5,
-                    "volume": 82100.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -41.57,
-                    "today_net_flow_m": -31.39,
-                    "flow_5d_m": -503.47,
-                    "flow_20d_m": -727.18
+                    "price": 152.5,
+                    "volume": 1568903.0,
+                    "today_return_pct": 0.33,
+                    "return_5d_pct": -11.34,
+                    "today_net_flow_m": -47.63,
+                    "flow_5d_m": -519.71,
+                    "flow_20d_m": -743.42
                 },
                 {
                     "stock_id": "2727",
                     "stock_name": "王品",
-                    "price": 131.0,
-                    "volume": 79071.0,
-                    "today_return_pct": 0.38,
-                    "return_5d_pct": -45.76,
-                    "today_net_flow_m": -7.32,
-                    "flow_5d_m": 166.16,
-                    "flow_20d_m": 363.0
+                    "price": 244.0,
+                    "volume": 548506.0,
+                    "today_return_pct": -1.01,
+                    "return_5d_pct": 1.04,
+                    "today_net_flow_m": -13.64,
+                    "flow_5d_m": 159.84,
+                    "flow_20d_m": 356.68
+                },
+                {
+                    "stock_id": "2753",
+                    "stock_name": "八方雲集",
+                    "price": 188.0,
+                    "volume": 448970.0,
+                    "today_return_pct": -1.31,
+                    "return_5d_pct": 4.44,
+                    "today_net_flow_m": -11.65,
+                    "flow_5d_m": 163.79,
+                    "flow_20d_m": -42.14
                 },
                 {
                     "stock_id": "5706",
                     "stock_name": "鳳凰",
-                    "price": 34.4,
-                    "volume": 11300.0,
-                    "today_return_pct": -0.29,
-                    "return_5d_pct": -34.35,
-                    "today_net_flow_m": 3.85,
-                    "flow_5d_m": 17.84,
-                    "flow_20d_m": 27.53
+                    "price": 52.5,
+                    "volume": 857131.0,
+                    "today_return_pct": -0.94,
+                    "return_5d_pct": 0.19,
+                    "today_net_flow_m": 5.87,
+                    "flow_5d_m": 19.86,
+                    "flow_20d_m": 29.56
                 },
                 {
-                    "stock_id": "2748",
-                    "stock_name": "雲品",
-                    "price": 63.9,
-                    "volume": 32050.0,
-                    "today_return_pct": 0.63,
-                    "return_5d_pct": 61.98,
-                    "today_net_flow_m": 3.84,
-                    "flow_5d_m": 8.37,
-                    "flow_20d_m": 6.09
+                    "stock_id": "2723",
+                    "stock_name": "美食-KY",
+                    "price": 68.0,
+                    "volume": 368286.0,
+                    "today_return_pct": 0.59,
+                    "return_5d_pct": 7.94,
+                    "today_net_flow_m": 5.22,
+                    "flow_5d_m": 24.19,
+                    "flow_20d_m": -8.09
                 }
             ]
         },
         {
             "sector_name": "貿易百貨",
-            "flow_5d_m": 50.37,
-            "flow_20d_m": 329.39,
-            "size_20d_m": 44475.06,
-            "acceleration_m": 69.23,
-            "bottom_fishing_score": 57.92,
+            "flow_5d_m": 107.13,
+            "flow_20d_m": 386.14,
+            "size_20d_m": 45324.72,
+            "acceleration_m": 125.99,
+            "bottom_fishing_score": 114.67,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "2903",
-                    "stock_name": "遠百",
-                    "today_net_flow_m": 33.52,
-                    "today_return_pct": 0.34
+                    "stock_id": "2915",
+                    "stock_name": "潤泰全",
+                    "today_net_flow_m": 89.38,
+                    "today_return_pct": 4.71
                 },
                 {
-                    "stock_id": "2913",
-                    "stock_name": "農林",
-                    "today_net_flow_m": 4.27,
-                    "today_return_pct": 0.0
+                    "stock_id": "2905",
+                    "stock_name": "三商",
+                    "today_net_flow_m": 5.18,
+                    "today_return_pct": 3.36
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "2912",
                     "stock_name": "統一超",
-                    "price": 283.0,
-                    "volume": 1100429.0,
-                    "today_return_pct": 1.98,
-                    "return_5d_pct": 27.48,
-                    "today_net_flow_m": -173.79,
-                    "flow_5d_m": -398.41,
-                    "flow_20d_m": 139.86
+                    "price": 228.0,
+                    "volume": 3577237.0,
+                    "today_return_pct": -0.87,
+                    "return_5d_pct": 2.7,
+                    "today_net_flow_m": -140.02,
+                    "flow_5d_m": -364.63,
+                    "flow_20d_m": 173.63
                 },
                 {
                     "stock_id": "2915",
                     "stock_name": "潤泰全",
-                    "price": 48.1,
-                    "volume": 1405500.0,
-                    "today_return_pct": -0.21,
-                    "return_5d_pct": 0.52,
-                    "today_net_flow_m": 80.51,
-                    "flow_5d_m": 268.71,
-                    "flow_20d_m": -2.34
+                    "price": 53.4,
+                    "volume": 5877842.0,
+                    "today_return_pct": 4.71,
+                    "return_5d_pct": 11.6,
+                    "today_net_flow_m": 89.38,
+                    "flow_5d_m": 277.58,
+                    "flow_20d_m": 6.54
                 },
                 {
                     "stock_id": "2903",
                     "stock_name": "遠百",
-                    "price": 14.85,
-                    "volume": 1268531.0,
-                    "today_return_pct": 0.34,
-                    "return_5d_pct": -35.01,
-                    "today_net_flow_m": 33.52,
-                    "flow_5d_m": 157.39,
-                    "flow_20d_m": 105.84
+                    "price": 24.2,
+                    "volume": 5435614.0,
+                    "today_return_pct": 1.47,
+                    "return_5d_pct": 5.91,
+                    "today_net_flow_m": 54.63,
+                    "flow_5d_m": 178.5,
+                    "flow_20d_m": 126.95
                 },
                 {
                     "stock_id": "2905",
                     "stock_name": "三商",
-                    "price": 26.05,
-                    "volume": 265286.0,
-                    "today_return_pct": -0.95,
-                    "return_5d_pct": 87.41,
-                    "today_net_flow_m": 8.76,
-                    "flow_5d_m": 18.29,
-                    "flow_20d_m": 39.14
+                    "price": 15.4,
+                    "volume": 1872327.0,
+                    "today_return_pct": 3.36,
+                    "return_5d_pct": 10.79,
+                    "today_net_flow_m": 5.18,
+                    "flow_5d_m": 14.71,
+                    "flow_20d_m": 35.56
                 },
                 {
                     "stock_id": "2913",
                     "stock_name": "農林",
-                    "price": 15.35,
-                    "volume": 1961441.0,
+                    "price": 11.2,
+                    "volume": 1721569.0,
                     "today_return_pct": 0.0,
-                    "return_5d_pct": 38.91,
-                    "today_net_flow_m": 4.27,
-                    "flow_5d_m": 3.05,
-                    "flow_20d_m": 20.58
+                    "return_5d_pct": 1.36,
+                    "today_net_flow_m": 3.12,
+                    "flow_5d_m": 1.9,
+                    "flow_20d_m": 19.43
                 }
             ]
         },
         {
             "sector_name": "資訊服務業",
-            "flow_5d_m": -114.96,
-            "flow_20d_m": 900.87,
-            "size_20d_m": 7352.86,
-            "acceleration_m": -50.0,
+            "flow_5d_m": -183.4,
+            "flow_20d_m": 832.43,
+            "size_20d_m": 7588.21,
+            "acceleration_m": -118.44,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "6214",
                     "stock_name": "精誠",
-                    "price": 58.2,
-                    "volume": 382320.0,
-                    "today_return_pct": 0.87,
-                    "return_5d_pct": -58.58,
-                    "today_net_flow_m": -46.97,
-                    "flow_5d_m": -114.96,
-                    "flow_20d_m": 900.87
+                    "price": 143.0,
+                    "volume": 1793345.0,
+                    "today_return_pct": -1.72,
+                    "return_5d_pct": 1.78,
+                    "today_net_flow_m": -115.42,
+                    "flow_5d_m": -183.4,
+                    "flow_20d_m": 832.43
                 }
             ]
         },
         {
             "sector_name": "通信網路業",
-            "flow_5d_m": 869.66,
-            "flow_20d_m": 1369.18,
-            "size_20d_m": 49036.61,
-            "acceleration_m": -13.62,
-            "bottom_fishing_score": 0.0,
+            "flow_5d_m": 911.74,
+            "flow_20d_m": 1411.26,
+            "size_20d_m": 50038.78,
+            "acceleration_m": 28.46,
+            "bottom_fishing_score": 558.43,
             "bottom_fishing_stocks": [
-                {
-                    "stock_id": "4904",
-                    "stock_name": "遠傳",
-                    "today_net_flow_m": 113.63,
-                    "today_return_pct": 2.11
-                },
                 {
                     "stock_id": "2419",
                     "stock_name": "仲琦",
-                    "today_net_flow_m": 18.6,
-                    "today_return_pct": 0.0
+                    "today_net_flow_m": 26.16,
+                    "today_return_pct": 3.3
+                },
+                {
+                    "stock_id": "6792",
+                    "stock_name": "詠業",
+                    "today_net_flow_m": 4.57,
+                    "today_return_pct": 3.71
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "4904",
                     "stock_name": "遠傳",
-                    "price": 72.5,
-                    "volume": 2609908.0,
-                    "today_return_pct": 2.11,
-                    "return_5d_pct": -28.22,
-                    "today_net_flow_m": 113.63,
-                    "flow_5d_m": 901.01,
-                    "flow_20d_m": 838.75
+                    "price": 110.0,
+                    "volume": 8475629.0,
+                    "today_return_pct": 0.92,
+                    "return_5d_pct": 8.91,
+                    "today_net_flow_m": 172.4,
+                    "flow_5d_m": 959.79,
+                    "flow_20d_m": 897.52
                 },
                 {
                     "stock_id": "4906",
                     "stock_name": "正文",
-                    "price": 25.05,
-                    "volume": 3952678.0,
-                    "today_return_pct": -0.99,
-                    "return_5d_pct": -42.68,
-                    "today_net_flow_m": -31.58,
-                    "flow_5d_m": -29.34,
-                    "flow_20d_m": 337.7
+                    "price": 44.45,
+                    "volume": 9398133.0,
+                    "today_return_pct": 0.57,
+                    "return_5d_pct": 1.72,
+                    "today_net_flow_m": -56.04,
+                    "flow_5d_m": -53.79,
+                    "flow_20d_m": 313.24
                 },
                 {
                     "stock_id": "2419",
                     "stock_name": "仲琦",
-                    "price": 21.15,
-                    "volume": 1674501.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -25.53,
-                    "today_net_flow_m": 18.6,
-                    "flow_5d_m": -19.72,
-                    "flow_20d_m": 97.95
+                    "price": 29.75,
+                    "volume": 2234247.0,
+                    "today_return_pct": 3.3,
+                    "return_5d_pct": 4.75,
+                    "today_net_flow_m": 26.16,
+                    "flow_5d_m": -12.16,
+                    "flow_20d_m": 105.51
+                },
+                {
+                    "stock_id": "6792",
+                    "stock_name": "詠業",
+                    "price": 69.8,
+                    "volume": 176638.0,
+                    "today_return_pct": 3.71,
+                    "return_5d_pct": 2.8,
+                    "today_net_flow_m": 4.57,
+                    "flow_5d_m": 10.46,
+                    "flow_20d_m": 26.91
                 },
                 {
                     "stock_id": "2444",
                     "stock_name": "兆勁",
-                    "price": 40.5,
-                    "volume": 2194672.0,
-                    "today_return_pct": 1.76,
-                    "return_5d_pct": 209.16,
-                    "today_net_flow_m": 11.99,
-                    "flow_5d_m": 14.73,
-                    "flow_20d_m": 45.51
-                },
-                {
-                    "stock_id": "8011",
-                    "stock_name": "台通",
-                    "price": 19.1,
-                    "volume": 231160.0,
-                    "today_return_pct": 1.06,
-                    "return_5d_pct": 5.82,
-                    "today_net_flow_m": 2.5,
-                    "flow_5d_m": -7.06,
-                    "flow_20d_m": 19.87
+                    "price": 13.6,
+                    "volume": 1379876.0,
+                    "today_return_pct": 5.02,
+                    "return_5d_pct": 3.82,
+                    "today_net_flow_m": 4.03,
+                    "flow_5d_m": 6.77,
+                    "flow_20d_m": 37.54
                 }
             ]
         },
         {
             "sector_name": "造紙工業",
-            "flow_5d_m": 179.62,
-            "flow_20d_m": 233.25,
-            "size_20d_m": 6886.7,
-            "acceleration_m": 20.99,
-            "bottom_fishing_score": 116.17,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "1904",
-                    "stock_name": "正隆",
-                    "today_net_flow_m": 10.3,
-                    "today_return_pct": 2.22
-                },
-                {
-                    "stock_id": "1905",
-                    "stock_name": "華紙",
-                    "today_net_flow_m": 9.24,
-                    "today_return_pct": 0.0
-                }
-            ],
+            "flow_5d_m": 170.93,
+            "flow_20d_m": 224.56,
+            "size_20d_m": 6707.33,
+            "acceleration_m": 12.3,
+            "bottom_fishing_score": 107.48,
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
-                    "stock_id": "1909",
-                    "stock_name": "榮成",
-                    "price": 37.85,
-                    "volume": 8393237.0,
-                    "today_return_pct": -1.94,
-                    "return_5d_pct": 295.92,
-                    "today_net_flow_m": 27.66,
-                    "flow_5d_m": 66.52,
-                    "flow_20d_m": 53.72
-                },
-                {
                     "stock_id": "1904",
                     "stock_name": "正隆",
-                    "price": 16.15,
-                    "volume": 2980722.0,
-                    "today_return_pct": 2.22,
-                    "return_5d_pct": -25.58,
-                    "today_net_flow_m": 10.3,
-                    "flow_5d_m": 67.61,
-                    "flow_20d_m": 167.65
+                    "price": 22.8,
+                    "volume": 3763926.0,
+                    "today_return_pct": -0.44,
+                    "return_5d_pct": 5.07,
+                    "today_net_flow_m": 14.55,
+                    "flow_5d_m": 71.85,
+                    "flow_20d_m": 171.9
                 },
                 {
                     "stock_id": "1905",
                     "stock_name": "華紙",
-                    "price": 10.7,
-                    "volume": 545264.0,
+                    "price": 12.9,
+                    "volume": 4332978.0,
                     "today_return_pct": 0.0,
-                    "return_5d_pct": -15.75,
-                    "today_net_flow_m": 9.24,
-                    "flow_5d_m": 23.94,
-                    "flow_20d_m": -33.19
+                    "return_5d_pct": 1.57,
+                    "today_net_flow_m": 11.14,
+                    "flow_5d_m": 25.84,
+                    "flow_20d_m": -31.29
                 },
                 {
                     "stock_id": "1907",
                     "stock_name": "永豐餘",
-                    "price": 12.6,
-                    "volume": 1931864.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -50.3,
-                    "today_net_flow_m": 5.17,
-                    "flow_5d_m": 25.16,
-                    "flow_20d_m": 75.99
+                    "price": 26.25,
+                    "volume": 1243387.0,
+                    "today_return_pct": 1.74,
+                    "return_5d_pct": 3.55,
+                    "today_net_flow_m": 10.78,
+                    "flow_5d_m": 30.77,
+                    "flow_20d_m": 81.59
                 },
                 {
-                    "stock_id": "1906",
-                    "stock_name": "寶隆",
-                    "price": 28.2,
-                    "volume": 122787.0,
-                    "today_return_pct": 1.44,
-                    "return_5d_pct": 144.16,
-                    "today_net_flow_m": 0.83,
-                    "flow_5d_m": 1.46,
-                    "flow_20d_m": -0.11
+                    "stock_id": "1909",
+                    "stock_name": "榮成",
+                    "price": 9.87,
+                    "volume": 4386270.0,
+                    "today_return_pct": 0.0,
+                    "return_5d_pct": 3.24,
+                    "today_net_flow_m": 7.21,
+                    "flow_5d_m": 46.07,
+                    "flow_20d_m": 33.27
+                },
+                {
+                    "stock_id": "6790",
+                    "stock_name": "永豐實",
+                    "price": 39.75,
+                    "volume": 170129.0,
+                    "today_return_pct": 0.25,
+                    "return_5d_pct": 1.27,
+                    "today_net_flow_m": 0.57,
+                    "flow_5d_m": 0.52,
+                    "flow_20d_m": -4.6
                 }
             ]
         },
         {
             "sector_name": "運動休閒",
-            "flow_5d_m": 1713.44,
-            "flow_20d_m": -346.56,
-            "size_20d_m": 46456.73,
-            "acceleration_m": -914.4,
+            "flow_5d_m": 1774.95,
+            "flow_20d_m": -285.05,
+            "size_20d_m": 48203.86,
+            "acceleration_m": -852.89,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "9921",
-                    "stock_name": "巨大",
-                    "today_net_flow_m": 51.08,
-                    "today_return_pct": 1.96
-                },
-                {
-                    "stock_id": "9914",
-                    "stock_name": "美利達",
-                    "today_net_flow_m": 14.08,
-                    "today_return_pct": 0.39
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "9904",
                     "stock_name": "寶成",
-                    "price": 37.25,
-                    "volume": 3260760.0,
-                    "today_return_pct": 0.4,
-                    "return_5d_pct": 43.82,
-                    "today_net_flow_m": -329.79,
-                    "flow_5d_m": -362.71,
-                    "flow_20d_m": -2667.78
+                    "price": 26.65,
+                    "volume": 19240511.0,
+                    "today_return_pct": 0.0,
+                    "return_5d_pct": 2.9,
+                    "today_net_flow_m": -235.95,
+                    "flow_5d_m": -268.86,
+                    "flow_20d_m": -2573.93
                 },
                 {
                     "stock_id": "9910",
                     "stock_name": "豐泰",
-                    "price": 135.5,
-                    "volume": 358072.0,
-                    "today_return_pct": -1.45,
-                    "return_5d_pct": 72.61,
-                    "today_net_flow_m": -164.12,
-                    "flow_5d_m": 317.07,
-                    "flow_20d_m": -188.85
+                    "price": 79.1,
+                    "volume": 6260367.0,
+                    "today_return_pct": 0.0,
+                    "return_5d_pct": 0.76,
+                    "today_net_flow_m": -95.81,
+                    "flow_5d_m": 385.38,
+                    "flow_20d_m": -120.54
+                },
+                {
+                    "stock_id": "6670",
+                    "stock_name": "復盛應用",
+                    "price": 286.0,
+                    "volume": 1010259.0,
+                    "today_return_pct": 0.35,
+                    "return_5d_pct": 5.93,
+                    "today_net_flow_m": -76.46,
+                    "flow_5d_m": 70.88,
+                    "flow_20d_m": -272.52
+                },
+                {
+                    "stock_id": "6890",
+                    "stock_name": "來億-KY",
+                    "price": 230.5,
+                    "volume": 560578.0,
+                    "today_return_pct": -9.96,
+                    "return_5d_pct": -7.62,
+                    "today_net_flow_m": 28.46,
+                    "flow_5d_m": 1246.68,
+                    "flow_20d_m": 2538.79
                 },
                 {
                     "stock_id": "9921",
                     "stock_name": "巨大",
-                    "price": 156.0,
-                    "volume": 444171.0,
-                    "today_return_pct": 1.96,
-                    "return_5d_pct": 120.96,
-                    "today_net_flow_m": 51.08,
-                    "flow_5d_m": 260.08,
-                    "flow_20d_m": 57.67
-                },
-                {
-                    "stock_id": "9914",
-                    "stock_name": "美利達",
-                    "price": 128.0,
-                    "volume": 1169788.0,
-                    "today_return_pct": 0.39,
-                    "return_5d_pct": 88.24,
-                    "today_net_flow_m": 14.08,
-                    "flow_5d_m": 45.49,
-                    "flow_20d_m": 58.95
-                },
-                {
-                    "stock_id": "9802",
-                    "stock_name": "鈺齊-KY",
-                    "price": 73.1,
-                    "volume": 215522.0,
-                    "today_return_pct": -0.14,
-                    "return_5d_pct": -5.92,
-                    "today_net_flow_m": -9.27,
-                    "flow_5d_m": -1.75,
-                    "flow_20d_m": -56.93
+                    "price": 76.2,
+                    "volume": 1933760.0,
+                    "today_return_pct": 1.06,
+                    "return_5d_pct": 7.93,
+                    "today_net_flow_m": 24.95,
+                    "flow_5d_m": 233.95,
+                    "flow_20d_m": 31.54
                 }
             ]
         },
         {
             "sector_name": "金融保險",
-            "flow_5d_m": 23762.27,
-            "flow_20d_m": 39415.59,
-            "size_20d_m": 802367.18,
-            "acceleration_m": -534.34,
-            "bottom_fishing_score": 0.0,
+            "flow_5d_m": 28335.3,
+            "flow_20d_m": 43988.62,
+            "size_20d_m": 826962.69,
+            "acceleration_m": 4038.69,
+            "bottom_fishing_score": 18616.66,
             "bottom_fishing_stocks": [
-                {
-                    "stock_id": "2887",
-                    "stock_name": "台新新光金",
-                    "today_net_flow_m": 556.53,
-                    "today_return_pct": 0.0
-                },
                 {
                     "stock_id": "2881",
                     "stock_name": "富邦金",
-                    "today_net_flow_m": 519.94,
-                    "today_return_pct": 0.8
+                    "today_net_flow_m": 1310.12,
+                    "today_return_pct": 4.51
+                },
+                {
+                    "stock_id": "2887",
+                    "stock_name": "台新新光金",
+                    "today_net_flow_m": 1283.68,
+                    "today_return_pct": 4.64
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "2887",
-                    "stock_name": "台新新光金",
-                    "price": 13.7,
-                    "volume": 11635523.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -50.63,
-                    "today_net_flow_m": 556.53,
-                    "flow_5d_m": 4826.56,
-                    "flow_20d_m": 12398.05
-                },
-                {
                     "stock_id": "2881",
                     "stock_name": "富邦金",
-                    "price": 50.6,
-                    "volume": 10283879.0,
-                    "today_return_pct": 0.8,
-                    "return_5d_pct": -56.38,
-                    "today_net_flow_m": 519.94,
-                    "flow_5d_m": 732.92,
-                    "flow_20d_m": 1550.12
+                    "price": 127.5,
+                    "volume": 25895319.0,
+                    "today_return_pct": 4.51,
+                    "return_5d_pct": 9.91,
+                    "today_net_flow_m": 1310.12,
+                    "flow_5d_m": 1523.1,
+                    "flow_20d_m": 2340.3
                 },
                 {
-                    "stock_id": "2882",
-                    "stock_name": "國泰金",
-                    "price": 53.4,
-                    "volume": 8131998.0,
-                    "today_return_pct": -0.56,
-                    "return_5d_pct": -43.79,
-                    "today_net_flow_m": 357.21,
-                    "flow_5d_m": 265.8,
-                    "flow_20d_m": 2732.07
+                    "stock_id": "2887",
+                    "stock_name": "台新新光金",
+                    "price": 31.6,
+                    "volume": 124423007.0,
+                    "today_return_pct": 4.64,
+                    "return_5d_pct": 13.87,
+                    "today_net_flow_m": 1283.68,
+                    "flow_5d_m": 5553.7,
+                    "flow_20d_m": 13125.2
                 },
                 {
-                    "stock_id": "2892",
-                    "stock_name": "第一金",
-                    "price": 19.25,
-                    "volume": 7399787.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -33.85,
-                    "today_net_flow_m": 342.8,
-                    "flow_5d_m": 4780.37,
-                    "flow_20d_m": -2840.1
+                    "stock_id": "2891",
+                    "stock_name": "中信金",
+                    "price": 70.1,
+                    "volume": 42928285.0,
+                    "today_return_pct": 3.7,
+                    "return_5d_pct": 7.19,
+                    "today_net_flow_m": 1102.33,
+                    "flow_5d_m": 1213.23,
+                    "flow_20d_m": 5117.44
                 },
                 {
                     "stock_id": "2883",
                     "stock_name": "凱基金",
-                    "price": 9.83,
-                    "volume": 32248259.0,
-                    "today_return_pct": 0.72,
-                    "return_5d_pct": -63.25,
-                    "today_net_flow_m": 342.47,
-                    "flow_5d_m": 133.83,
-                    "flow_20d_m": 1443.47
+                    "price": 28.8,
+                    "volume": 81804855.0,
+                    "today_return_pct": 4.92,
+                    "return_5d_pct": 7.66,
+                    "today_net_flow_m": 1003.36,
+                    "flow_5d_m": 794.73,
+                    "flow_20d_m": 2104.36
+                },
+                {
+                    "stock_id": "2890",
+                    "stock_name": "永豐金",
+                    "price": 35.2,
+                    "volume": 55731231.0,
+                    "today_return_pct": 3.07,
+                    "return_5d_pct": 10.34,
+                    "today_net_flow_m": 849.58,
+                    "flow_5d_m": 3698.37,
+                    "flow_20d_m": 7831.07
                 }
             ]
         },
         {
             "sector_name": "鋼鐵工業",
-            "flow_5d_m": 1254.42,
-            "flow_20d_m": 4108.83,
-            "size_20d_m": 83032.04,
-            "acceleration_m": 331.23,
-            "bottom_fishing_score": 885.14,
+            "flow_5d_m": 1214.99,
+            "flow_20d_m": 4069.39,
+            "size_20d_m": 85675.77,
+            "acceleration_m": 291.8,
+            "bottom_fishing_score": 845.71,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "2002",
-                    "stock_name": "中鋼",
-                    "today_net_flow_m": 246.63,
-                    "today_return_pct": 0.0
+                    "stock_id": "3004",
+                    "stock_name": "豐達科",
+                    "today_net_flow_m": 70.84,
+                    "today_return_pct": 3.37
                 },
                 {
-                    "stock_id": "2014",
-                    "stock_name": "中鴻",
-                    "today_net_flow_m": 19.28,
-                    "today_return_pct": 0.43
+                    "stock_id": "2009",
+                    "stock_name": "第一銅",
+                    "today_net_flow_m": 52.55,
+                    "today_return_pct": 3.62
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "2002",
                     "stock_name": "中鋼",
-                    "price": 24.25,
-                    "volume": 7698239.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": 30.03,
-                    "today_net_flow_m": 246.63,
-                    "flow_5d_m": 283.31,
-                    "flow_20d_m": -1373.53
-                },
-                {
-                    "stock_id": "2034",
-                    "stock_name": "允強",
-                    "price": 25.7,
-                    "volume": 558378.0,
-                    "today_return_pct": -0.39,
-                    "return_5d_pct": 28.18,
-                    "today_net_flow_m": 42.92,
-                    "flow_5d_m": 77.02,
-                    "flow_20d_m": 122.23
+                    "price": 19.0,
+                    "volume": 69973008.0,
+                    "today_return_pct": 0.53,
+                    "return_5d_pct": 1.88,
+                    "today_net_flow_m": 193.23,
+                    "flow_5d_m": 229.92,
+                    "flow_20d_m": -1426.93
                 },
                 {
                     "stock_id": "3004",
                     "stock_name": "豐達科",
-                    "price": 51.0,
-                    "volume": 353002.0,
-                    "today_return_pct": -3.95,
-                    "return_5d_pct": -60.0,
-                    "today_net_flow_m": 26.18,
-                    "flow_5d_m": 107.27,
-                    "flow_20d_m": 123.42
+                    "price": 138.0,
+                    "volume": 1462691.0,
+                    "today_return_pct": 3.37,
+                    "return_5d_pct": 8.24,
+                    "today_net_flow_m": 70.84,
+                    "flow_5d_m": 151.94,
+                    "flow_20d_m": 168.08
                 },
                 {
-                    "stock_id": "2031",
-                    "stock_name": "新光鋼",
-                    "price": 26.7,
-                    "volume": 634050.0,
-                    "today_return_pct": 0.38,
-                    "return_5d_pct": -35.59,
-                    "today_net_flow_m": -21.53,
-                    "flow_5d_m": -108.41,
-                    "flow_20d_m": -7.09
+                    "stock_id": "2009",
+                    "stock_name": "第一銅",
+                    "price": 41.45,
+                    "volume": 2789280.0,
+                    "today_return_pct": 3.62,
+                    "return_5d_pct": 4.67,
+                    "today_net_flow_m": 52.55,
+                    "flow_5d_m": 38.83,
+                    "flow_20d_m": -132.66
                 },
                 {
-                    "stock_id": "2014",
-                    "stock_name": "中鴻",
-                    "price": 11.6,
-                    "volume": 4715310.0,
-                    "today_return_pct": 0.43,
-                    "return_5d_pct": -34.28,
-                    "today_net_flow_m": 19.28,
-                    "flow_5d_m": 40.81,
-                    "flow_20d_m": 492.19
+                    "stock_id": "9958",
+                    "stock_name": "世紀鋼",
+                    "price": 110.0,
+                    "volume": 2218975.0,
+                    "today_return_pct": -2.22,
+                    "return_5d_pct": -4.35,
+                    "today_net_flow_m": -49.66,
+                    "flow_5d_m": -275.31,
+                    "flow_20d_m": -746.57
+                },
+                {
+                    "stock_id": "2034",
+                    "stock_name": "允強",
+                    "price": 20.8,
+                    "volume": 3022426.0,
+                    "today_return_pct": 2.72,
+                    "return_5d_pct": 3.74,
+                    "today_net_flow_m": 34.74,
+                    "flow_5d_m": 68.83,
+                    "flow_20d_m": 114.05
                 }
             ]
         },
         {
             "sector_name": "電器電纜",
-            "flow_5d_m": 760.59,
-            "flow_20d_m": 3717.92,
-            "size_20d_m": 73809.92,
-            "acceleration_m": 3.44,
-            "bottom_fishing_score": 457.73,
+            "flow_5d_m": 973.15,
+            "flow_20d_m": 3930.49,
+            "size_20d_m": 76863.02,
+            "acceleration_m": 216.01,
+            "bottom_fishing_score": 670.29,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "1605",
                     "stock_name": "華新",
-                    "today_net_flow_m": 105.33,
-                    "today_return_pct": 2.31
-                },
-                {
-                    "stock_id": "1608",
-                    "stock_name": "華榮",
-                    "today_net_flow_m": 11.69,
-                    "today_return_pct": 0.94
+                    "today_net_flow_m": 238.04,
+                    "today_return_pct": 6.1
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "1605",
                     "stock_name": "華新",
-                    "price": 17.7,
-                    "volume": 20283522.0,
-                    "today_return_pct": 2.31,
-                    "return_5d_pct": -50.56,
-                    "today_net_flow_m": 105.33,
-                    "flow_5d_m": 869.96,
-                    "flow_20d_m": 3644.81
+                    "price": 40.0,
+                    "volume": 74844979.0,
+                    "today_return_pct": 6.1,
+                    "return_5d_pct": 11.73,
+                    "today_net_flow_m": 238.04,
+                    "flow_5d_m": 1002.66,
+                    "flow_20d_m": 3777.52
                 },
                 {
                     "stock_id": "1609",
                     "stock_name": "大亞",
-                    "price": 13.15,
-                    "volume": 6655869.0,
-                    "today_return_pct": -1.13,
-                    "return_5d_pct": -64.41,
-                    "today_net_flow_m": 13.23,
-                    "flow_5d_m": -29.41,
-                    "flow_20d_m": -28.07
+                    "price": 38.3,
+                    "volume": 5680150.0,
+                    "today_return_pct": 2.68,
+                    "return_5d_pct": 3.65,
+                    "today_net_flow_m": 38.55,
+                    "flow_5d_m": -4.09,
+                    "flow_20d_m": -2.76
                 },
                 {
                     "stock_id": "1608",
                     "stock_name": "華榮",
-                    "price": 10.7,
-                    "volume": 817741.0,
-                    "today_return_pct": 0.94,
-                    "return_5d_pct": -68.25,
-                    "today_net_flow_m": 11.69,
-                    "flow_5d_m": -86.35,
-                    "flow_20d_m": 85.17
+                    "price": 35.25,
+                    "volume": 3779860.0,
+                    "today_return_pct": 2.47,
+                    "return_5d_pct": 4.6,
+                    "today_net_flow_m": 38.5,
+                    "flow_5d_m": -59.53,
+                    "flow_20d_m": 111.98
                 },
                 {
                     "stock_id": "1612",
                     "stock_name": "宏泰",
-                    "price": 10.55,
-                    "volume": 196243.0,
-                    "today_return_pct": 0.48,
-                    "return_5d_pct": -72.05,
-                    "today_net_flow_m": 3.81,
-                    "flow_5d_m": -23.6,
-                    "flow_20d_m": -10.32
+                    "price": 38.1,
+                    "volume": 1388849.0,
+                    "today_return_pct": 1.06,
+                    "return_5d_pct": 0.93,
+                    "today_net_flow_m": 13.75,
+                    "flow_5d_m": -13.65,
+                    "flow_20d_m": -0.38
                 },
                 {
                     "stock_id": "1618",
                     "stock_name": "合機",
-                    "price": 9.33,
-                    "volume": 221620.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -77.16,
-                    "today_net_flow_m": 2.86,
-                    "flow_5d_m": 42.72,
-                    "flow_20d_m": 98.62
+                    "price": 42.45,
+                    "volume": 1587027.0,
+                    "today_return_pct": 1.19,
+                    "return_5d_pct": 3.92,
+                    "today_net_flow_m": 13.0,
+                    "flow_5d_m": 52.87,
+                    "flow_20d_m": 108.77
                 }
             ]
         },
         {
             "sector_name": "電子工業",
-            "flow_5d_m": -89852.5,
-            "flow_20d_m": -126704.06,
-            "size_20d_m": 12719955.15,
-            "acceleration_m": 39039.23,
+            "flow_5d_m": -55940.96,
+            "flow_20d_m": -92792.52,
+            "size_20d_m": 13194279.92,
+            "acceleration_m": 72950.77,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "3008",
-                    "stock_name": "大立光",
-                    "today_net_flow_m": 2374.39,
-                    "today_return_pct": 2.99
+                    "stock_id": "2330",
+                    "stock_name": "台積電",
+                    "today_net_flow_m": 23369.59,
+                    "today_return_pct": 2.81
                 },
                 {
-                    "stock_id": "2317",
-                    "stock_name": "鴻海",
-                    "today_net_flow_m": 867.5,
-                    "today_return_pct": 0.11
+                    "stock_id": "2454",
+                    "stock_name": "聯發科",
+                    "today_net_flow_m": 8784.5,
+                    "today_return_pct": 6.94
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "3008",
-                    "stock_name": "大立光",
-                    "price": 4305.0,
-                    "volume": 939473.0,
-                    "today_return_pct": 2.99,
-                    "return_5d_pct": 21.78,
-                    "today_net_flow_m": 2374.39,
-                    "flow_5d_m": 1744.15,
-                    "flow_20d_m": 5489.91
-                },
-                {
                     "stock_id": "2330",
                     "stock_name": "台積電",
-                    "price": 227.0,
-                    "volume": 15702664.0,
-                    "today_return_pct": -1.3,
-                    "return_5d_pct": -90.11,
-                    "today_net_flow_m": 2232.28,
-                    "flow_5d_m": -60626.82,
-                    "flow_20d_m": -132671.19
+                    "price": 2375.0,
+                    "volume": 30228535.0,
+                    "today_return_pct": 2.81,
+                    "return_5d_pct": 3.49,
+                    "today_net_flow_m": 23369.59,
+                    "flow_5d_m": -39489.52,
+                    "flow_20d_m": -111533.88
+                },
+                {
+                    "stock_id": "2454",
+                    "stock_name": "聯發科",
+                    "price": 4470.0,
+                    "volume": 12014769.0,
+                    "today_return_pct": 6.94,
+                    "return_5d_pct": 9.83,
+                    "today_net_flow_m": 8784.5,
+                    "flow_5d_m": -4642.21,
+                    "flow_20d_m": -44084.65
                 },
                 {
                     "stock_id": "6239",
                     "stock_name": "力成",
-                    "price": 86.9,
-                    "volume": 2307701.0,
-                    "today_return_pct": -1.25,
-                    "return_5d_pct": -71.88,
-                    "today_net_flow_m": -1225.91,
-                    "flow_5d_m": -4844.0,
-                    "flow_20d_m": -9098.54
+                    "price": 327.0,
+                    "volume": 53148794.0,
+                    "today_return_pct": -5.9,
+                    "return_5d_pct": 5.83,
+                    "today_net_flow_m": -4431.21,
+                    "flow_5d_m": -8049.3,
+                    "flow_20d_m": -12303.85
                 },
                 {
-                    "stock_id": "2317",
-                    "stock_name": "鴻海",
-                    "price": 93.6,
-                    "volume": 21578455.0,
-                    "today_return_pct": 0.11,
-                    "return_5d_pct": -65.27,
-                    "today_net_flow_m": 867.5,
-                    "flow_5d_m": -8037.86,
-                    "flow_20d_m": 54347.76
+                    "stock_id": "2344",
+                    "stock_name": "華邦電",
+                    "price": 189.0,
+                    "volume": 229481900.0,
+                    "today_return_pct": 9.88,
+                    "return_5d_pct": 22.73,
+                    "today_net_flow_m": 4209.76,
+                    "flow_5d_m": 9115.88,
+                    "flow_20d_m": 14259.54
                 },
                 {
-                    "stock_id": "3019",
-                    "stock_name": "亞光",
-                    "price": 105.5,
-                    "volume": 7306063.0,
-                    "today_return_pct": -0.94,
-                    "return_5d_pct": -25.7,
-                    "today_net_flow_m": 802.56,
-                    "flow_5d_m": 915.68,
-                    "flow_20d_m": 1553.82
+                    "stock_id": "3008",
+                    "stock_name": "大立光",
+                    "price": 4420.0,
+                    "volume": 3675345.0,
+                    "today_return_pct": 9.95,
+                    "return_5d_pct": 25.04,
+                    "today_net_flow_m": 2733.96,
+                    "flow_5d_m": 2103.71,
+                    "flow_20d_m": 5849.48
                 }
             ]
         },
         {
             "sector_name": "電子通路業",
-            "flow_5d_m": -994.47,
-            "flow_20d_m": -3076.23,
-            "size_20d_m": 301559.28,
-            "acceleration_m": -905.11,
+            "flow_5d_m": -2054.76,
+            "flow_20d_m": -4136.52,
+            "size_20d_m": 313190.66,
+            "acceleration_m": -1965.4,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "3048",
-                    "stock_name": "益登",
-                    "today_net_flow_m": 90.19,
-                    "today_return_pct": 0.77
-                },
-                {
-                    "stock_id": "2347",
-                    "stock_name": "聯強",
-                    "today_net_flow_m": 31.86,
-                    "today_return_pct": 0.49
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "8112",
                     "stock_name": "至上",
-                    "price": 31.3,
-                    "volume": 3360379.0,
-                    "today_return_pct": -0.32,
-                    "return_5d_pct": -63.05,
-                    "today_net_flow_m": -405.1,
-                    "flow_5d_m": 1622.89,
-                    "flow_20d_m": 1508.81
+                    "price": 97.3,
+                    "volume": 38836098.0,
+                    "today_return_pct": -1.52,
+                    "return_5d_pct": 14.88,
+                    "today_net_flow_m": -1259.32,
+                    "flow_5d_m": 768.68,
+                    "flow_20d_m": 654.6
                 },
                 {
                     "stock_id": "3036",
                     "stock_name": "文曄",
-                    "price": 46.7,
-                    "volume": 1767356.0,
-                    "today_return_pct": 0.43,
-                    "return_5d_pct": -81.32,
-                    "today_net_flow_m": -185.66,
-                    "flow_5d_m": -1584.05,
-                    "flow_20d_m": -3984.85
-                },
-                {
-                    "stock_id": "8070",
-                    "stock_name": "長華*",
-                    "price": 142.0,
-                    "volume": 75881.0,
-                    "today_return_pct": -0.35,
-                    "return_5d_pct": 139.46,
-                    "today_net_flow_m": -174.27,
-                    "flow_5d_m": -661.69,
-                    "flow_20d_m": -903.74
+                    "price": 226.0,
+                    "volume": 14730403.0,
+                    "today_return_pct": -1.09,
+                    "return_5d_pct": -9.6,
+                    "today_net_flow_m": -898.49,
+                    "flow_5d_m": -2296.88,
+                    "flow_20d_m": -4697.68
                 },
                 {
                     "stock_id": "3048",
                     "stock_name": "益登",
-                    "price": 19.65,
-                    "volume": 2070046.0,
-                    "today_return_pct": 0.77,
-                    "return_5d_pct": -70.5,
-                    "today_net_flow_m": 90.19,
-                    "flow_5d_m": -388.33,
-                    "flow_20d_m": -1051.89
+                    "price": 73.5,
+                    "volume": 21406739.0,
+                    "today_return_pct": 0.68,
+                    "return_5d_pct": 10.36,
+                    "today_net_flow_m": 337.34,
+                    "flow_5d_m": -141.18,
+                    "flow_20d_m": -804.74
+                },
+                {
+                    "stock_id": "5434",
+                    "stock_name": "崇越",
+                    "price": 468.0,
+                    "volume": 781506.0,
+                    "today_return_pct": 0.43,
+                    "return_5d_pct": 6.97,
+                    "today_net_flow_m": 130.99,
+                    "flow_5d_m": 625.77,
+                    "flow_20d_m": 540.65
                 },
                 {
                     "stock_id": "3702",
                     "stock_name": "大聯大",
-                    "price": 38.9,
-                    "volume": 7750223.0,
-                    "today_return_pct": -1.27,
-                    "return_5d_pct": -63.98,
-                    "today_net_flow_m": 35.6,
-                    "flow_5d_m": -134.7,
-                    "flow_20d_m": 1000.47
+                    "price": 107.5,
+                    "volume": 12127021.0,
+                    "today_return_pct": 2.38,
+                    "return_5d_pct": -0.46,
+                    "today_net_flow_m": 98.38,
+                    "flow_5d_m": -71.92,
+                    "flow_20d_m": 1063.25
                 }
             ]
         },
         {
             "sector_name": "電子零組件業",
-            "flow_5d_m": -18890.68,
-            "flow_20d_m": 15589.28,
-            "size_20d_m": 4216697.33,
-            "acceleration_m": 9250.31,
+            "flow_5d_m": -12499.59,
+            "flow_20d_m": 21980.37,
+            "size_20d_m": 4419794.96,
+            "acceleration_m": 15641.41,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
                     "stock_id": "2327",
                     "stock_name": "國巨*",
-                    "today_net_flow_m": 4390.96,
-                    "today_return_pct": 9.87
+                    "today_net_flow_m": 12586.22,
+                    "today_return_pct": 9.94
                 },
                 {
-                    "stock_id": "3042",
-                    "stock_name": "晶技",
-                    "today_net_flow_m": 522.67,
-                    "today_return_pct": 0.0
+                    "stock_id": "3037",
+                    "stock_name": "欣興",
+                    "today_net_flow_m": 3242.18,
+                    "today_return_pct": 6.43
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "2327",
                     "stock_name": "國巨*",
-                    "price": 339.5,
-                    "volume": 6569582.0,
-                    "today_return_pct": 9.87,
-                    "return_5d_pct": -54.79,
-                    "today_net_flow_m": 4390.96,
-                    "flow_5d_m": -5428.99,
-                    "flow_20d_m": -17051.9
+                    "price": 940.0,
+                    "volume": 42102101.0,
+                    "today_return_pct": 9.94,
+                    "return_5d_pct": 25.17,
+                    "today_net_flow_m": 12586.22,
+                    "flow_5d_m": 2766.28,
+                    "flow_20d_m": -8856.64
                 },
                 {
                     "stock_id": "2313",
                     "stock_name": "華通",
-                    "price": 43.3,
-                    "volume": 10269855.0,
-                    "today_return_pct": 2.61,
-                    "return_5d_pct": -82.82,
-                    "today_net_flow_m": -713.22,
-                    "flow_5d_m": 1512.96,
-                    "flow_20d_m": -3256.98
+                    "price": 257.5,
+                    "volume": 73956256.0,
+                    "today_return_pct": -2.09,
+                    "return_5d_pct": 2.18,
+                    "today_net_flow_m": -4410.87,
+                    "flow_5d_m": -2184.69,
+                    "flow_20d_m": -6954.63
+                },
+                {
+                    "stock_id": "2308",
+                    "stock_name": "台達電",
+                    "price": 2210.0,
+                    "volume": 9456969.0,
+                    "today_return_pct": -0.23,
+                    "return_5d_pct": -2.0,
+                    "today_net_flow_m": -4207.37,
+                    "flow_5d_m": -16698.2,
+                    "flow_20d_m": -8231.11
+                },
+                {
+                    "stock_id": "3037",
+                    "stock_name": "欣興",
+                    "price": 960.0,
+                    "volume": 16599358.0,
+                    "today_return_pct": 6.43,
+                    "return_5d_pct": 5.38,
+                    "today_net_flow_m": 3242.18,
+                    "flow_5d_m": 3242.56,
+                    "flow_20d_m": 7515.57
                 },
                 {
                     "stock_id": "3042",
                     "stock_name": "晶技",
-                    "price": 39.7,
-                    "volume": 450199.0,
-                    "today_return_pct": 0.0,
-                    "return_5d_pct": -81.14,
-                    "today_net_flow_m": 522.67,
-                    "flow_5d_m": -1832.96,
-                    "flow_20d_m": -2156.49
-                },
-                {
-                    "stock_id": "2355",
-                    "stock_name": "敬鵬",
-                    "price": 60.0,
-                    "volume": 926064.0,
-                    "today_return_pct": 1.01,
-                    "return_5d_pct": 13.85,
-                    "today_net_flow_m": -355.04,
-                    "flow_5d_m": 361.03,
-                    "flow_20d_m": -1084.2
-                },
-                {
-                    "stock_id": "4958",
-                    "stock_name": "臻鼎-KY",
-                    "price": 68.1,
-                    "volume": 1579404.0,
-                    "today_return_pct": 0.29,
-                    "return_5d_pct": -86.7,
-                    "today_net_flow_m": -269.72,
-                    "flow_5d_m": 2375.4,
-                    "flow_20d_m": -1545.6
+                    "price": 243.5,
+                    "volume": 48812457.0,
+                    "today_return_pct": 8.46,
+                    "return_5d_pct": 15.68,
+                    "today_net_flow_m": 3205.8,
+                    "flow_5d_m": 850.18,
+                    "flow_20d_m": 526.64
                 }
             ]
         },
         {
             "sector_name": "電機機械",
-            "flow_5d_m": -265.92,
-            "flow_20d_m": -9432.55,
-            "size_20d_m": 631192.43,
-            "acceleration_m": 65.74,
-            "bottom_fishing_score": 0.0,
+            "flow_5d_m": 30.72,
+            "flow_20d_m": -9135.91,
+            "size_20d_m": 644986.48,
+            "acceleration_m": 362.39,
+            "bottom_fishing_score": 163.39,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "2049",
-                    "stock_name": "上銀",
-                    "today_net_flow_m": 65.18,
-                    "today_return_pct": 1.14
+                    "stock_id": "8996",
+                    "stock_name": "高力",
+                    "today_net_flow_m": 202.71,
+                    "today_return_pct": 9.61
                 },
                 {
-                    "stock_id": "1590",
-                    "stock_name": "亞德客-KY",
-                    "today_net_flow_m": 27.56,
-                    "today_return_pct": 4.17
+                    "stock_id": "1560",
+                    "stock_name": "中砂",
+                    "today_net_flow_m": 146.65,
+                    "today_return_pct": 7.82
                 }
             ],
             "individual_stocks": [
                 {
-                    "stock_id": "2049",
-                    "stock_name": "上銀",
-                    "price": 311.0,
-                    "volume": 1138132.0,
-                    "today_return_pct": 1.14,
-                    "return_5d_pct": -5.61,
-                    "today_net_flow_m": 65.18,
-                    "flow_5d_m": 490.28,
-                    "flow_20d_m": -204.6
-                },
-                {
                     "stock_id": "1513",
                     "stock_name": "中興電",
-                    "price": 21.6,
-                    "volume": 1324890.0,
-                    "today_return_pct": -0.92,
-                    "return_5d_pct": -87.26,
-                    "today_net_flow_m": 48.02,
-                    "flow_5d_m": -70.88,
-                    "flow_20d_m": -613.26
+                    "price": 170.0,
+                    "volume": 6263080.0,
+                    "today_return_pct": 1.8,
+                    "return_5d_pct": 0.29,
+                    "today_net_flow_m": 377.93,
+                    "flow_5d_m": 259.02,
+                    "flow_20d_m": -283.36
                 },
                 {
-                    "stock_id": "2371",
-                    "stock_name": "大同",
-                    "price": 18.2,
-                    "volume": 27741336.0,
-                    "today_return_pct": -3.45,
-                    "return_5d_pct": -36.92,
-                    "today_net_flow_m": -45.87,
-                    "flow_5d_m": -173.42,
-                    "flow_20d_m": -720.69
+                    "stock_id": "1519",
+                    "stock_name": "華城",
+                    "price": 789.0,
+                    "volume": 2620945.0,
+                    "today_return_pct": -0.25,
+                    "return_5d_pct": -3.19,
+                    "today_net_flow_m": -337.7,
+                    "flow_5d_m": -870.28,
+                    "flow_20d_m": -3685.42
                 },
                 {
-                    "stock_id": "1590",
-                    "stock_name": "亞德客-KY",
-                    "price": 500.0,
-                    "volume": 1011561.0,
-                    "today_return_pct": 4.17,
-                    "return_5d_pct": -60.94,
-                    "today_net_flow_m": 27.56,
-                    "flow_5d_m": 27.31,
-                    "flow_20d_m": 274.05
+                    "stock_id": "8996",
+                    "stock_name": "高力",
+                    "price": 1255.0,
+                    "volume": 1450761.0,
+                    "today_return_pct": 9.61,
+                    "return_5d_pct": 3.72,
+                    "today_net_flow_m": 202.71,
+                    "flow_5d_m": 1594.93,
+                    "flow_20d_m": 3685.91
                 },
                 {
                     "stock_id": "1503",
                     "stock_name": "士電",
-                    "price": 41.85,
-                    "volume": 180131.0,
-                    "today_return_pct": 1.09,
-                    "return_5d_pct": -81.8,
-                    "today_net_flow_m": 27.32,
-                    "flow_5d_m": -382.89,
-                    "flow_20d_m": -777.55
+                    "price": 225.5,
+                    "volume": 2835548.0,
+                    "today_return_pct": 2.5,
+                    "return_5d_pct": -1.96,
+                    "today_net_flow_m": 147.23,
+                    "flow_5d_m": -262.98,
+                    "flow_20d_m": -657.64
+                },
+                {
+                    "stock_id": "1560",
+                    "stock_name": "中砂",
+                    "price": 703.0,
+                    "volume": 2024876.0,
+                    "today_return_pct": 7.82,
+                    "return_5d_pct": 8.32,
+                    "today_net_flow_m": 146.65,
+                    "flow_5d_m": 364.55,
+                    "flow_20d_m": 751.06
                 }
             ]
         },
         {
             "sector_name": "電腦及週邊設備業",
-            "flow_5d_m": -14919.78,
-            "flow_20d_m": 64434.64,
-            "size_20d_m": 2233063.09,
-            "acceleration_m": 1844.29,
+            "flow_5d_m": -21593.17,
+            "flow_20d_m": 57761.25,
+            "size_20d_m": 2287001.7,
+            "acceleration_m": -4829.1,
             "bottom_fishing_score": 0.0,
             "bottom_fishing_stocks": [
                 {
-                    "stock_id": "2376",
-                    "stock_name": "技嘉",
-                    "today_net_flow_m": 21.73,
-                    "today_return_pct": 1.36
+                    "stock_id": "2353",
+                    "stock_name": "宏碁",
+                    "today_net_flow_m": 488.98,
+                    "today_return_pct": 4.77
                 },
                 {
-                    "stock_id": "2352",
-                    "stock_name": "佳世達",
-                    "today_net_flow_m": 15.11,
-                    "today_return_pct": 0.93
+                    "stock_id": "3060",
+                    "stock_name": "銘異",
+                    "today_net_flow_m": 124.32,
+                    "today_return_pct": 8.19
                 }
             ],
             "individual_stocks": [
                 {
                     "stock_id": "2301",
                     "stock_name": "光寶科",
-                    "price": 40.3,
-                    "volume": 10434326.0,
-                    "today_return_pct": 3.33,
-                    "return_5d_pct": -81.56,
-                    "today_net_flow_m": -903.61,
-                    "flow_5d_m": -877.51,
-                    "flow_20d_m": 1094.39
-                },
-                {
-                    "stock_id": "6414",
-                    "stock_name": "樺漢",
-                    "price": 464.0,
-                    "volume": 408137.0,
-                    "today_return_pct": 1.75,
-                    "return_5d_pct": 24.73,
-                    "today_net_flow_m": -271.8,
-                    "flow_5d_m": -334.3,
-                    "flow_20d_m": 1526.83
-                },
-                {
-                    "stock_id": "2353",
-                    "stock_name": "宏碁",
-                    "price": 20.3,
-                    "volume": 6236769.0,
-                    "today_return_pct": -0.49,
-                    "return_5d_pct": -42.49,
-                    "today_net_flow_m": 258.16,
-                    "flow_5d_m": -729.07,
-                    "flow_20d_m": 287.85
-                },
-                {
-                    "stock_id": "3706",
-                    "stock_name": "神達",
-                    "price": 36.75,
-                    "volume": 5676199.0,
-                    "today_return_pct": 2.37,
-                    "return_5d_pct": -57.9,
-                    "today_net_flow_m": -190.6,
-                    "flow_5d_m": -2376.09,
-                    "flow_20d_m": 3002.78
+                    "price": 207.5,
+                    "volume": 46021209.0,
+                    "today_return_pct": -4.38,
+                    "return_5d_pct": -5.03,
+                    "today_net_flow_m": -4651.17,
+                    "flow_5d_m": -4625.07,
+                    "flow_20d_m": -2653.18
                 },
                 {
                     "stock_id": "3231",
                     "stock_name": "緯創",
-                    "price": 22.75,
-                    "volume": 12105570.0,
-                    "today_return_pct": 1.79,
-                    "return_5d_pct": -86.09,
-                    "today_net_flow_m": -173.06,
-                    "flow_5d_m": -7441.01,
-                    "flow_20d_m": 23847.04
+                    "price": 161.5,
+                    "volume": 46483201.0,
+                    "today_return_pct": 3.53,
+                    "return_5d_pct": -1.22,
+                    "today_net_flow_m": -1228.56,
+                    "flow_5d_m": -8496.5,
+                    "flow_20d_m": 22791.54
+                },
+                {
+                    "stock_id": "6669",
+                    "stock_name": "緯穎",
+                    "price": 4900.0,
+                    "volume": 1005218.0,
+                    "today_return_pct": 1.03,
+                    "return_5d_pct": -7.11,
+                    "today_net_flow_m": -1054.26,
+                    "flow_5d_m": -3293.09,
+                    "flow_20d_m": -4872.25
+                },
+                {
+                    "stock_id": "2382",
+                    "stock_name": "廣達",
+                    "price": 370.0,
+                    "volume": 22408965.0,
+                    "today_return_pct": -0.54,
+                    "return_5d_pct": -1.73,
+                    "today_net_flow_m": -907.65,
+                    "flow_5d_m": 5829.35,
+                    "flow_20d_m": 18533.24
+                },
+                {
+                    "stock_id": "2353",
+                    "stock_name": "宏碁",
+                    "price": 38.45,
+                    "volume": 64793171.0,
+                    "today_return_pct": 4.77,
+                    "return_5d_pct": 8.92,
+                    "today_net_flow_m": 488.98,
+                    "flow_5d_m": -498.25,
+                    "flow_20d_m": 518.67
                 }
             ]
         },
         {
             "sector_name": "食品工業",
-            "flow_5d_m": 1920.67,
-            "flow_20d_m": -106.42,
-            "size_20d_m": 48491.54,
-            "acceleration_m": -609.43,
+            "flow_5d_m": 1862.23,
+            "flow_20d_m": -164.86,
+            "size_20d_m": 49993.12,
+            "acceleration_m": -667.87,
             "bottom_fishing_score": 0.0,
-            "bottom_fishing_stocks": [
-                {
-                    "stock_id": "1234",
-                    "stock_name": "黑松",
-                    "today_net_flow_m": 2.37,
-                    "today_return_pct": 0.0
-                },
-                {
-                    "stock_id": "1219",
-                    "stock_name": "福壽",
-                    "today_net_flow_m": 1.71,
-                    "today_return_pct": 0.0
-                }
-            ],
+            "bottom_fishing_stocks": [],
             "individual_stocks": [
                 {
                     "stock_id": "1215",
                     "stock_name": "卜蜂",
-                    "price": 61.0,
-                    "volume": 577021.0,
-                    "today_return_pct": 0.33,
-                    "return_5d_pct": -46.96,
-                    "today_net_flow_m": -98.18,
-                    "flow_5d_m": -227.14,
-                    "flow_20d_m": -1470.52
-                },
-                {
-                    "stock_id": "1227",
-                    "stock_name": "佳格",
-                    "price": 73.0,
-                    "volume": 253806.0,
-                    "today_return_pct": 0.55,
-                    "return_5d_pct": 157.95,
-                    "today_net_flow_m": -45.16,
-                    "flow_5d_m": 110.7,
-                    "flow_20d_m": 304.23
-                },
-                {
-                    "stock_id": "1216",
-                    "stock_name": "統一",
-                    "price": 65.7,
-                    "volume": 5809812.0,
-                    "today_return_pct": -1.05,
-                    "return_5d_pct": -9.88,
-                    "today_net_flow_m": -44.65,
-                    "flow_5d_m": 1562.38,
-                    "flow_20d_m": 1033.68
+                    "price": 115.5,
+                    "volume": 2753380.0,
+                    "today_return_pct": -2.12,
+                    "return_5d_pct": 0.43,
+                    "today_net_flow_m": -185.9,
+                    "flow_5d_m": -314.86,
+                    "flow_20d_m": -1558.24
                 },
                 {
                     "stock_id": "1210",
                     "stock_name": "大成",
-                    "price": 32.25,
-                    "volume": 1241631.0,
-                    "today_return_pct": -0.77,
-                    "return_5d_pct": -40.28,
-                    "today_net_flow_m": 39.01,
-                    "flow_5d_m": 422.01,
-                    "flow_20d_m": 461.62
+                    "price": 55.8,
+                    "volume": 4898174.0,
+                    "today_return_pct": 0.9,
+                    "return_5d_pct": 3.33,
+                    "today_net_flow_m": 67.5,
+                    "flow_5d_m": 450.5,
+                    "flow_20d_m": 490.11
                 },
                 {
-                    "stock_id": "1218",
-                    "stock_name": "泰山",
-                    "price": 16.95,
-                    "volume": 624798.0,
-                    "today_return_pct": 1.8,
-                    "return_5d_pct": -12.63,
-                    "today_net_flow_m": -13.68,
-                    "flow_5d_m": -56.98,
-                    "flow_20d_m": -21.38
+                    "stock_id": "1216",
+                    "stock_name": "統一",
+                    "price": 76.3,
+                    "volume": 15439964.0,
+                    "today_return_pct": -0.26,
+                    "return_5d_pct": 4.66,
+                    "today_net_flow_m": -51.85,
+                    "flow_5d_m": 1555.18,
+                    "flow_20d_m": 1026.47
+                },
+                {
+                    "stock_id": "1231",
+                    "stock_name": "聯華食",
+                    "price": 87.6,
+                    "volume": 568444.0,
+                    "today_return_pct": -1.68,
+                    "return_5d_pct": 1.04,
+                    "today_net_flow_m": -20.43,
+                    "flow_5d_m": -10.15,
+                    "flow_20d_m": 12.03
+                },
+                {
+                    "stock_id": "1227",
+                    "stock_name": "佳格",
+                    "price": 28.95,
+                    "volume": 1600710.0,
+                    "today_return_pct": -0.52,
+                    "return_5d_pct": 2.3,
+                    "today_net_flow_m": -17.91,
+                    "flow_5d_m": 137.95,
+                    "flow_20d_m": 331.48
                 }
             ]
         }
@@ -2740,7 +2661,7 @@
             "diff_2m": 14.89,
             "diff_3m": 16.14,
             "diff_4m": 17.82,
-            "today_return_pct": 9.8,
+            "today_return_pct": 9.9,
             "sector": "電子零組件業"
         },
         {
@@ -2751,8 +2672,19 @@
             "diff_2m": 14.49,
             "diff_3m": 14.53,
             "diff_4m": 18.92,
-            "today_return_pct": -1.24,
+            "today_return_pct": -7.44,
             "sector": "電腦及週邊設備業"
+        },
+        {
+            "stock_id": "8028",
+            "stock_name": "昇陽半導體",
+            "current_ratio": 43.0,
+            "diff_1m": 3.1,
+            "diff_2m": 11.94,
+            "diff_3m": 7.69,
+            "diff_4m": 20.6,
+            "today_return_pct": 1.11,
+            "sector": "半導體業"
         },
         {
             "stock_id": "2478",
@@ -2762,7 +2694,7 @@
             "diff_2m": 9.84,
             "diff_3m": 10.19,
             "diff_4m": 8.79,
-            "today_return_pct": 3.66,
+            "today_return_pct": 9.91,
             "sector": "電子工業"
         },
         {
@@ -2773,7 +2705,7 @@
             "diff_2m": 9.51,
             "diff_3m": 10.32,
             "diff_4m": 11.54,
-            "today_return_pct": 3.65,
+            "today_return_pct": 5.07,
             "sector": "電子工業"
         },
         {
@@ -2784,7 +2716,7 @@
             "diff_2m": 8.96,
             "diff_3m": 6.62,
             "diff_4m": 8.3,
-            "today_return_pct": 0.72,
+            "today_return_pct": 9.73,
             "sector": "電子工業"
         },
         {
@@ -2795,7 +2727,7 @@
             "diff_2m": 8.48,
             "diff_3m": 8.81,
             "diff_4m": 9.24,
-            "today_return_pct": -1.74,
+            "today_return_pct": 0.75,
             "sector": "電子工業"
         },
         {
@@ -2806,7 +2738,7 @@
             "diff_2m": 8.21,
             "diff_3m": 6.96,
             "diff_4m": 10.38,
-            "today_return_pct": 0.0,
+            "today_return_pct": -1.92,
             "sector": "電子工業"
         },
         {
@@ -2817,8 +2749,19 @@
             "diff_2m": 7.88,
             "diff_3m": 6.78,
             "diff_4m": 8.95,
-            "today_return_pct": 1.67,
+            "today_return_pct": -3.44,
             "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "7610",
+            "stock_name": "聯友金屬-創",
+            "current_ratio": 34.94,
+            "diff_1m": 4.69,
+            "diff_2m": 7.27,
+            "diff_3m": 4.89,
+            "diff_4m": 2.17,
+            "today_return_pct": 9.75,
+            "sector": "綠能環保"
         },
         {
             "stock_id": "2375",
@@ -2828,7 +2771,7 @@
             "diff_2m": 7.24,
             "diff_3m": 5.83,
             "diff_4m": 5.52,
-            "today_return_pct": 1.99,
+            "today_return_pct": 9.86,
             "sector": "電子零組件業"
         },
         {
@@ -2839,7 +2782,7 @@
             "diff_2m": 7.17,
             "diff_3m": 1.8,
             "diff_4m": 2.01,
-            "today_return_pct": -1.79,
+            "today_return_pct": 9.88,
             "sector": "電子工業"
         },
         {
@@ -2850,7 +2793,7 @@
             "diff_2m": 7.15,
             "diff_3m": 8.72,
             "diff_4m": 8.72,
-            "today_return_pct": 0.0,
+            "today_return_pct": 9.95,
             "sector": "汽車工業"
         },
         {
@@ -2861,7 +2804,7 @@
             "diff_2m": 6.93,
             "diff_3m": 5.51,
             "diff_4m": 9.46,
-            "today_return_pct": -0.52,
+            "today_return_pct": 0.0,
             "sector": "電子通路業"
         },
         {
@@ -2872,7 +2815,7 @@
             "diff_2m": 6.9,
             "diff_3m": 5.69,
             "diff_4m": 7.78,
-            "today_return_pct": 0.77,
+            "today_return_pct": 0.68,
             "sector": "電子通路業"
         },
         {
@@ -2883,7 +2826,7 @@
             "diff_2m": 6.83,
             "diff_3m": 4.41,
             "diff_4m": 11.32,
-            "today_return_pct": 0.35,
+            "today_return_pct": 0.73,
             "sector": "電腦及週邊設備業"
         },
         {
@@ -2894,7 +2837,7 @@
             "diff_2m": 6.66,
             "diff_3m": 4.97,
             "diff_4m": 4.92,
-            "today_return_pct": 2.04,
+            "today_return_pct": 0.23,
             "sector": "鋼鐵工業"
         },
         {
@@ -2905,7 +2848,7 @@
             "diff_2m": 6.56,
             "diff_3m": 8.15,
             "diff_4m": 7.32,
-            "today_return_pct": 1.79,
+            "today_return_pct": 3.53,
             "sector": "電腦及週邊設備業"
         },
         {
@@ -2916,7 +2859,7 @@
             "diff_2m": 6.44,
             "diff_3m": 10.92,
             "diff_4m": 11.23,
-            "today_return_pct": -0.19,
+            "today_return_pct": 4.07,
             "sector": "電子工業"
         },
         {
@@ -2927,7 +2870,7 @@
             "diff_2m": 6.2,
             "diff_3m": -1.09,
             "diff_4m": 3.15,
-            "today_return_pct": -0.99,
+            "today_return_pct": 0.57,
             "sector": "通信網路業"
         },
         {
@@ -2938,7 +2881,7 @@
             "diff_2m": 6.09,
             "diff_3m": 6.09,
             "diff_4m": 6.09,
-            "today_return_pct": -2.4,
+            "today_return_pct": -1.09,
             "sector": "電子工業"
         },
         {
@@ -2949,7 +2892,7 @@
             "diff_2m": 5.77,
             "diff_3m": 0.68,
             "diff_4m": 6.32,
-            "today_return_pct": -1.69,
+            "today_return_pct": 0.82,
             "sector": "化學生技醫療"
         },
         {
@@ -2960,7 +2903,7 @@
             "diff_2m": 5.73,
             "diff_3m": 5.84,
             "diff_4m": 5.53,
-            "today_return_pct": -0.77,
+            "today_return_pct": -0.35,
             "sector": "電子工業"
         },
         {
@@ -2971,7 +2914,7 @@
             "diff_2m": 5.51,
             "diff_3m": 4.13,
             "diff_4m": 2.28,
-            "today_return_pct": -0.69,
+            "today_return_pct": 0.34,
             "sector": "電子零組件業"
         },
         {
@@ -2982,7 +2925,7 @@
             "diff_2m": 5.36,
             "diff_3m": 6.53,
             "diff_4m": 8.76,
-            "today_return_pct": 5.86,
+            "today_return_pct": 9.96,
             "sector": "電子零組件業"
         },
         {
@@ -2993,8 +2936,19 @@
             "diff_2m": 5.28,
             "diff_3m": 4.39,
             "diff_4m": 7.4,
-            "today_return_pct": -0.3,
+            "today_return_pct": -1.54,
             "sector": "航運業"
+        },
+        {
+            "stock_id": "6890",
+            "stock_name": "來億-KY",
+            "current_ratio": 92.11,
+            "diff_1m": 4.78,
+            "diff_2m": 5.24,
+            "diff_3m": 5.24,
+            "diff_4m": 5.24,
+            "today_return_pct": -9.96,
+            "sector": "運動休閒"
         },
         {
             "stock_id": "1516",
@@ -3004,7 +2958,7 @@
             "diff_2m": 4.79,
             "diff_3m": 4.59,
             "diff_4m": 4.09,
-            "today_return_pct": 0.0,
+            "today_return_pct": -1.63,
             "sector": "其他"
         },
         {
@@ -3015,8 +2969,30 @@
             "diff_2m": 4.53,
             "diff_3m": 7.66,
             "diff_4m": 11.15,
-            "today_return_pct": 3.79,
+            "today_return_pct": -4.03,
             "sector": "存託憑證"
+        },
+        {
+            "stock_id": "6225",
+            "stock_name": "天瀚",
+            "current_ratio": 55.2,
+            "diff_1m": 4.5,
+            "diff_2m": 4.5,
+            "diff_3m": 4.5,
+            "diff_4m": 4.5,
+            "today_return_pct": 0.86,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "7760",
+            "stock_name": "享溫馨",
+            "current_ratio": 43.43,
+            "diff_1m": 1.53,
+            "diff_2m": 4.49,
+            "diff_3m": 2.81,
+            "diff_4m": 1.07,
+            "today_return_pct": -0.47,
+            "sector": "觀光餐旅"
         },
         {
             "stock_id": "6414",
@@ -3026,7 +3002,7 @@
             "diff_2m": 4.43,
             "diff_3m": 3.71,
             "diff_4m": 4.06,
-            "today_return_pct": 1.75,
+            "today_return_pct": 1.6,
             "sector": "電腦及週邊設備業"
         },
         {
@@ -3037,7 +3013,7 @@
             "diff_2m": 4.33,
             "diff_3m": 4.86,
             "diff_4m": 1.4,
-            "today_return_pct": -0.67,
+            "today_return_pct": 2.2,
             "sector": "光電業"
         },
         {
@@ -3048,7 +3024,7 @@
             "diff_2m": 4.32,
             "diff_3m": 3.93,
             "diff_4m": 4.13,
-            "today_return_pct": -0.48,
+            "today_return_pct": -9.96,
             "sector": "數位雲端"
         },
         {
@@ -3059,8 +3035,19 @@
             "diff_2m": 4.23,
             "diff_3m": -0.75,
             "diff_4m": -3.72,
-            "today_return_pct": 0.64,
+            "today_return_pct": 5.75,
             "sector": "電子工業"
+        },
+        {
+            "stock_id": "6831",
+            "stock_name": "邁科",
+            "current_ratio": 42.17,
+            "diff_1m": 4.53,
+            "diff_2m": 4.23,
+            "diff_3m": 4.21,
+            "diff_4m": 4.2,
+            "today_return_pct": 2.75,
+            "sector": "電腦及週邊設備業"
         },
         {
             "stock_id": "2356",
@@ -3070,7 +3057,7 @@
             "diff_2m": 4.21,
             "diff_3m": 4.74,
             "diff_4m": 4.49,
-            "today_return_pct": 2.81,
+            "today_return_pct": 1.36,
             "sector": "電腦及週邊設備業"
         },
         {
@@ -3081,7 +3068,18 @@
             "diff_2m": 4.21,
             "diff_3m": 3.63,
             "diff_4m": 4.19,
-            "today_return_pct": 0.0,
+            "today_return_pct": 4.72,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "6770",
+            "stock_name": "力積電",
+            "current_ratio": 44.57,
+            "diff_1m": 5.09,
+            "diff_2m": 4.12,
+            "diff_3m": -2.46,
+            "diff_4m": -1.65,
+            "today_return_pct": 9.08,
             "sector": "電子工業"
         },
         {
@@ -3092,7 +3090,7 @@
             "diff_2m": 4.0,
             "diff_3m": 4.57,
             "diff_4m": 4.28,
-            "today_return_pct": 0.93,
+            "today_return_pct": 0.0,
             "sector": "建材營造"
         },
         {
@@ -3114,7 +3112,7 @@
             "diff_2m": 3.6,
             "diff_3m": 2.78,
             "diff_4m": 5.4,
-            "today_return_pct": 1.95,
+            "today_return_pct": 2.12,
             "sector": "電子零組件業"
         },
         {
@@ -3125,8 +3123,19 @@
             "diff_2m": 3.57,
             "diff_3m": 3.99,
             "diff_4m": 4.27,
-            "today_return_pct": 0.64,
+            "today_return_pct": 9.65,
             "sector": "電子工業"
+        },
+        {
+            "stock_id": "6806",
+            "stock_name": "森崴能源",
+            "current_ratio": 59.03,
+            "diff_1m": 3.0,
+            "diff_2m": 3.54,
+            "diff_3m": 5.17,
+            "diff_4m": 5.29,
+            "today_return_pct": -9.9,
+            "sector": "綠能環保"
         },
         {
             "stock_id": "2606",
@@ -3136,7 +3145,7 @@
             "diff_2m": 3.52,
             "diff_3m": 4.37,
             "diff_4m": 4.22,
-            "today_return_pct": -2.18,
+            "today_return_pct": -1.61,
             "sector": "航運業"
         },
         {
@@ -3147,8 +3156,19 @@
             "diff_2m": 3.47,
             "diff_3m": 4.87,
             "diff_4m": 5.99,
-            "today_return_pct": 0.44,
+            "today_return_pct": -0.38,
             "sector": "光電業"
+        },
+        {
+            "stock_id": "6695",
+            "stock_name": "芯鼎",
+            "current_ratio": 41.83,
+            "diff_1m": 5.86,
+            "diff_2m": 3.4,
+            "diff_3m": 3.55,
+            "diff_4m": 3.71,
+            "today_return_pct": 9.94,
+            "sector": "電子工業"
         },
         {
             "stock_id": "1714",
@@ -3158,7 +3178,7 @@
             "diff_2m": 3.33,
             "diff_3m": 4.85,
             "diff_4m": 6.65,
-            "today_return_pct": 2.43,
+            "today_return_pct": 9.87,
             "sector": "化學生技醫療"
         },
         {
@@ -3169,7 +3189,7 @@
             "diff_2m": 3.12,
             "diff_3m": 3.28,
             "diff_4m": 4.06,
-            "today_return_pct": -0.62,
+            "today_return_pct": 0.4,
             "sector": "電子工業"
         },
         {
@@ -3180,7 +3200,7 @@
             "diff_2m": 3.1,
             "diff_3m": 3.91,
             "diff_4m": 5.02,
-            "today_return_pct": 0.0,
+            "today_return_pct": -0.64,
             "sector": "電機機械"
         },
         {
@@ -3191,7 +3211,7 @@
             "diff_2m": 3.06,
             "diff_3m": 4.48,
             "diff_4m": 6.73,
-            "today_return_pct": 0.0,
+            "today_return_pct": 6.14,
             "sector": "建材營造"
         },
         {
@@ -3202,7 +3222,7 @@
             "diff_2m": 3.04,
             "diff_3m": 6.69,
             "diff_4m": 7.17,
-            "today_return_pct": 1.14,
+            "today_return_pct": 1.85,
             "sector": "電機機械"
         },
         {
@@ -3213,8 +3233,41 @@
             "diff_2m": 2.94,
             "diff_3m": 4.55,
             "diff_4m": 4.41,
-            "today_return_pct": 0.14,
+            "today_return_pct": 0.0,
             "sector": "電子工業"
+        },
+        {
+            "stock_id": "6534",
+            "stock_name": "正瀚-創",
+            "current_ratio": 75.98,
+            "diff_1m": 0.91,
+            "diff_2m": 2.85,
+            "diff_3m": 4.16,
+            "diff_4m": 3.15,
+            "today_return_pct": 0.89,
+            "sector": "生技醫療業"
+        },
+        {
+            "stock_id": "3592",
+            "stock_name": "瑞鼎",
+            "current_ratio": 27.13,
+            "diff_1m": 1.04,
+            "diff_2m": 2.72,
+            "diff_3m": 5.44,
+            "diff_4m": 5.38,
+            "today_return_pct": 1.29,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "8438",
+            "stock_name": "昶昕",
+            "current_ratio": 69.57,
+            "diff_1m": -1.67,
+            "diff_2m": 2.68,
+            "diff_3m": 4.38,
+            "diff_4m": 0.91,
+            "today_return_pct": 4.17,
+            "sector": "綠能環保"
         },
         {
             "stock_id": "4919",
@@ -3224,7 +3277,7 @@
             "diff_2m": 2.63,
             "diff_3m": 2.62,
             "diff_4m": 6.55,
-            "today_return_pct": -2.04,
+            "today_return_pct": 9.97,
             "sector": "電子工業"
         },
         {
@@ -3235,7 +3288,7 @@
             "diff_2m": 2.5,
             "diff_3m": 2.35,
             "diff_4m": 0.98,
-            "today_return_pct": 0.89,
+            "today_return_pct": 1.26,
             "sector": "電機機械"
         },
         {
@@ -3246,7 +3299,7 @@
             "diff_2m": 2.31,
             "diff_3m": 3.19,
             "diff_4m": 4.08,
-            "today_return_pct": 0.3,
+            "today_return_pct": 1.58,
             "sector": "金融保險"
         },
         {
@@ -3257,7 +3310,7 @@
             "diff_2m": 2.27,
             "diff_3m": 4.33,
             "diff_4m": 4.33,
-            "today_return_pct": -0.77,
+            "today_return_pct": 3.02,
             "sector": "其他"
         },
         {
@@ -3268,7 +3321,7 @@
             "diff_2m": 2.25,
             "diff_3m": 5.6,
             "diff_4m": 5.95,
-            "today_return_pct": 1.36,
+            "today_return_pct": 2.19,
             "sector": "電腦及週邊設備業"
         },
         {
@@ -3279,7 +3332,7 @@
             "diff_2m": 1.99,
             "diff_3m": 1.11,
             "diff_4m": 4.8,
-            "today_return_pct": 0.0,
+            "today_return_pct": 5.87,
             "sector": "電子工業"
         },
         {
@@ -3290,7 +3343,7 @@
             "diff_2m": 1.79,
             "diff_3m": 4.03,
             "diff_4m": 3.45,
-            "today_return_pct": 0.87,
+            "today_return_pct": -1.72,
             "sector": "資訊服務業"
         },
         {
@@ -3301,7 +3354,7 @@
             "diff_2m": 1.67,
             "diff_3m": 10.5,
             "diff_4m": 10.5,
-            "today_return_pct": -0.96,
+            "today_return_pct": 6.35,
             "sector": "電子工業"
         },
         {
@@ -3312,7 +3365,7 @@
             "diff_2m": 1.67,
             "diff_3m": 1.91,
             "diff_4m": 4.77,
-            "today_return_pct": 0.15,
+            "today_return_pct": 0.35,
             "sector": "半導體業"
         },
         {
@@ -3323,7 +3376,7 @@
             "diff_2m": 1.65,
             "diff_3m": 2.1,
             "diff_4m": 4.01,
-            "today_return_pct": 0.6,
+            "today_return_pct": 0.24,
             "sector": "運動休閒"
         },
         {
@@ -3334,7 +3387,7 @@
             "diff_2m": 1.6,
             "diff_3m": 4.86,
             "diff_4m": 9.54,
-            "today_return_pct": 0.31,
+            "today_return_pct": 0.0,
             "sector": "電子工業"
         },
         {
@@ -3345,7 +3398,7 @@
             "diff_2m": 1.58,
             "diff_3m": 0.58,
             "diff_4m": 6.85,
-            "today_return_pct": -1.43,
+            "today_return_pct": -1.72,
             "sector": "電子工業"
         },
         {
@@ -3356,7 +3409,7 @@
             "diff_2m": 1.48,
             "diff_3m": 2.01,
             "diff_4m": 4.17,
-            "today_return_pct": 0.39,
+            "today_return_pct": 1.3,
             "sector": "化學生技醫療"
         },
         {
@@ -3367,7 +3420,7 @@
             "diff_2m": 1.36,
             "diff_3m": 2.17,
             "diff_4m": 4.07,
-            "today_return_pct": 0.28,
+            "today_return_pct": 2.07,
             "sector": "電子零組件業"
         },
         {
@@ -3378,7 +3431,18 @@
             "diff_2m": 1.33,
             "diff_3m": 4.1,
             "diff_4m": 2.98,
-            "today_return_pct": -0.15,
+            "today_return_pct": 0.3,
+            "sector": "電機機械"
+        },
+        {
+            "stock_id": "4564",
+            "stock_name": "元翎",
+            "current_ratio": 35.94,
+            "diff_1m": 0.85,
+            "diff_2m": 1.33,
+            "diff_3m": 2.2,
+            "diff_4m": 6.31,
+            "today_return_pct": 0.97,
             "sector": "電機機械"
         },
         {
@@ -3389,7 +3453,7 @@
             "diff_2m": 1.2,
             "diff_3m": 3.81,
             "diff_4m": 4.34,
-            "today_return_pct": -0.38,
+            "today_return_pct": 9.9,
             "sector": "電子零組件業"
         },
         {
@@ -3400,7 +3464,7 @@
             "diff_2m": 1.15,
             "diff_3m": 4.47,
             "diff_4m": 7.92,
-            "today_return_pct": 1.18,
+            "today_return_pct": 0.55,
             "sector": "電子工業"
         },
         {
@@ -3411,7 +3475,7 @@
             "diff_2m": 0.89,
             "diff_3m": 3.89,
             "diff_4m": 10.37,
-            "today_return_pct": -0.49,
+            "today_return_pct": 0.16,
             "sector": "電子通路業"
         },
         {
@@ -3422,7 +3486,7 @@
             "diff_2m": 0.82,
             "diff_3m": 5.34,
             "diff_4m": 6.59,
-            "today_return_pct": 9.87,
+            "today_return_pct": 9.94,
             "sector": "電子零組件業"
         },
         {
@@ -3433,7 +3497,7 @@
             "diff_2m": 0.73,
             "diff_3m": 0.34,
             "diff_4m": -1.08,
-            "today_return_pct": -0.36,
+            "today_return_pct": 2.31,
             "sector": "電子工業"
         },
         {
@@ -3444,8 +3508,19 @@
             "diff_2m": 0.53,
             "diff_3m": 5.17,
             "diff_4m": 8.53,
-            "today_return_pct": 6.12,
+            "today_return_pct": 3.9,
             "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "4441",
+            "stock_name": "振大環球",
+            "current_ratio": 60.35,
+            "diff_1m": 0.28,
+            "diff_2m": 0.33,
+            "diff_3m": 4.16,
+            "diff_4m": 2.34,
+            "today_return_pct": 0.78,
+            "sector": "紡織纖維"
         },
         {
             "stock_id": "3450",
@@ -3455,7 +3530,7 @@
             "diff_2m": 0.17,
             "diff_3m": 13.38,
             "diff_4m": 20.92,
-            "today_return_pct": -1.18,
+            "today_return_pct": 9.98,
             "sector": "電子工業"
         },
         {
@@ -3466,7 +3541,7 @@
             "diff_2m": 0.13,
             "diff_3m": 3.27,
             "diff_4m": 4.37,
-            "today_return_pct": -5.83,
+            "today_return_pct": 9.97,
             "sector": "電子工業"
         },
         {
@@ -3477,7 +3552,7 @@
             "diff_2m": 0.03,
             "diff_3m": 7.39,
             "diff_4m": 10.11,
-            "today_return_pct": 0.0,
+            "today_return_pct": 8.46,
             "sector": "電子零組件業"
         },
         {
@@ -3488,7 +3563,7 @@
             "diff_2m": -0.21,
             "diff_3m": 3.92,
             "diff_4m": 4.51,
-            "today_return_pct": -1.46,
+            "today_return_pct": 8.19,
             "sector": "電腦及週邊設備業"
         },
         {
@@ -3499,8 +3574,19 @@
             "diff_2m": -0.61,
             "diff_3m": -0.22,
             "diff_4m": 6.36,
-            "today_return_pct": -0.91,
+            "today_return_pct": 1.58,
             "sector": "航運業"
+        },
+        {
+            "stock_id": "6706",
+            "stock_name": "惠特",
+            "current_ratio": 20.15,
+            "diff_1m": 2.04,
+            "diff_2m": -0.78,
+            "diff_3m": 7.61,
+            "diff_4m": 4.51,
+            "today_return_pct": -2.1,
+            "sector": "電子工業"
         },
         {
             "stock_id": "2497",
@@ -3510,7 +3596,7 @@
             "diff_2m": -0.96,
             "diff_3m": -0.81,
             "diff_4m": 4.04,
-            "today_return_pct": -0.17,
+            "today_return_pct": -2.5,
             "sector": "汽車工業"
         },
         {
@@ -3521,7 +3607,7 @@
             "diff_2m": -1.06,
             "diff_3m": 8.89,
             "diff_4m": 14.3,
-            "today_return_pct": 10.0,
+            "today_return_pct": 9.95,
             "sector": "電子零組件業"
         },
         {
@@ -3532,7 +3618,7 @@
             "diff_2m": -3.74,
             "diff_3m": 0.51,
             "diff_4m": 8.95,
-            "today_return_pct": 0.48,
+            "today_return_pct": -3.07,
             "sector": "其他電子業"
         },
         {
@@ -3543,7 +3629,7 @@
             "diff_2m": -5.44,
             "diff_3m": 7.31,
             "diff_4m": 8.36,
-            "today_return_pct": 0.0,
+            "today_return_pct": 9.9,
             "sector": "電子零組件業"
         },
         {
@@ -3554,7 +3640,7 @@
             "diff_2m": -5.8,
             "diff_3m": 5.08,
             "diff_4m": 6.32,
-            "today_return_pct": -1.45,
+            "today_return_pct": 1.74,
             "sector": "電子工業"
         },
         {
@@ -3565,7 +3651,7 @@
             "diff_2m": -8.91,
             "diff_3m": 0.43,
             "diff_4m": 6.91,
-            "today_return_pct": -1.43,
+            "today_return_pct": 2.65,
             "sector": "電子零組件業"
         }
     ]
