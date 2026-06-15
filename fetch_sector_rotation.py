@@ -6,6 +6,11 @@ import requests
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import urllib3
+
+urllib3.disable_warnings()
 
 # 設定快取目錄
 CACHE_DIR = "data_cache"
@@ -228,6 +233,161 @@ def parse_daily_data(date_str, stock_info):
             
     return daily_records
 
+def get_base_date_options():
+    url = "https://www.tdcc.com.tw/portal/zh/smWeb/qryStock"
+    try:
+        r = requests.get(url, headers=HEADERS, verify=False, timeout=10)
+        if r.status_code == 200:
+            soup = BeautifulSoup(r.text, "html.parser")
+            select = soup.find("select", {"name": "scaDate"})
+            if select:
+                options = [opt.get("value") for opt in select.find_all("option")]
+                return options
+    except Exception as e:
+        log(f"[警告] 獲取集保日期選單失敗: {str(e)}")
+    return []
+
+def get_latest_whale_ratios():
+    url = "https://opendata.tdcc.com.tw/getOD.ashx?id=1-5"
+    log("正在自集保所下載最新股權分散表 CSV...")
+    try:
+        r = requests.get(url, headers=HEADERS, verify=False, timeout=15)
+        if r.status_code == 200:
+            lines = r.text.split("\n")
+            id_idx = 1
+            level_idx = 2
+            pct_idx = 5
+            
+            whale_ratios = {}
+            for line in lines[1:]:
+                parts = line.strip().split(",")
+                if len(parts) > pct_idx:
+                    stock_id = parts[id_idx].replace('"', '').strip()
+                    try:
+                        level = int(parts[level_idx].replace('"', '').strip())
+                        if level == 15:
+                            pct = float(parts[pct_idx].replace('"', '').strip())
+                            whale_ratios[stock_id] = pct
+                    except ValueError:
+                        continue
+            return whale_ratios
+    except Exception as e:
+        log(f"[警告] 下載集保 CSV 失敗: {str(e)}")
+    return {}
+
+def fetch_base_ratio_single(stock_id, base_date):
+    sess = requests.Session()
+    try:
+        r = sess.get("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", headers=HEADERS, verify=False, timeout=5)
+        if r.status_code != 200:
+            return stock_id, None
+        soup = BeautifulSoup(r.text, "html.parser")
+        token = soup.find("input", {"name": "SYNCHRONIZER_TOKEN"})["value"]
+        
+        post_data = {
+            "SYNCHRONIZER_TOKEN": token,
+            "SYNCHRONIZER_URI": "/portal/zh/smWeb/qryStock",
+            "method": "submit",
+            "firDate": base_date,
+            "sqlMethod": "StockNo",
+            "stockNo": stock_id,
+            "scaDate": base_date,
+        }
+        resp = sess.post("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", data=post_data, headers=HEADERS, verify=False, timeout=5)
+        if resp.status_code == 200:
+            soup2 = BeautifulSoup(resp.text, "html.parser")
+            table = soup2.find("table", {"class": "table"})
+            if table:
+                rows = table.find_all("tr")
+                for row_elem in rows[1:]:
+                    cols = [td.text.strip() for td in row_elem.find_all("td")]
+                    if cols and cols[0] == '15':
+                        pct_str = cols[4].replace(",", "").strip()
+                        return stock_id, float(pct_str)
+        return stock_id, None
+    except Exception as e:
+        return stock_id, None
+
+def detect_whale_locked_stocks(df, stock_info):
+    log("=== 開始大戶鎖碼追蹤 (方案 A) ===")
+    
+    options = get_base_date_options()
+    if len(options) < 5:
+        log("[警告] 集保日期不足，無法執行大戶鎖碼追蹤。")
+        return []
+        
+    latest_date = options[0]
+    base_date = options[4]
+    log(f"最新集保日期: {latest_date} | 基期日期 (4週前): {base_date}")
+    
+    latest_whale = get_latest_whale_ratios()
+    if not latest_whale:
+        log("[警告] 無法取得最新集保大戶比例。")
+        return []
+        
+    # 載入快取
+    cache_file = os.path.join(CACHE_DIR, f"whale_history_{base_date}.json")
+    cached_base_ratios = {}
+    if os.path.exists(cache_file):
+        log(f"自本地快取載入基期 {base_date} 大戶比例...")
+        with open(cache_file, "r", encoding="utf-8") as f:
+            cached_base_ratios = json.load(f)
+            
+    # 篩選最新一日活躍個股
+    df_latest_date = df["date"].max()
+    active_stocks = df[df["date"] == df_latest_date]["stock_id"].unique()
+    
+    to_query = [sid for sid in active_stocks if sid in latest_whale and sid not in cached_base_ratios]
+    
+    if to_query:
+        log(f"共有 {len(to_query)} 檔活躍股票需要向集保所查詢基期數據...")
+        new_base_ratios = {}
+        with ThreadPoolExecutor(max_workers=15) as executor:
+            futures = [executor.submit(fetch_base_ratio_single, sid, base_date) for sid in to_query]
+            completed_count = 0
+            for fut in as_completed(futures):
+                sid, base_ratio = fut.result()
+                if base_ratio is not None:
+                    new_base_ratios[sid] = base_ratio
+                completed_count += 1
+                if completed_count % 100 == 0:
+                    log(f"已完成 {completed_count}/{len(to_query)} 檔個股查詢...")
+                    
+        # 更新快取
+        cached_base_ratios.update(new_base_ratios)
+        with open(cache_file, "w", encoding="utf-8") as f:
+            json.dump(cached_base_ratios, f, ensure_ascii=False, indent=4)
+        log(f"已將最新獲取的 {len(new_base_ratios)} 筆基期資料寫入快取。")
+        
+    # 計算並篩選
+    whale_locked_list = []
+    latest_df = df[df["date"] == df_latest_date]
+    
+    for sid in active_stocks:
+        if sid in latest_whale and sid in cached_base_ratios:
+            latest_ratio = latest_whale[sid]
+            base_ratio = cached_base_ratios[sid]
+            diff = latest_ratio - base_ratio
+            
+            # 篩選大戶持股比例累計增加達 4.0% 以上的個股，由前端進行多級門檻動態過濾
+            if diff >= 4.0:
+                stock_row = latest_df[latest_df["stock_id"] == sid]
+                today_return = float(stock_row["today_return_pct"].iloc[0]) if not stock_row.empty else 0.0
+                stock_name = stock_info[sid]["name"]
+                sector = stock_info[sid]["industry"]
+                
+                whale_locked_list.append({
+                    "stock_id": sid,
+                    "stock_name": stock_name,
+                    "current_ratio": round(latest_ratio, 2),
+                    "diff_4w": round(diff, 2),
+                    "today_return_pct": round(today_return, 2),
+                    "sector": sector
+                })
+                
+    log(f"大戶鎖碼偵測完成！共篩選出 {len(whale_locked_list)} 檔符合條件之個股。")
+    return sorted(whale_locked_list, key=lambda x: x["diff_4w"], reverse=True)
+
 def main():
     log("=== 開始全市場板塊輪動數據重構 ===")
     
@@ -396,6 +556,9 @@ def main():
             "individual_stocks": individual_stocks_data
         })
         
+    # 執行大戶鎖碼追蹤 (方案 A)
+    whale_locked_list = detect_whale_locked_stocks(df, stock_info)
+    
     # 5. 輸出為 sectors_data.json
     output_data = {
         "market_info": {
@@ -403,7 +566,8 @@ def main():
             "market_close": market_close,
             "market_return_pct": round(market_return_pct, 2)
         },
-        "sectors": sectors_results
+        "sectors": sectors_results,
+        "whale_locked_stocks": whale_locked_list
     }
     
     output_path = "sectors_data.json"

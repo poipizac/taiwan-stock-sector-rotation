@@ -2712,5 +2712,223 @@
                 }
             ]
         }
+    ],
+    "whale_locked_stocks": [
+        {
+            "stock_id": "6409",
+            "stock_name": "旭隼",
+            "current_ratio": 45.81,
+            "diff_4w": 10.85,
+            "today_return_pct": 9.93,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "4916",
+            "stock_name": "事欣科",
+            "current_ratio": 39.56,
+            "diff_4w": 8.91,
+            "today_return_pct": -6.11,
+            "sector": "電腦及週邊設備業"
+        },
+        {
+            "stock_id": "3704",
+            "stock_name": "合勤控",
+            "current_ratio": 59.55,
+            "diff_4w": 8.51,
+            "today_return_pct": -1.2,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "2375",
+            "stock_name": "凱美",
+            "current_ratio": 28.74,
+            "diff_4w": 7.93,
+            "today_return_pct": 7.14,
+            "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "2399",
+            "stock_name": "映泰",
+            "current_ratio": 27.92,
+            "diff_4w": 7.51,
+            "today_return_pct": 3.25,
+            "sector": "電腦及週邊設備業"
+        },
+        {
+            "stock_id": "4739",
+            "stock_name": "康普",
+            "current_ratio": 37.59,
+            "diff_4w": 7.29,
+            "today_return_pct": -1.62,
+            "sector": "化學生技醫療"
+        },
+        {
+            "stock_id": "3550",
+            "stock_name": "聯穎",
+            "current_ratio": 43.06,
+            "diff_4w": 6.56,
+            "today_return_pct": 1.57,
+            "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "6271",
+            "stock_name": "同欣電",
+            "current_ratio": 44.36,
+            "diff_4w": 6.2,
+            "today_return_pct": 9.91,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "6695",
+            "stock_name": "芯鼎",
+            "current_ratio": 41.83,
+            "diff_4w": 5.86,
+            "today_return_pct": 1.51,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "2484",
+            "stock_name": "希華",
+            "current_ratio": 23.27,
+            "diff_4w": 5.75,
+            "today_return_pct": 9.88,
+            "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "3090",
+            "stock_name": "日電貿",
+            "current_ratio": 61.52,
+            "diff_4w": 5.67,
+            "today_return_pct": 9.87,
+            "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "2492",
+            "stock_name": "華新科",
+            "current_ratio": 70.19,
+            "diff_4w": 5.65,
+            "today_return_pct": -2.04,
+            "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "2413",
+            "stock_name": "環科",
+            "current_ratio": 56.13,
+            "diff_4w": 5.4,
+            "today_return_pct": 6.43,
+            "sector": "電子零組件業"
+        },
+        {
+            "stock_id": "2478",
+            "stock_name": "大毅",
+            "current_ratio": 55.14,
+            "diff_4w": 5.35,
+            "today_return_pct": -3.38,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "6770",
+            "stock_name": "力積電",
+            "current_ratio": 44.57,
+            "diff_4w": 5.09,
+            "today_return_pct": 4.35,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "1516",
+            "stock_name": "川飛",
+            "current_ratio": 58.54,
+            "diff_4w": 4.83,
+            "today_return_pct": 0.94,
+            "sector": "其他"
+        },
+        {
+            "stock_id": "6890",
+            "stock_name": "來億-KY",
+            "current_ratio": 92.11,
+            "diff_4w": 4.78,
+            "today_return_pct": -9.86,
+            "sector": "運動休閒"
+        },
+        {
+            "stock_id": "7610",
+            "stock_name": "聯友金屬-創",
+            "current_ratio": 34.94,
+            "diff_4w": 4.69,
+            "today_return_pct": 2.25,
+            "sector": "綠能環保"
+        },
+        {
+            "stock_id": "9136",
+            "stock_name": "巨騰-DR",
+            "current_ratio": 61.0,
+            "diff_4w": 4.59,
+            "today_return_pct": 9.81,
+            "sector": "存託憑證"
+        },
+        {
+            "stock_id": "6831",
+            "stock_name": "邁科",
+            "current_ratio": 42.17,
+            "diff_4w": 4.53,
+            "today_return_pct": 1.11,
+            "sector": "電腦及週邊設備業"
+        },
+        {
+            "stock_id": "6225",
+            "stock_name": "天瀚",
+            "current_ratio": 55.2,
+            "diff_4w": 4.5,
+            "today_return_pct": 0.87,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "2243",
+            "stock_name": "宏旭-KY",
+            "current_ratio": 43.26,
+            "diff_4w": 4.48,
+            "today_return_pct": 9.9,
+            "sector": "汽車工業"
+        },
+        {
+            "stock_id": "4526",
+            "stock_name": "東台",
+            "current_ratio": 43.14,
+            "diff_4w": 4.44,
+            "today_return_pct": -1.15,
+            "sector": "電機機械"
+        },
+        {
+            "stock_id": "8454",
+            "stock_name": "富邦媒",
+            "current_ratio": 79.94,
+            "diff_4w": 4.42,
+            "today_return_pct": -9.97,
+            "sector": "數位雲端"
+        },
+        {
+            "stock_id": "4919",
+            "stock_name": "新唐",
+            "current_ratio": 64.84,
+            "diff_4w": 4.38,
+            "today_return_pct": 1.74,
+            "sector": "電子工業"
+        },
+        {
+            "stock_id": "1514",
+            "stock_name": "亞力",
+            "current_ratio": 39.9,
+            "diff_4w": 4.13,
+            "today_return_pct": 1.27,
+            "sector": "電機機械"
+        },
+        {
+            "stock_id": "3231",
+            "stock_name": "緯創",
+            "current_ratio": 60.64,
+            "diff_4w": 4.12,
+            "today_return_pct": 2.3,
+            "sector": "電腦及週邊設備業"
+        }
     ]
 }
