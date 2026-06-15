@@ -1,0 +1,663 @@
+/* Import modern typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-dark: #0a0d14;
+    --bg-card: rgba(17, 24, 39, 0.75);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Neon Quadrant Colors */
+    --color-lead: #00e676;     /* 主力進攻 - 霓虹綠 */
+    --color-rotate: #ffd600;   /* 資金輪動 - 霓虹黃 */
+    --color-outflow: #ff1744;  /* 資金退潮 - 霓虹紅 */
+    --color-watch: #00b0ff;    /* 觀望防守 - 霓虹藍 */
+    
+    /* Taiwan Stock Market Standard (Up is Red, Down is Green) */
+    --tw-up: #ff3838;          /* 漲/買超 - 亮紅 */
+    --tw-down: #2ecc71;        /* 跌/賣超 - 亮綠 */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(20, 30, 48, 0.5) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.8) 0px, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+header {
+    background: rgba(10, 13, 20, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 30%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+header .meta-info {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.refresh-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.refresh-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+main {
+    max-width: 1650px;
+    margin: 1.5rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: 1.5rem;
+    height: calc(100vh - 110px);
+}
+
+.map-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.map-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.map-title-row h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.chart-wrapper {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+}
+
+/* Time Tabs Navigation */
+.time-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    font-family: 'Outfit', sans-serif;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* D3 SVG Styles with Transition support */
+svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.axis-line {
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 1.5;
+    stroke-dasharray: 4,4;
+}
+
+.grid-line {
+    stroke: rgba(255, 255, 255, 0.04);
+    stroke-width: 1;
+}
+
+.axis-label {
+    fill: var(--text-muted);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.quadrant-bg {
+    fill-opacity: 0.015;
+    transition: fill-opacity 0.3s;
+}
+
+.quadrant-bg:hover {
+    fill-opacity: 0.035;
+}
+
+.quadrant-label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    fill-opacity: 0.25;
+    pointer-events: none;
+    letter-spacing: 2px;
+}
+
+/* Transition for Bubble fade */
+.bubble-g {
+    transition: opacity 0.25s ease;
+}
+
+.bubble {
+    stroke-width: 2px;
+    cursor: pointer;
+    transition: stroke-width 0.2s, filter 0.2s, fill-opacity 0.2s;
+}
+
+.bubble:hover {
+    stroke-width: 3.5px;
+}
+
+.bubble-label {
+    fill: var(--text-primary);
+    font-size: 12px;
+    font-weight: 600;
+    pointer-events: none;
+    text-anchor: middle;
+    font-family: 'Outfit', sans-serif;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Sidebar & Details Styles */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Custom Scrollbar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.panel-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 0.5rem;
+}
+
+.panel-title span {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sector-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.sector-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.25s ease, border-color 0.2s, background-color 0.2s, transform 0.2s;
+}
+
+.sector-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.sector-row.active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.sector-row .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.sector-row .stats {
+    text-align: right;
+}
+
+.sector-row .flow-val {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.sector-row .accel-val {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Detail Card Styles */
+.detail-card {
+    transition: opacity 0.3s;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+}
+
+.metric-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 0.65rem;
+    text-align: center;
+}
+
+.metric-box .label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+
+.metric-box .value {
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Table styling for Stocks - Iterated for dense metrics */
+.stock-table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.stock-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.725rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stock-table td {
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.stock-table tr:last-child td {
+    border-bottom: none;
+}
+
+.stock-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.stock-table .stock-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+}
+
+.stock-table .stock-id {
+    font-size: 0.725rem;
+    color: var(--text-muted);
+}
+
+/* Red / Green Highlights for Taiwan Standard */
+.val-positive {
+    color: var(--tw-up);
+}
+
+.val-negative {
+    color: var(--tw-down);
+}
+
+/* Tooltip Styling */
+.custom-tooltip {
+    position: absolute;
+    background: rgba(10, 13, 20, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 1rem;
+    pointer-events: none;
+    font-size: 0.85rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    z-index: 200;
+    max-width: 325px;
+    transition: opacity 0.15s;
+    opacity: 0;
+}
+
+.tooltip-header {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tooltip-header .quadrant-badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
+.tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.tooltip-row .label {
+    color: var(--text-muted);
+}
+
+.tooltip-row .val {
+    font-weight: 600;
+}
+
+.tooltip-stocks {
+    margin-top: 0.5rem;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    padding-top: 0.5rem;
+}
+
+.tooltip-stock-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 0.2rem;
+}
+
+/* Legend Styling */
+.legend {
+    display: flex;
+    gap: 0.85rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.legend-color {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* Responsive adjust */
+@media (max-width: 1200px) {
+    main {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .sidebar {
+        overflow-y: visible;
+        height: auto;
+    }
+}
+
+/* Bottom Fishing Alert Styles */
+.bottom-fishing-card {
+    border: 1px solid rgba(255, 214, 0, 0.3);
+    background: rgba(25, 22, 12, 0.8) !important;
+    box-shadow: 0 8px 32px rgba(255, 214, 0, 0.05);
+    animation: gold-glow 4s infinite alternate ease-in-out;
+}
+
+@keyframes gold-glow {
+    0% {
+        box-shadow: 0 8px 32px rgba(255, 214, 0, 0.03), inset 0 0 10px rgba(255, 214, 0, 0.02);
+        border-color: rgba(255, 214, 0, 0.25);
+    }
+    100% {
+        box-shadow: 0 8px 32px rgba(255, 214, 0, 0.15), inset 0 0 18px rgba(255, 214, 0, 0.08);
+        border-color: rgba(255, 214, 0, 0.6);
+    }
+}
+
+.market-warning {
+    background: rgba(255, 56, 56, 0.15);
+    border: 1px solid rgba(255, 56, 56, 0.3);
+    color: #ff5252;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(255, 56, 56, 0.1);
+}
+
+.bf-sector-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 214, 0, 0.06);
+    border-radius: 10px;
+    padding: 0.85rem;
+    margin-bottom: 0.75rem;
+    transition: transform 0.2s;
+}
+
+.bf-sector-item:last-child {
+    margin-bottom: 0;
+}
+
+.bf-sector-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 214, 0, 0.2);
+}
+
+.bf-sector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.65rem;
+}
+
+.bf-sector-header .name {
+    font-weight: 700;
+    font-size: 0.925rem;
+    color: #ffd600; /* 金黃色 */
+}
+
+.bf-sector-header .score {
+    font-size: 0.75rem;
+    background: rgba(255, 214, 0, 0.15);
+    color: #ffd600;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.bf-stocks-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.bf-stock-tag {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.bf-stock-tag .stock-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.bf-stock-tag .stock-flow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dual Timeframe Badge Styles */
+.dual-badge-container {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.dual-badge-item {
+    font-size: 0.725rem !important;
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: none !important;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dual-badge-separator {
+    color: var(--text-muted) !important;
+    background: none !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+    font-size: 0.8rem !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+

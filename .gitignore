@@ -1,0 +1,19 @@
+# 盤後資料與大檔案快取
+data_cache/
+
+# 測試與輔助腳本
+verify_data.py
+write_index.py
+
+# Python 編譯與暫存檔
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# IDE 與系統檔
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
