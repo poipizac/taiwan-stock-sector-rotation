@@ -312,81 +312,126 @@ def detect_whale_locked_stocks(df, stock_info):
     log("=== 開始大戶鎖碼追蹤 (方案 A) ===")
     
     options = get_base_date_options()
-    if len(options) < 9:
+    if len(options) < 17:
         log("[警告] 集保日期不足，無法執行大戶鎖碼追蹤。")
         return []
         
     latest_date = options[0]
-    base_date = options[8]
-    log(f"最新集保日期: {latest_date} | 基期日期 (8週前): {base_date}")
     
+    # 四個基期日期與對應的標籤
+    baselines = {
+        "1m": {"date": options[4], "weeks": 4},
+        "2m": {"date": options[8], "weeks": 8},
+        "3m": {"date": options[12], "weeks": 12},
+        "4m": {"date": options[16], "weeks": 16}
+    }
+    
+    log(f"最新集保日期: {latest_date}")
+    for k, v in baselines.items():
+        log(f"-> 基期日期 ({k} - {v['weeks']}週前): {v['date']}")
+        
     latest_whale = get_latest_whale_ratios()
     if not latest_whale:
         log("[警告] 無法取得最新集保大戶比例。")
         return []
         
-    # 載入快取
-    cache_file = os.path.join(CACHE_DIR, f"whale_history_{base_date}.json")
-    cached_base_ratios = {}
-    if os.path.exists(cache_file):
-        log(f"自本地快取載入基期 {base_date} 大戶比例...")
-        with open(cache_file, "r", encoding="utf-8") as f:
-            cached_base_ratios = json.load(f)
-            
+    # 載入或初始化各基期的本地快取
+    caches = {}
+    for k, v in baselines.items():
+        b_date = v["date"]
+        cache_file = os.path.join(CACHE_DIR, f"whale_history_{b_date}.json")
+        cached_ratios = {}
+        if os.path.exists(cache_file):
+            log(f"自本地快取載入基期 {b_date} ({k}) 大戶比例...")
+            with open(cache_file, "r", encoding="utf-8") as f:
+                cached_ratios = json.load(f)
+        caches[k] = {
+            "file": cache_file,
+            "data": cached_ratios
+        }
+        
     # 篩選最新一日活躍個股
     df_latest_date = df["date"].max()
     active_stocks = df[df["date"] == df_latest_date]["stock_id"].unique()
     
-    to_query = [sid for sid in active_stocks if sid in latest_whale and sid not in cached_base_ratios]
-    
+    # 收集需要查詢的 (stock_id, base_date) 組合
+    to_query = [] # list of (stock_id, base_date, key)
+    for sid in active_stocks:
+        if sid in latest_whale:
+            for k, v in baselines.items():
+                b_date = v["date"]
+                if sid not in caches[k]["data"]:
+                    to_query.append((sid, b_date, k))
+                    
     if to_query:
-        log(f"共有 {len(to_query)} 檔活躍股票需要向集保所查詢基期數據...")
-        new_base_ratios = {}
+        log(f"共有 {len(to_query)} 筆(股票 x 基期)數據需要向集保所查詢...")
+        new_queries = {} # key -> {sid -> ratio}
+        for k in baselines.keys():
+            new_queries[k] = {}
+            
         with ThreadPoolExecutor(max_workers=15) as executor:
-            futures = [executor.submit(fetch_base_ratio_single, sid, base_date) for sid in to_query]
+            futures = {
+                executor.submit(fetch_base_ratio_single, sid, b_date): (sid, b_date, k)
+                for sid, b_date, k in to_query
+            }
             completed_count = 0
             for fut in as_completed(futures):
-                sid, base_ratio = fut.result()
+                sid, b_date, k = futures[fut]
+                _, base_ratio = fut.result()
                 if base_ratio is not None:
-                    new_base_ratios[sid] = base_ratio
+                    new_queries[k][sid] = base_ratio
                 completed_count += 1
                 if completed_count % 100 == 0:
-                    log(f"已完成 {completed_count}/{len(to_query)} 檔個股查詢...")
+                    log(f"已完成 {completed_count}/{len(to_query)} 筆查詢...")
                     
-        # 更新快取
-        cached_base_ratios.update(new_base_ratios)
-        with open(cache_file, "w", encoding="utf-8") as f:
-            json.dump(cached_base_ratios, f, ensure_ascii=False, indent=4)
-        log(f"已將最新獲取的 {len(new_base_ratios)} 筆基期資料寫入快取。")
-        
+        # 更新並儲存快取
+        for k in baselines.keys():
+            if new_queries[k]:
+                caches[k]["data"].update(new_queries[k])
+                with open(caches[k]["file"], "w", encoding="utf-8") as f:
+                    json.dump(caches[k]["data"], f, ensure_ascii=False, indent=4)
+                log(f"已將基期 {baselines[k]['date']} ({k}) 最新獲取的 {len(new_queries[k])} 筆資料寫入快取。")
+                
     # 計算並篩選
     whale_locked_list = []
     latest_df = df[df["date"] == df_latest_date]
     
     for sid in active_stocks:
-        if sid in latest_whale and sid in cached_base_ratios:
-            latest_ratio = latest_whale[sid]
-            base_ratio = cached_base_ratios[sid]
-            diff = latest_ratio - base_ratio
-            
-            # 篩選大戶持股比例累計增加達 4.0% 以上的個股，由前端進行多級門檻動態過濾
-            if diff >= 4.0:
-                stock_row = latest_df[latest_df["stock_id"] == sid]
-                today_return = float(stock_row["today_return_pct"].iloc[0]) if not stock_row.empty else 0.0
-                stock_name = stock_info[sid]["name"]
-                sector = stock_info[sid]["industry"]
-                
-                whale_locked_list.append({
-                    "stock_id": sid,
-                    "stock_name": stock_name,
-                    "current_ratio": round(latest_ratio, 2),
-                    "diff_8w": round(diff, 2),
-                    "today_return_pct": round(today_return, 2),
-                    "sector": sector
-                })
-                
-    log(f"大戶鎖碼偵測完成！共篩選出 {len(whale_locked_list)} 檔符合條件之個股。")
-    return sorted(whale_locked_list, key=lambda x: x["diff_8w"], reverse=True)
+        if sid in latest_whale:
+            has_all_data = True
+            diffs = {}
+            for k in baselines.keys():
+                if sid in caches[k]["data"]:
+                    base_ratio = caches[k]["data"][sid]
+                    diffs[f"diff_{k}"] = round(latest_whale[sid] - base_ratio, 2)
+                else:
+                    has_all_data = False
+                    break
+                    
+            if has_all_data:
+                # 篩選條件：只要在任何一個時間區間（1m, 2m, 3m, 4m）內大戶比例累計增加大於等於 4.0%，就納入大戶鎖碼股列表
+                max_diff = max(diffs.values())
+                if max_diff >= 4.0:
+                    stock_row = latest_df[latest_df["stock_id"] == sid]
+                    today_return = float(stock_row["today_return_pct"].iloc[0]) if not stock_row.empty else 0.0
+                    stock_name = stock_info[sid]["name"]
+                    sector = stock_info[sid]["industry"]
+                    
+                    whale_locked_list.append({
+                        "stock_id": sid,
+                        "stock_name": stock_name,
+                        "current_ratio": round(latest_whale[sid], 2),
+                        "diff_1m": diffs["diff_1m"],
+                        "diff_2m": diffs["diff_2m"],
+                        "diff_3m": diffs["diff_3m"],
+                        "diff_4m": diffs["diff_4m"],
+                        "today_return_pct": round(today_return, 2),
+                        "sector": sector
+                    })
+                    
+    log(f"大戶多維度鎖碼偵測完成！共篩選出 {len(whale_locked_list)} 檔符合條件之個股。")
+    # 預設以 2m (2個月) 的變動由大到小排序
+    return sorted(whale_locked_list, key=lambda x: x["diff_2m"], reverse=True)
 
 def main():
     log("=== 開始全市場板塊輪動數據重構 ===")

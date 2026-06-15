@@ -816,3 +816,29 @@ svg {
     font-family: 'Outfit', sans-serif;
 }
 
+/* Whale Time Tab Buttons */
+.whale-time-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.725rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Outfit', sans-serif;
+    text-align: center;
+}
+
+.whale-time-btn:hover {
+    color: var(--text-primary);
+}
+
+.whale-time-btn.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
