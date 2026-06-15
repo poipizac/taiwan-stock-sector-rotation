@@ -451,6 +451,32 @@
                 .attr("operator", "over");
         }
 
+        function constrainQuadrant(nodes, flowKey) {
+            nodes.forEach(d => {
+                const trueFlow = d[flowKey];
+                const trueAccel = d.acceleration_m;
+                const r = sizeScale(d.size_20d_m);
+                
+                // X boundary constraint
+                if (trueFlow >= 0) {
+                    d.x = Math.max(xScale(0) + r + 2, d.x);
+                    d.x = Math.min(width - margin.right - r, d.x);
+                } else {
+                    d.x = Math.min(xScale(0) - r - 2, d.x);
+                    d.x = Math.max(margin.left + r, d.x);
+                }
+                
+                // Y boundary constraint
+                if (trueAccel >= 0) {
+                    d.y = Math.min(yScale(0) - r - 2, d.y);
+                    d.y = Math.max(margin.top + r, d.y);
+                } else {
+                    d.y = Math.max(yScale(0) + r + 2, d.y);
+                    d.y = Math.min(height - margin.bottom - r, d.y);
+                }
+            });
+        }
+
         function renderQuadrantChart(data) {
             const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
             
@@ -560,12 +586,15 @@
             }));
 
             const simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.35))
-                .force("y", d3.forceY(d => d.origY).strength(0.35))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 3))
+                .force("x", d3.forceX(d => d.origX).strength(0.55))
+                .force("y", d3.forceY(d => d.origY).strength(0.55))
+                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
                 .stop();
 
-            for (let i = 0; i < 120; ++i) simulation.tick();
+            for (let i = 0; i < 120; ++i) {
+                simulation.tick();
+                constrainQuadrant(nodes, flowKey);
+            }
 
             // 4. Render Bubbles Group
             const bubbleGroup = svg.selectAll(".bubble-g")
@@ -692,12 +721,15 @@
             }));
 
             const simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.35))
-                .force("y", d3.forceY(d => d.origY).strength(0.35))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 3))
+                .force("x", d3.forceX(d => d.origX).strength(0.55))
+                .force("y", d3.forceY(d => d.origY).strength(0.55))
+                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
                 .stop();
 
-            for (let i = 0; i < 120; ++i) simulation.tick();
+            for (let i = 0; i < 120; ++i) {
+                simulation.tick();
+                constrainQuadrant(nodes, flowKey);
+            }
 
             // Transition bubble group position coordinates
             svg.selectAll(".bubble-g")
