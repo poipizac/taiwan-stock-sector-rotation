@@ -12,7 +12,7 @@
 
     <header>
         <h1>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline; vertical-align:middle; margin-right:5px; color:#ff3838;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline; vertical-align:middle; margin-right:5px; color:#ff3838;">
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                 <polyline points="17 6 23 6 23 12"></polyline>
             </svg>
@@ -74,6 +74,7 @@
                 <div class="sector-list" id="sector-quick-list">
                     <!-- Dynamic rendering -->
                 </div>
+                <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">展開全部板塊</button>
             </div>
 
             <!-- Bottom Fishing Alert Card -->
@@ -172,6 +173,7 @@
         let currentMinThreshold = 15;
         let currentMaxThreshold = 20;
         let currentTimeWhale = "2m";
+        let isSectorsExpanded = false;
 
         // D3 global references for transition
         let svg, xScale, yScale, sizeScale, width, height, margin;
@@ -258,7 +260,11 @@
             const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
             const sortedData = [...cachedData].sort((a, b) => Math.abs(b[flowKey]) - Math.abs(a[flowKey]));
 
-            sortedData.forEach(sector => {
+            // 根據摺疊狀態決定顯示的板塊數量
+            const displayCount = isSectorsExpanded ? sortedData.length : 8;
+            const displayData = sortedData.slice(0, displayCount);
+
+            displayData.forEach(sector => {
                 const row = document.createElement("div");
                 row.className = "sector-row";
                 row.setAttribute("data-sector", sector.sector_name);
@@ -289,6 +295,20 @@
                 `;
                 listContainer.appendChild(row);
             });
+
+            // 更新按鈕文字
+            const toggleBtn = document.getElementById("sector-toggle-btn");
+            if (isSectorsExpanded) {
+                toggleBtn.textContent = "收攏板塊列表 ▴";
+            } else {
+                const remaining = sortedData.length - 8;
+                toggleBtn.textContent = `展開全部板塊 (+${remaining}) ▾`;
+            }
+        }
+
+        function toggleSectors() {
+            isSectorsExpanded = !isSectorsExpanded;
+            updateUI();
         }
 
         function renderBottomFishing(data, marketInfo) {
