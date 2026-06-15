@@ -25,48 +25,42 @@
     </header>
 
     <main>
-        <!-- Left Section: Quadrant Bubble Map -->
-        <section class="map-container" id="map-section">
-            <div class="map-title-row">
-                <h2>資金輪動四象限地圖</h2>
-                <div class="legend">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: var(--color-lead);"></span>
-                        <span>主力進攻 (右上)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: var(--color-rotate);"></span>
-                        <span>資金輪動 (右下)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: var(--color-outflow);"></span>
-                        <span>資金退潮 (左下)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: var(--color-watch);"></span>
-                        <span>觀望防守 (左上)</span>
+        <!-- Left Section: Map & Sector Ranking Accordion -->
+        <div class="left-column">
+            <!-- Left Section: Quadrant Bubble Map -->
+            <section class="map-container" id="map-section">
+                <div class="map-title-row">
+                    <h2>資金輪動四象限地圖</h2>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-lead);"></span>
+                            <span>主力進攻 (右上)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-rotate);"></span>
+                            <span>資金輪動 (右下)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-outflow);"></span>
+                            <span>資金退潮 (左下)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-watch);"></span>
+                            <span>觀望防守 (左上)</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="chart-wrapper" id="chart-wrapper">
-                <!-- SVG Chart will be rendered here by D3 -->
-            </div>
-            
-            <!-- Floating interactive Tooltip -->
-            <div class="custom-tooltip" id="map-tooltip"></div>
-        </section>
+                
+                <div class="chart-wrapper" id="chart-wrapper">
+                    <!-- SVG Chart will be rendered here by D3 -->
+                </div>
+                
+                <!-- Floating interactive Tooltip -->
+                <div class="custom-tooltip" id="map-tooltip"></div>
+            </section>
 
-        <!-- Right Section: Sidebar Sector Monitor & Stock breakdown -->
-        <section class="sidebar">
-            <!-- Timeframe selector tab button group -->
-            <div class="time-tabs">
-                <button class="tab-btn active" id="tab-5d" onclick="switchTimeFrame('5d')">近 5 日資金布局</button>
-                <button class="tab-btn" id="tab-20d" onclick="switchTimeFrame('20d')">近 20 日資金規模</button>
-            </div>
-
-            <!-- Sector Quick List Card -->
-            <div class="card">
+            <!-- Sector Quick List Card (repositioned & Grid layout styled) -->
+            <div class="card sector-ranking-card">
                 <div class="panel-title">
                     板塊資金排序
                     <span id="ranking-header-badge" style="background: rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.75rem;">近5日累計</span>
@@ -76,8 +70,17 @@
                 </div>
                 <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">展開全部板塊</button>
             </div>
+        </div>
 
-            <!-- Bottom Fishing Alert Card -->
+        <!-- Right Section: Sidebar Sector Monitor & Stock breakdown -->
+        <section class="sidebar">
+            <!-- Timeframe selector tab button group -->
+            <div class="time-tabs">
+                <button class="tab-btn active" id="tab-5d" onclick="switchTimeFrame('5d')">近 5 日資金布局</button>
+                <button class="tab-btn" id="tab-20d" onclick="switchTimeFrame('20d')">近 20 日資金規模</button>
+            </div>
+
+            <!-- Bottom Fishing Alert Card (now at the top of sidebar) -->
             <div class="card bottom-fishing-card" id="bottom-fishing-panel">
                 <div class="panel-title" style="color: #ffd600; border-bottom: 1px solid rgba(255, 214, 0, 0.15);">
                     法人逆勢抄底警報排行
@@ -256,9 +259,9 @@
             const listContainer = document.getElementById("sector-quick-list");
             listContainer.innerHTML = "";
 
-            // Sort by absolute flow magnitude to show most active sectors first
+            // Sort by flow magnitude to show most active sectors first (Descending Order)
             const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
-            const sortedData = [...cachedData].sort((a, b) => Math.abs(b[flowKey]) - Math.abs(a[flowKey]));
+            const sortedData = [...cachedData].sort((a, b) => b[flowKey] - a[flowKey]);
 
             // 根據摺疊狀態決定顯示的板塊數量
             const displayCount = isSectorsExpanded ? sortedData.length : 8;
