@@ -395,7 +395,7 @@
             }
             
             // 根據傳入的門檻過濾個股
-            const filtered = whaleStocks.filter(st => st.diff_4w >= min && st.diff_4w <= max);
+            const filtered = whaleStocks.filter(st => st.diff_8w >= min && st.diff_8w <= max);
             
             if (filtered.length === 0) {
                 listContainer.innerHTML = `
@@ -433,8 +433,8 @@
                             <span class="val" style="color: var(--text-primary); font-weight: 500;">${stock.current_ratio.toFixed(2)}%</span>
                         </div>
                         <div class="detail-val">
-                            <span class="label">近4週增減</span>
-                            <span class="val val-positive" style="font-weight: 700;">+${stock.diff_4w.toFixed(2)}%</span>
+                            <span class="label">近8週增減</span>
+                            <span class="val val-positive" style="font-weight: 700;">+${stock.diff_8w.toFixed(2)}%</span>
                         </div>
                         <div class="detail-val">
                             <span class="label">今日漲跌</span>

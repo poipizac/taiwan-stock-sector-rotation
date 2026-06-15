@@ -312,13 +312,13 @@ def detect_whale_locked_stocks(df, stock_info):
     log("=== 開始大戶鎖碼追蹤 (方案 A) ===")
     
     options = get_base_date_options()
-    if len(options) < 5:
+    if len(options) < 9:
         log("[警告] 集保日期不足，無法執行大戶鎖碼追蹤。")
         return []
         
     latest_date = options[0]
-    base_date = options[4]
-    log(f"最新集保日期: {latest_date} | 基期日期 (4週前): {base_date}")
+    base_date = options[8]
+    log(f"最新集保日期: {latest_date} | 基期日期 (8週前): {base_date}")
     
     latest_whale = get_latest_whale_ratios()
     if not latest_whale:
@@ -380,13 +380,13 @@ def detect_whale_locked_stocks(df, stock_info):
                     "stock_id": sid,
                     "stock_name": stock_name,
                     "current_ratio": round(latest_ratio, 2),
-                    "diff_4w": round(diff, 2),
+                    "diff_8w": round(diff, 2),
                     "today_return_pct": round(today_return, 2),
                     "sector": sector
                 })
                 
     log(f"大戶鎖碼偵測完成！共篩選出 {len(whale_locked_list)} 檔符合條件之個股。")
-    return sorted(whale_locked_list, key=lambda x: x["diff_4w"], reverse=True)
+    return sorted(whale_locked_list, key=lambda x: x["diff_8w"], reverse=True)
 
 def main():
     log("=== 開始全市場板塊輪動數據重構 ===")
