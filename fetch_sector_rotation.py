@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import urllib3
+import yfinance as yf
 
 urllib3.disable_warnings()
 
@@ -414,6 +415,7 @@ def detect_whale_locked_stocks(df, stock_info):
                 if max_diff >= 4.0:
                     stock_row = latest_df[latest_df["stock_id"] == sid]
                     today_return = float(stock_row["today_return_pct"].iloc[0]) if not stock_row.empty else 0.0
+                    price_today = float(stock_row["price"].iloc[0]) if not stock_row.empty else 0.0
                     stock_name = stock_info[sid]["name"]
                     sector = stock_info[sid]["industry"]
                     
@@ -426,9 +428,75 @@ def detect_whale_locked_stocks(df, stock_info):
                         "diff_3m": diffs["diff_3m"],
                         "diff_4m": diffs["diff_4m"],
                         "today_return_pct": round(today_return, 2),
+                        "price_today": price_today,
                         "sector": sector
                     })
                     
+    if whale_locked_list:
+        sids = [item["stock_id"] for item in whale_locked_list]
+        tickers = [f"{sid}.TW" for sid in sids]
+        
+        try:
+            start_date_obj = datetime.strptime(baselines["4m"]["date"], "%Y%m%d") - timedelta(days=10)
+            start_date_str = start_date_obj.strftime("%Y-%m-%d")
+            end_date_obj = datetime.strptime(latest_date, "%Y%m%d") + timedelta(days=2)
+            end_date_str = end_date_obj.strftime("%Y-%m-%d")
+        except Exception as e:
+            log(f"[錯誤] 計算 yfinance 日期區裝失敗: {str(e)}")
+            start_date_str = "2026-01-01"
+            end_date_str = datetime.now().strftime("%Y-%m-%d")
+            
+        log(f"正在自 yfinance 下載 {len(tickers)} 檔鎖碼股之歷史收盤價 ({start_date_str} ~ {end_date_str})...")
+        try:
+            price_data = yf.download(tickers, start=start_date_str, end=end_date_str, group_by='ticker', progress=False)
+        except Exception as e:
+            log(f"[錯誤] yfinance 下載歷史股價失敗: {str(e)}")
+            price_data = None
+            
+        def get_close_price(data, ticker, target_date_str):
+            if data is None or data.empty:
+                return None
+            if isinstance(data.columns, pd.MultiIndex):
+                if ticker not in data.columns.levels[0]:
+                    return None
+                ticker_data = data[ticker]
+            else:
+                ticker_data = data
+            
+            try:
+                t_date = pd.to_datetime(target_date_str)
+                valid_data = ticker_data[ticker_data.index <= t_date].dropna(subset=["Close"])
+                if not valid_data.empty:
+                    close_val = valid_data.loc[valid_data.index[-1], "Close"]
+                    if isinstance(close_val, pd.Series):
+                        close_val = float(close_val.iloc[-1])
+                    return float(close_val)
+            except Exception:
+                pass
+            return None
+
+        for item in whale_locked_list:
+            sid = item["stock_id"]
+            ticker = f"{sid}.TW"
+            price_today = item["price_today"]
+            
+            for k in ["1m", "2m", "3m", "4m"]:
+                base_date = baselines[k]["date"]
+                try:
+                    target_date_str = datetime.strptime(base_date, "%Y%m%d").strftime("%Y-%m-%d")
+                except ValueError:
+                    target_date_str = base_date
+                    
+                price_base = get_close_price(price_data, ticker, target_date_str)
+                if price_base and price_base > 0 and price_today > 0:
+                    change_pct = round(((price_today - price_base) / price_base) * 100, 2)
+                else:
+                    change_pct = 0.0
+                item[f"{k}_price_change"] = change_pct
+            
+            # 刪除臨時欄位
+            del item["price_today"]
+
     log(f"大戶多維度鎖碼偵測完成！共篩選出 {len(whale_locked_list)} 檔符合條件之個股。")
     # 預設以 2m (2個月) 的變動由大到小排序
     return sorted(whale_locked_list, key=lambda x: x["diff_2m"], reverse=True)

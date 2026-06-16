@@ -465,8 +465,12 @@
                 item.onmouseover = () => hoverLinkageActive(stock.sector);
                 item.onmouseout = () => hoverLinkageReset();
                 
-                const retSign = stock.today_return_pct >= 0 ? "+" : "";
-                const retClass = stock.today_return_pct >= 0 ? "val-positive" : "val-negative";
+                // 動態時間區間累計漲跌幅
+                const priceChangeKey = currentTimeWhale + "_price_change";
+                const priceChangeVal = stock[priceChangeKey] !== undefined ? stock[priceChangeKey] : 0.0;
+                const priceChangeLabel = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "漲跌";
+                const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
+                const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
                 
                 item.innerHTML = `
                     <div class="whale-stock-header">
@@ -486,8 +490,8 @@
                             <span class="val val-positive" style="font-weight: 700;">+${stock[diffKey].toFixed(2)}%</span>
                         </div>
                         <div class="detail-val">
-                            <span class="label">今日漲跌</span>
-                            <span class="${retClass}" style="font-weight: 600;">${retSign}${stock.today_return_pct.toFixed(2)}%</span>
+                            <span class="label">${priceChangeLabel}</span>
+                            <span class="${priceChangeClass}" style="font-weight: 600;">${priceChangeSign}${priceChangeVal.toFixed(2)}%</span>
                         </div>
                     </div>
                 `;

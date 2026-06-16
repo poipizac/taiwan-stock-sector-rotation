@@ -2662,7 +2662,11 @@
             "diff_3m": 16.14,
             "diff_4m": 17.82,
             "today_return_pct": 9.9,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 118.2,
+            "2m_price_change": 205.78,
+            "3m_price_change": 241.83,
+            "4m_price_change": 263.97
         },
         {
             "stock_id": "4916",
@@ -2673,7 +2677,11 @@
             "diff_3m": 14.53,
             "diff_4m": 18.92,
             "today_return_pct": -7.44,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 46.97,
+            "2m_price_change": 46.76,
+            "3m_price_change": 61.79,
+            "4m_price_change": 65.28
         },
         {
             "stock_id": "8028",
@@ -2684,7 +2692,11 @@
             "diff_3m": 7.69,
             "diff_4m": 20.6,
             "today_return_pct": 1.11,
-            "sector": "半導體業"
+            "sector": "半導體業",
+            "1m_price_change": 11.78,
+            "2m_price_change": 71.85,
+            "3m_price_change": 73.71,
+            "4m_price_change": 92.43
         },
         {
             "stock_id": "2478",
@@ -2695,7 +2707,11 @@
             "diff_3m": 10.19,
             "diff_4m": 8.79,
             "today_return_pct": 9.91,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 125.75,
+            "2m_price_change": 144.17,
+            "3m_price_change": 175.99,
+            "4m_price_change": 216.28
         },
         {
             "stock_id": "3704",
@@ -2706,7 +2722,11 @@
             "diff_3m": 10.32,
             "diff_4m": 11.54,
             "today_return_pct": 5.07,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 24.87,
+            "2m_price_change": 27.37,
+            "3m_price_change": 43.46,
+            "4m_price_change": 45.87
         },
         {
             "stock_id": "2464",
@@ -2717,7 +2737,11 @@
             "diff_3m": 6.62,
             "diff_4m": 8.3,
             "today_return_pct": 9.73,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 29.25,
+            "2m_price_change": 106.96,
+            "3m_price_change": 119.46,
+            "4m_price_change": 129.96
         },
         {
             "stock_id": "6409",
@@ -2728,7 +2752,11 @@
             "diff_3m": 8.81,
             "diff_4m": 9.24,
             "today_return_pct": 0.75,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 30.87,
+            "2m_price_change": 19.97,
+            "3m_price_change": 24.6,
+            "4m_price_change": 3.77
         },
         {
             "stock_id": "2406",
@@ -2739,7 +2767,11 @@
             "diff_3m": 6.96,
             "diff_4m": 10.38,
             "today_return_pct": -1.92,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 23.99,
+            "2m_price_change": 12.67,
+            "3m_price_change": 3.24,
+            "4m_price_change": 29.44
         },
         {
             "stock_id": "3550",
@@ -2750,7 +2782,11 @@
             "diff_3m": 6.78,
             "diff_4m": 8.95,
             "today_return_pct": -3.44,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 33.57,
+            "2m_price_change": 32.94,
+            "3m_price_change": 48.02,
+            "4m_price_change": 43.11
         },
         {
             "stock_id": "7610",
@@ -2761,7 +2797,11 @@
             "diff_3m": 4.89,
             "diff_4m": 2.17,
             "today_return_pct": 9.75,
-            "sector": "綠能環保"
+            "sector": "綠能環保",
+            "1m_price_change": 84.07,
+            "2m_price_change": 173.51,
+            "3m_price_change": 445.31,
+            "4m_price_change": 536.86
         },
         {
             "stock_id": "2375",
@@ -2772,7 +2812,11 @@
             "diff_3m": 5.83,
             "diff_4m": 5.52,
             "today_return_pct": 9.86,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 90.64,
+            "2m_price_change": 115.34,
+            "3m_price_change": 134.53,
+            "4m_price_change": 122.16
         },
         {
             "stock_id": "2344",
@@ -2783,7 +2827,11 @@
             "diff_3m": 1.8,
             "diff_4m": 2.01,
             "today_return_pct": 9.88,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 45.95,
+            "2m_price_change": 115.26,
+            "3m_price_change": 72.72,
+            "4m_price_change": 80.08
         },
         {
             "stock_id": "2243",
@@ -2794,7 +2842,11 @@
             "diff_3m": 8.72,
             "diff_4m": 8.72,
             "today_return_pct": 9.95,
-            "sector": "汽車工業"
+            "sector": "汽車工業",
+            "1m_price_change": 92.92,
+            "2m_price_change": 73.31,
+            "3m_price_change": 109.74,
+            "4m_price_change": 245.15
         },
         {
             "stock_id": "3033",
@@ -2805,7 +2857,11 @@
             "diff_3m": 5.51,
             "diff_4m": 9.46,
             "today_return_pct": 0.0,
-            "sector": "電子通路業"
+            "sector": "電子通路業",
+            "1m_price_change": 3.55,
+            "2m_price_change": 43.15,
+            "3m_price_change": 38.74,
+            "4m_price_change": 57.21
         },
         {
             "stock_id": "3048",
@@ -2816,7 +2872,11 @@
             "diff_3m": 5.69,
             "diff_4m": 7.78,
             "today_return_pct": 0.68,
-            "sector": "電子通路業"
+            "sector": "電子通路業",
+            "1m_price_change": 31.02,
+            "2m_price_change": 86.79,
+            "3m_price_change": 82.84,
+            "4m_price_change": 92.66
         },
         {
             "stock_id": "2399",
@@ -2827,7 +2887,11 @@
             "diff_3m": 4.41,
             "diff_4m": 11.32,
             "today_return_pct": 0.73,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 5.61,
+            "2m_price_change": 36.17,
+            "3m_price_change": 29.03,
+            "4m_price_change": 121.2
         },
         {
             "stock_id": "2027",
@@ -2838,7 +2902,11 @@
             "diff_3m": 4.97,
             "diff_4m": 4.92,
             "today_return_pct": 0.23,
-            "sector": "鋼鐵工業"
+            "sector": "鋼鐵工業",
+            "1m_price_change": 9.54,
+            "2m_price_change": 16.09,
+            "3m_price_change": 16.4,
+            "4m_price_change": 16.87
         },
         {
             "stock_id": "3231",
@@ -2849,7 +2917,11 @@
             "diff_3m": 8.15,
             "diff_4m": 7.32,
             "today_return_pct": 3.53,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 19.19,
+            "2m_price_change": 18.32,
+            "3m_price_change": 24.23,
+            "4m_price_change": 22.81
         },
         {
             "stock_id": "2476",
@@ -2860,7 +2932,11 @@
             "diff_3m": 10.92,
             "diff_4m": 11.23,
             "today_return_pct": 4.07,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 11.3,
+            "2m_price_change": 11.3,
+            "3m_price_change": 52.38,
+            "4m_price_change": 54.4
         },
         {
             "stock_id": "4906",
@@ -2871,7 +2947,11 @@
             "diff_3m": -1.09,
             "diff_4m": 3.15,
             "today_return_pct": 0.57,
-            "sector": "通信網路業"
+            "sector": "通信網路業",
+            "1m_price_change": 13.54,
+            "2m_price_change": 17.75,
+            "3m_price_change": 27.91,
+            "4m_price_change": 72.96
         },
         {
             "stock_id": "3043",
@@ -2882,7 +2962,11 @@
             "diff_3m": 6.09,
             "diff_4m": 6.09,
             "today_return_pct": -1.09,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 15.82,
+            "2m_price_change": 12.66,
+            "3m_price_change": 7.58,
+            "4m_price_change": 5.83
         },
         {
             "stock_id": "4739",
@@ -2893,7 +2977,11 @@
             "diff_3m": 0.68,
             "diff_4m": 6.32,
             "today_return_pct": 0.82,
-            "sector": "化學生技醫療"
+            "sector": "化學生技醫療",
+            "1m_price_change": 27.21,
+            "2m_price_change": 35.51,
+            "3m_price_change": 47.95,
+            "4m_price_change": 80.15
         },
         {
             "stock_id": "3305",
@@ -2904,7 +2992,11 @@
             "diff_3m": 5.84,
             "diff_4m": 5.53,
             "today_return_pct": -0.35,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 3.97,
+            "2m_price_change": 19.5,
+            "3m_price_change": 38.46,
+            "4m_price_change": 32.11
         },
         {
             "stock_id": "6282",
@@ -2915,7 +3007,11 @@
             "diff_3m": 4.13,
             "diff_4m": 2.28,
             "today_return_pct": 0.34,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 17.54,
+            "2m_price_change": 14.54,
+            "3m_price_change": 18.62,
+            "4m_price_change": 21.46
         },
         {
             "stock_id": "3090",
@@ -2926,7 +3022,11 @@
             "diff_3m": 6.53,
             "diff_4m": 8.76,
             "today_return_pct": 9.96,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 98.24,
+            "2m_price_change": 159.45,
+            "3m_price_change": 195.38,
+            "4m_price_change": 203.01
         },
         {
             "stock_id": "2603",
@@ -2937,7 +3037,11 @@
             "diff_3m": 4.39,
             "diff_4m": 7.4,
             "today_return_pct": -1.54,
-            "sector": "航運業"
+            "sector": "航運業",
+            "1m_price_change": 11.97,
+            "2m_price_change": 13.38,
+            "3m_price_change": 4.91,
+            "4m_price_change": 20.7
         },
         {
             "stock_id": "6890",
@@ -2948,7 +3052,11 @@
             "diff_3m": 5.24,
             "diff_4m": 5.24,
             "today_return_pct": -9.96,
-            "sector": "運動休閒"
+            "sector": "運動休閒",
+            "1m_price_change": 39.27,
+            "2m_price_change": 31.34,
+            "3m_price_change": 33.62,
+            "4m_price_change": 15.83
         },
         {
             "stock_id": "1516",
@@ -2959,7 +3067,11 @@
             "diff_3m": 4.59,
             "diff_4m": 4.09,
             "today_return_pct": -1.63,
-            "sector": "其他"
+            "sector": "其他",
+            "1m_price_change": -3.42,
+            "2m_price_change": 7.36,
+            "3m_price_change": -4.94,
+            "4m_price_change": 0.0
         },
         {
             "stock_id": "9136",
@@ -2970,7 +3082,11 @@
             "diff_3m": 7.66,
             "diff_4m": 11.15,
             "today_return_pct": -4.03,
-            "sector": "存託憑證"
+            "sector": "存託憑證",
+            "1m_price_change": 37.04,
+            "2m_price_change": 64.04,
+            "3m_price_change": 52.75,
+            "4m_price_change": 118.22
         },
         {
             "stock_id": "6225",
@@ -2981,7 +3097,11 @@
             "diff_3m": 4.5,
             "diff_4m": 4.5,
             "today_return_pct": 0.86,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": -32.95,
+            "2m_price_change": 23.36,
+            "3m_price_change": 3.98,
+            "4m_price_change": 37.03
         },
         {
             "stock_id": "7760",
@@ -2992,7 +3112,11 @@
             "diff_3m": 2.81,
             "diff_4m": 1.07,
             "today_return_pct": -0.47,
-            "sector": "觀光餐旅"
+            "sector": "觀光餐旅",
+            "1m_price_change": -6.57,
+            "2m_price_change": -14.09,
+            "3m_price_change": -18.78,
+            "4m_price_change": -25.49
         },
         {
             "stock_id": "6414",
@@ -3003,7 +3127,11 @@
             "diff_3m": 3.71,
             "diff_4m": 4.06,
             "today_return_pct": 1.6,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 23.88,
+            "2m_price_change": 30.2,
+            "3m_price_change": 46.59,
+            "4m_price_change": 41.36
         },
         {
             "stock_id": "3591",
@@ -3014,7 +3142,11 @@
             "diff_3m": 4.86,
             "diff_4m": 1.4,
             "today_return_pct": 2.2,
-            "sector": "光電業"
+            "sector": "光電業",
+            "1m_price_change": -2.52,
+            "2m_price_change": -6.06,
+            "3m_price_change": 9.15,
+            "4m_price_change": 21.09
         },
         {
             "stock_id": "8454",
@@ -3025,7 +3157,11 @@
             "diff_3m": 3.93,
             "diff_4m": 4.13,
             "today_return_pct": -9.96,
-            "sector": "數位雲端"
+            "sector": "數位雲端",
+            "1m_price_change": 75.1,
+            "2m_price_change": 87.07,
+            "3m_price_change": 84.44,
+            "4m_price_change": 72.79
         },
         {
             "stock_id": "2408",
@@ -3036,7 +3172,11 @@
             "diff_3m": -0.75,
             "diff_4m": -3.72,
             "today_return_pct": 5.75,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 26.97,
+            "2m_price_change": 88.33,
+            "3m_price_change": 69.02,
+            "4m_price_change": 42.27
         },
         {
             "stock_id": "6831",
@@ -3047,7 +3187,11 @@
             "diff_3m": 4.21,
             "diff_4m": 4.2,
             "today_return_pct": 2.75,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 3.03,
+            "2m_price_change": 57.26,
+            "3m_price_change": 106.18,
+            "4m_price_change": 161.76
         },
         {
             "stock_id": "2356",
@@ -3058,7 +3202,11 @@
             "diff_3m": 4.74,
             "diff_4m": 4.49,
             "today_return_pct": 1.36,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 28.54,
+            "2m_price_change": 46.67,
+            "3m_price_change": 56.78,
+            "4m_price_change": 47.96
         },
         {
             "stock_id": "3413",
@@ -3069,7 +3217,11 @@
             "diff_3m": 3.63,
             "diff_4m": 4.19,
             "today_return_pct": 4.72,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 2.17,
+            "2m_price_change": 5.74,
+            "3m_price_change": 10.48,
+            "4m_price_change": 15.07
         },
         {
             "stock_id": "6770",
@@ -3080,7 +3232,11 @@
             "diff_3m": -2.46,
             "diff_4m": -1.65,
             "today_return_pct": 9.08,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 16.72,
+            "2m_price_change": 39.35,
+            "3m_price_change": -2.91,
+            "4m_price_change": 16.16
         },
         {
             "stock_id": "2597",
@@ -3091,7 +3247,11 @@
             "diff_3m": 4.57,
             "diff_4m": 4.28,
             "today_return_pct": 0.0,
-            "sector": "建材營造"
+            "sector": "建材營造",
+            "1m_price_change": 17.23,
+            "2m_price_change": 15.11,
+            "3m_price_change": 21.73,
+            "4m_price_change": 11.73
         },
         {
             "stock_id": "2385",
@@ -3102,7 +3262,11 @@
             "diff_3m": 4.88,
             "diff_4m": 5.51,
             "today_return_pct": 0.0,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 3.67,
+            "2m_price_change": 2.02,
+            "3m_price_change": 2.84,
+            "4m_price_change": 7.14
         },
         {
             "stock_id": "2413",
@@ -3113,7 +3277,11 @@
             "diff_3m": 2.78,
             "diff_4m": 5.4,
             "today_return_pct": 2.12,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 44.68,
+            "2m_price_change": 20.19,
+            "3m_price_change": 9.84,
+            "4m_price_change": 50.6
         },
         {
             "stock_id": "3016",
@@ -3124,7 +3292,11 @@
             "diff_3m": 3.99,
             "diff_4m": 4.27,
             "today_return_pct": 9.65,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 12.61,
+            "2m_price_change": 98.1,
+            "3m_price_change": 100.0,
+            "4m_price_change": 125.23
         },
         {
             "stock_id": "6806",
@@ -3135,7 +3307,11 @@
             "diff_3m": 5.17,
             "diff_4m": 5.29,
             "today_return_pct": -9.9,
-            "sector": "綠能環保"
+            "sector": "綠能環保",
+            "1m_price_change": -76.67,
+            "2m_price_change": -85.23,
+            "3m_price_change": -91.05,
+            "4m_price_change": -91.69
         },
         {
             "stock_id": "2606",
@@ -3146,7 +3322,11 @@
             "diff_3m": 4.37,
             "diff_4m": 4.22,
             "today_return_pct": -1.61,
-            "sector": "航運業"
+            "sector": "航運業",
+            "1m_price_change": 11.66,
+            "2m_price_change": 7.88,
+            "3m_price_change": 18.85,
+            "4m_price_change": 12.02
         },
         {
             "stock_id": "5234",
@@ -3157,7 +3337,11 @@
             "diff_3m": 4.87,
             "diff_4m": 5.99,
             "today_return_pct": -0.38,
-            "sector": "光電業"
+            "sector": "光電業",
+            "1m_price_change": -2.51,
+            "2m_price_change": -12.19,
+            "3m_price_change": 2.77,
+            "4m_price_change": 1.82
         },
         {
             "stock_id": "6695",
@@ -3168,7 +3352,11 @@
             "diff_3m": 3.55,
             "diff_4m": 3.71,
             "today_return_pct": 9.94,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 6.55,
+            "2m_price_change": 36.88,
+            "3m_price_change": 32.77,
+            "4m_price_change": 31.35
         },
         {
             "stock_id": "1714",
@@ -3179,7 +3367,11 @@
             "diff_3m": 4.85,
             "diff_4m": 6.65,
             "today_return_pct": 9.87,
-            "sector": "化學生技醫療"
+            "sector": "化學生技醫療",
+            "1m_price_change": 69.72,
+            "2m_price_change": 73.42,
+            "3m_price_change": 72.52,
+            "4m_price_change": 80.54
         },
         {
             "stock_id": "9912",
@@ -3190,7 +3382,11 @@
             "diff_3m": 3.28,
             "diff_4m": 4.06,
             "today_return_pct": 0.4,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 1.21,
+            "2m_price_change": -0.0,
+            "3m_price_change": -0.4,
+            "4m_price_change": 4.58
         },
         {
             "stock_id": "4526",
@@ -3201,7 +3397,11 @@
             "diff_3m": 3.91,
             "diff_4m": 5.02,
             "today_return_pct": -0.64,
-            "sector": "電機機械"
+            "sector": "電機機械",
+            "1m_price_change": 4.05,
+            "2m_price_change": 12.06,
+            "3m_price_change": 20.09,
+            "4m_price_change": 18.43
         },
         {
             "stock_id": "2537",
@@ -3212,7 +3412,11 @@
             "diff_3m": 4.48,
             "diff_4m": 6.73,
             "today_return_pct": 6.14,
-            "sector": "建材營造"
+            "sector": "建材營造",
+            "1m_price_change": 25.26,
+            "2m_price_change": 16.91,
+            "3m_price_change": 16.35,
+            "4m_price_change": 14.69
         },
         {
             "stock_id": "2049",
@@ -3223,7 +3427,11 @@
             "diff_3m": 6.69,
             "diff_4m": 7.17,
             "today_return_pct": 1.85,
-            "sector": "電機機械"
+            "sector": "電機機械",
+            "1m_price_change": -16.05,
+            "2m_price_change": 13.23,
+            "3m_price_change": 47.43,
+            "4m_price_change": 42.03
         },
         {
             "stock_id": "2438",
@@ -3234,7 +3442,11 @@
             "diff_3m": 4.55,
             "diff_4m": 4.41,
             "today_return_pct": 0.0,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 7.02,
+            "2m_price_change": -1.56,
+            "3m_price_change": -3.91,
+            "4m_price_change": -3.07
         },
         {
             "stock_id": "6534",
@@ -3245,7 +3457,11 @@
             "diff_3m": 4.16,
             "diff_4m": 3.15,
             "today_return_pct": 0.89,
-            "sector": "生技醫療業"
+            "sector": "生技醫療業",
+            "1m_price_change": -6.6,
+            "2m_price_change": -9.14,
+            "3m_price_change": 7.44,
+            "4m_price_change": 12.67
         },
         {
             "stock_id": "3592",
@@ -3256,7 +3472,11 @@
             "diff_3m": 5.44,
             "diff_4m": 5.38,
             "today_return_pct": 1.29,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 10.87,
+            "2m_price_change": 15.03,
+            "3m_price_change": 28.74,
+            "4m_price_change": 23.27
         },
         {
             "stock_id": "8438",
@@ -3267,7 +3487,11 @@
             "diff_3m": 4.38,
             "diff_4m": 0.91,
             "today_return_pct": 4.17,
-            "sector": "綠能環保"
+            "sector": "綠能環保",
+            "1m_price_change": -11.67,
+            "2m_price_change": -6.57,
+            "3m_price_change": 26.92,
+            "4m_price_change": 47.06
         },
         {
             "stock_id": "4919",
@@ -3278,7 +3502,11 @@
             "diff_3m": 2.62,
             "diff_4m": 6.55,
             "today_return_pct": 9.97,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 24.92,
+            "2m_price_change": 49.61,
+            "3m_price_change": 77.06,
+            "4m_price_change": 220.07
         },
         {
             "stock_id": "1514",
@@ -3289,7 +3517,11 @@
             "diff_3m": 2.35,
             "diff_4m": 0.98,
             "today_return_pct": 1.26,
-            "sector": "電機機械"
+            "sector": "電機機械",
+            "1m_price_change": 3.86,
+            "2m_price_change": 6.14,
+            "3m_price_change": 5.22,
+            "4m_price_change": -0.82
         },
         {
             "stock_id": "2867",
@@ -3300,7 +3532,11 @@
             "diff_3m": 3.19,
             "diff_4m": 4.08,
             "today_return_pct": 1.58,
-            "sector": "金融保險"
+            "sector": "金融保險",
+            "1m_price_change": 8.42,
+            "2m_price_change": 6.35,
+            "3m_price_change": 11.01,
+            "4m_price_change": 4.36
         },
         {
             "stock_id": "5284",
@@ -3311,7 +3547,11 @@
             "diff_3m": 4.33,
             "diff_4m": 4.33,
             "today_return_pct": 3.02,
-            "sector": "其他"
+            "sector": "其他",
+            "1m_price_change": -0.4,
+            "2m_price_change": 17.74,
+            "3m_price_change": 29.76,
+            "4m_price_change": 47.64
         },
         {
             "stock_id": "2376",
@@ -3322,7 +3562,11 @@
             "diff_3m": 5.6,
             "diff_4m": 5.95,
             "today_return_pct": 2.19,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 7.04,
+            "2m_price_change": 24.16,
+            "3m_price_change": 40.64,
+            "4m_price_change": 52.29
         },
         {
             "stock_id": "3481",
@@ -3333,7 +3577,11 @@
             "diff_3m": 1.11,
             "diff_4m": 4.8,
             "today_return_pct": 5.87,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 45.67,
+            "2m_price_change": 103.04,
+            "3m_price_change": 100.33,
+            "4m_price_change": 139.58
         },
         {
             "stock_id": "6214",
@@ -3344,7 +3592,11 @@
             "diff_3m": 4.03,
             "diff_4m": 3.45,
             "today_return_pct": -1.72,
-            "sector": "資訊服務業"
+            "sector": "資訊服務業",
+            "1m_price_change": 17.21,
+            "2m_price_change": 13.49,
+            "3m_price_change": 25.44,
+            "4m_price_change": 28.25
         },
         {
             "stock_id": "3057",
@@ -3355,7 +3607,11 @@
             "diff_3m": 10.5,
             "diff_4m": 10.5,
             "today_return_pct": 6.35,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 9.24,
+            "2m_price_change": 8.06,
+            "3m_price_change": 5.79,
+            "4m_price_change": 25.63
         },
         {
             "stock_id": "8081",
@@ -3366,7 +3622,11 @@
             "diff_3m": 1.91,
             "diff_4m": 4.77,
             "today_return_pct": 0.35,
-            "sector": "半導體業"
+            "sector": "半導體業",
+            "1m_price_change": 11.15,
+            "2m_price_change": 17.84,
+            "3m_price_change": 20.34,
+            "4m_price_change": 17.84
         },
         {
             "stock_id": "1598",
@@ -3377,7 +3637,11 @@
             "diff_3m": 2.1,
             "diff_4m": 4.01,
             "today_return_pct": 0.24,
-            "sector": "運動休閒"
+            "sector": "運動休閒",
+            "1m_price_change": 4.48,
+            "2m_price_change": 1.69,
+            "3m_price_change": 5.53,
+            "4m_price_change": 6.6
         },
         {
             "stock_id": "2461",
@@ -3388,7 +3652,11 @@
             "diff_3m": 4.86,
             "diff_4m": 9.54,
             "today_return_pct": 0.0,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 22.9,
+            "2m_price_change": 8.55,
+            "3m_price_change": 13.73,
+            "4m_price_change": 15.81
         },
         {
             "stock_id": "2481",
@@ -3399,7 +3667,11 @@
             "diff_3m": 0.58,
             "diff_4m": 6.85,
             "today_return_pct": -1.72,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 21.28,
+            "2m_price_change": 20.76,
+            "3m_price_change": 53.07,
+            "4m_price_change": 72.34
         },
         {
             "stock_id": "1721",
@@ -3410,7 +3682,11 @@
             "diff_3m": 2.01,
             "diff_4m": 4.17,
             "today_return_pct": 1.3,
-            "sector": "化學生技醫療"
+            "sector": "化學生技醫療",
+            "1m_price_change": -25.48,
+            "2m_price_change": 14.15,
+            "3m_price_change": 23.16,
+            "4m_price_change": 38.05
         },
         {
             "stock_id": "3011",
@@ -3421,7 +3697,11 @@
             "diff_3m": 2.17,
             "diff_4m": 4.07,
             "today_return_pct": 2.07,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 19.84,
+            "2m_price_change": 11.7,
+            "3m_price_change": 12.55,
+            "4m_price_change": 14.29
         },
         {
             "stock_id": "1527",
@@ -3432,7 +3712,11 @@
             "diff_3m": 4.1,
             "diff_4m": 2.98,
             "today_return_pct": 0.3,
-            "sector": "電機機械"
+            "sector": "電機機械",
+            "1m_price_change": 4.06,
+            "2m_price_change": 1.06,
+            "3m_price_change": 2.93,
+            "4m_price_change": -2.49
         },
         {
             "stock_id": "4564",
@@ -3443,7 +3727,11 @@
             "diff_3m": 2.2,
             "diff_4m": 6.31,
             "today_return_pct": 0.97,
-            "sector": "電機機械"
+            "sector": "電機機械",
+            "1m_price_change": -4.88,
+            "2m_price_change": -21.41,
+            "3m_price_change": -22.77,
+            "4m_price_change": -5.17
         },
         {
             "stock_id": "2493",
@@ -3454,7 +3742,11 @@
             "diff_3m": 3.81,
             "diff_4m": 4.34,
             "today_return_pct": 9.9,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 66.67,
+            "2m_price_change": 61.35,
+            "3m_price_change": 96.12,
+            "4m_price_change": 114.62
         },
         {
             "stock_id": "2351",
@@ -3465,7 +3757,11 @@
             "diff_3m": 4.47,
             "diff_4m": 7.92,
             "today_return_pct": 0.55,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 2.22,
+            "2m_price_change": 42.64,
+            "3m_price_change": 100.22,
+            "4m_price_change": 113.95
         },
         {
             "stock_id": "3209",
@@ -3476,7 +3772,11 @@
             "diff_3m": 3.89,
             "diff_4m": 10.37,
             "today_return_pct": 0.16,
-            "sector": "電子通路業"
+            "sector": "電子通路業",
+            "1m_price_change": -9.85,
+            "2m_price_change": 29.19,
+            "3m_price_change": 43.22,
+            "4m_price_change": 63.9
         },
         {
             "stock_id": "2327",
@@ -3487,7 +3787,11 @@
             "diff_3m": 5.34,
             "diff_4m": 6.59,
             "today_return_pct": 9.94,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 107.85,
+            "2m_price_change": 199.13,
+            "3m_price_change": 249.35,
+            "4m_price_change": 269.82
         },
         {
             "stock_id": "6271",
@@ -3498,7 +3802,11 @@
             "diff_3m": 0.34,
             "diff_4m": -1.08,
             "today_return_pct": 2.31,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 39.6,
+            "2m_price_change": 33.2,
+            "3m_price_change": 59.93,
+            "4m_price_change": 61.5
         },
         {
             "stock_id": "2472",
@@ -3509,7 +3817,11 @@
             "diff_3m": 5.17,
             "diff_4m": 8.53,
             "today_return_pct": 3.9,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 77.88,
+            "2m_price_change": 109.21,
+            "3m_price_change": 199.22,
+            "4m_price_change": 255.76
         },
         {
             "stock_id": "4441",
@@ -3520,7 +3832,11 @@
             "diff_3m": 4.16,
             "diff_4m": 2.34,
             "today_return_pct": 0.78,
-            "sector": "紡織纖維"
+            "sector": "紡織纖維",
+            "1m_price_change": -5.34,
+            "2m_price_change": 0.26,
+            "3m_price_change": -5.34,
+            "4m_price_change": -21.84
         },
         {
             "stock_id": "3450",
@@ -3531,7 +3847,11 @@
             "diff_3m": 13.38,
             "diff_4m": 20.92,
             "today_return_pct": 9.98,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 28.19,
+            "2m_price_change": 38.52,
+            "3m_price_change": 77.58,
+            "4m_price_change": 108.64
         },
         {
             "stock_id": "3406",
@@ -3542,7 +3862,11 @@
             "diff_3m": 3.27,
             "diff_4m": 4.37,
             "today_return_pct": 9.97,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 26.97,
+            "2m_price_change": 48.43,
+            "3m_price_change": 67.78,
+            "4m_price_change": 73.83
         },
         {
             "stock_id": "3042",
@@ -3553,7 +3877,11 @@
             "diff_3m": 7.39,
             "diff_4m": 10.11,
             "today_return_pct": 8.46,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 72.5,
+            "2m_price_change": 63.96,
+            "3m_price_change": 167.09,
+            "4m_price_change": 181.95
         },
         {
             "stock_id": "3060",
@@ -3564,7 +3892,11 @@
             "diff_3m": 3.92,
             "diff_4m": 4.51,
             "today_return_pct": 8.19,
-            "sector": "電腦及週邊設備業"
+            "sector": "電腦及週邊設備業",
+            "1m_price_change": 25.51,
+            "2m_price_change": 11.4,
+            "3m_price_change": -3.16,
+            "4m_price_change": 11.22
         },
         {
             "stock_id": "2605",
@@ -3575,7 +3907,11 @@
             "diff_3m": -0.22,
             "diff_4m": 6.36,
             "today_return_pct": 1.58,
-            "sector": "航運業"
+            "sector": "航運業",
+            "1m_price_change": 9.56,
+            "2m_price_change": -9.96,
+            "3m_price_change": -19.35,
+            "4m_price_change": 10.12
         },
         {
             "stock_id": "6706",
@@ -3586,7 +3922,11 @@
             "diff_3m": 7.61,
             "diff_4m": 4.51,
             "today_return_pct": -2.1,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": 3.15,
+            "2m_price_change": 7.92,
+            "3m_price_change": 35.12,
+            "4m_price_change": 50.0
         },
         {
             "stock_id": "2497",
@@ -3597,7 +3937,11 @@
             "diff_3m": -0.81,
             "diff_4m": 4.04,
             "today_return_pct": -2.5,
-            "sector": "汽車工業"
+            "sector": "汽車工業",
+            "1m_price_change": 8.16,
+            "2m_price_change": 11.05,
+            "3m_price_change": 43.88,
+            "4m_price_change": 38.14
         },
         {
             "stock_id": "3026",
@@ -3608,7 +3952,11 @@
             "diff_3m": 8.89,
             "diff_4m": 14.3,
             "today_return_pct": 9.95,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 156.88,
+            "2m_price_change": 259.74,
+            "3m_price_change": 605.88,
+            "4m_price_change": 703.83
         },
         {
             "stock_id": "8021",
@@ -3619,7 +3967,11 @@
             "diff_3m": 0.51,
             "diff_4m": 8.95,
             "today_return_pct": -3.07,
-            "sector": "其他電子業"
+            "sector": "其他電子業",
+            "1m_price_change": 14.61,
+            "2m_price_change": 29.58,
+            "3m_price_change": 91.3,
+            "4m_price_change": 149.26
         },
         {
             "stock_id": "2484",
@@ -3630,7 +3982,11 @@
             "diff_3m": 7.31,
             "diff_4m": 8.36,
             "today_return_pct": 9.9,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": 96.51,
+            "2m_price_change": 72.88,
+            "3m_price_change": 159.01,
+            "4m_price_change": 177.65
         },
         {
             "stock_id": "3583",
@@ -3641,7 +3997,11 @@
             "diff_3m": 5.08,
             "diff_4m": 6.32,
             "today_return_pct": 1.74,
-            "sector": "電子工業"
+            "sector": "電子工業",
+            "1m_price_change": -8.0,
+            "2m_price_change": 7.5,
+            "3m_price_change": 90.0,
+            "4m_price_change": 154.91
         },
         {
             "stock_id": "3645",
@@ -3652,7 +4012,11 @@
             "diff_3m": 0.43,
             "diff_4m": 6.91,
             "today_return_pct": 2.65,
-            "sector": "電子零組件業"
+            "sector": "電子零組件業",
+            "1m_price_change": -12.45,
+            "2m_price_change": -11.2,
+            "3m_price_change": 18.37,
+            "4m_price_change": 66.91
         }
     ]
 }
