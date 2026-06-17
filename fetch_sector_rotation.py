@@ -18,6 +18,20 @@ CACHE_DIR = "data_cache"
 if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
 
+# 自訂概念股與成分股代碼字典
+CONCEPT_SECTORS = {
+    "記憶體": ['2337', '2344', '2408', '3260', '8299', '4967'],
+    "光通訊": ['4979', '6442', '3081', '3163', '3234', '6426'],
+    "被動元件": ['2327', '2492', '6173', '6127', '2456'],
+    "低軌衛星": ['3491', '3152', '2314', '6285', '2313', '3380'],
+    "機器人": ['2359', '6188', '2464', '8374', '2365', '4562']
+}
+
+STOCK_TO_CONCEPT = {}
+for concept, sids in CONCEPT_SECTORS.items():
+    for sid in sids:
+        STOCK_TO_CONCEPT[sid] = concept
+
 # 設定 User-Agent 防爬蟲阻擋
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -186,7 +200,7 @@ def parse_daily_data(date_str, stock_info):
                 continue
                 
             stock_name = stock_info[stock_id]["name"]
-            sector = stock_info[stock_id]["industry"]
+            sector = STOCK_TO_CONCEPT.get(stock_id, stock_info[stock_id]["industry"])
             
             close_str = row[8].replace(",", "").strip()
             volume_str = row[2].replace(",", "").strip()
@@ -417,7 +431,7 @@ def detect_whale_locked_stocks(df, stock_info):
                     today_return = float(stock_row["today_return_pct"].iloc[0]) if not stock_row.empty else 0.0
                     price_today = float(stock_row["price"].iloc[0]) if not stock_row.empty else 0.0
                     stock_name = stock_info[sid]["name"]
-                    sector = stock_info[sid]["industry"]
+                    sector = STOCK_TO_CONCEPT.get(sid, stock_info[sid]["industry"])
                     
                     whale_locked_list.append({
                         "stock_id": sid,
