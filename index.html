@@ -7,6 +7,25 @@
     <link rel="stylesheet" href="style.css">
     <!-- Load D3.js for visual rendering -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* 特調虛擬板塊的霓虹發光樣式 */
+        .bubble.custom-sector {
+            stroke: #ff007f !important;
+            stroke-width: 3.5px !important;
+            stroke-dasharray: 3, 1 !important;
+            fill-opacity: 0.82 !important;
+            animation: neonPulse 1.8s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            from {
+                filter: drop-shadow(0 0 3px #ff007f) drop-shadow(0 0 8px #ff007f);
+            }
+            to {
+                filter: drop-shadow(0 0 6px #ff007f) drop-shadow(0 0 16px #ff007f);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -268,11 +287,18 @@
             const displayData = sortedData.slice(0, displayCount);
 
             displayData.forEach(sector => {
+                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const isCustom = customSectors.includes(sector.sector_name);
                 const row = document.createElement("div");
                 row.className = "sector-row";
                 row.setAttribute("data-sector", sector.sector_name);
                 if (sector.sector_name === selectedSectorName) {
                     row.classList.add("active");
+                }
+                
+                if (isCustom) {
+                    row.style.border = "1px dashed rgba(255, 0, 127, 0.4)";
+                    row.style.boxShadow = "0 0 6px rgba(255, 0, 127, 0.12)";
                 }
                 
                 row.onclick = () => showSectorDetail(sector.sector_name);
@@ -285,10 +311,12 @@
                 const flowSign = flowVal >= 0 ? "+" : "";
                 const flowClass = flowVal >= 0 ? "val-positive" : "val-negative";
                 const qInfo = getQuadrantInfo(flowVal, sector.acceleration_m);
+                
+                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
 
                 row.innerHTML = `
                     <div>
-                        <div class="name">${sector.sector_name}</div>
+                        <div class="name">${nameHtml}</div>
                         <div class="accel-val" style="color: ${qInfo.color}">${qInfo.name}</div>
                     </div>
                     <div class="stats">
@@ -336,6 +364,8 @@
             }
             
             bfSectors.forEach(sector => {
+                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const isCustom = customSectors.includes(sector.sector_name);
                 const item = document.createElement("div");
                 item.className = "bf-sector-item";
                 item.onclick = () => showSectorDetail(sector.sector_name);
@@ -361,9 +391,11 @@
                     stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之抗跌個股</div>`;
                 }
                 
+                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
+
                 item.innerHTML = `
                     <div class="bf-sector-header">
-                        <span class="name">${sector.sector_name}</span>
+                        <span class="name">${nameHtml}</span>
                         <span class="score">強度得分: ${sector.bottom_fishing_score.toFixed(1)}</span>
                     </div>
                     <div class="bf-stocks-row">
@@ -472,13 +504,16 @@
                 const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
                 const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
                 
+                const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(stock.sector);
+                const badgeStyle = isCustom ? 'style="background: #ff007f; color: #fff; font-weight: bold; box-shadow: 0 0 5px rgba(255, 0, 127, 0.5); border: none;"' : '';
+
                 item.innerHTML = `
                     <div class="whale-stock-header">
                         <span class="stock-info">
                             <span class="name">${stock.stock_name}</span>
                             <span class="id">${stock.stock_id}.TW</span>
                         </span>
-                        <span class="sector-badge">${stock.sector}</span>
+                        <span class="sector-badge" ${badgeStyle}>${stock.sector}</span>
                     </div>
                     <div class="whale-stock-body">
                         <div class="detail-val">
@@ -528,7 +563,8 @@
             content.style.display = "block";
 
             // Fill text
-            document.getElementById("detail-sector-name").textContent = sector.sector_name;
+            const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(sectorName);
+            document.getElementById("detail-sector-name").innerHTML = isCustom ? `★ ${sector.sector_name} <span style="background:#ff007f; color:#fff; font-size:0.75rem; padding:2px 6px; border-radius:3px; margin-left:6px; font-weight:bold; vertical-align: middle;">特調虛擬板塊</span>` : sector.sector_name;
             
             const flowVal = currentTimeFrame === "5d" ? sector.flow_5d_m : sector.flow_20d_m;
             
@@ -787,12 +823,13 @@
             const tooltip = d3.select("#map-tooltip");
             const containerBox = document.getElementById("chart-wrapper");
 
+            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
             bubbleGroup.append("circle")
-                .attr("class", "bubble")
+                .attr("class", d => customSectors.includes(d.sector_name) ? "bubble custom-sector" : "bubble")
                 .attr("r", d => sizeScale(d.size_20d_m))
-                .style("fill", d => getQuadrantInfo(d[flowKey], d.acceleration_m).color)
-                .style("fill-opacity", 0.6)
-                .style("stroke", d => getQuadrantInfo(d[flowKey], d.acceleration_m).color)
+                .style("fill", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
+                .style("fill-opacity", d => customSectors.includes(d.sector_name) ? 0.85 : 0.6)
+                .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
                 .on("mouseover", function(event, d) {
                     hoverLinkageActive(d.sector_name);
 
@@ -831,7 +868,7 @@
                     tooltip.html(`
                         <div class="tooltip-header">
                             <span>${d.sector_name}</span>
-                            <span class="quadrant-badge" style="background: ${qInfo.color}; color:#000;">${qInfo.name}</span>
+                            <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
                         </div>
                         <div class="tooltip-row">
                             <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
@@ -874,7 +911,7 @@
             bubbleGroup.append("text")
                 .attr("class", "bubble-label")
                 .attr("dy", ".3em")
-                .text(d => d.sector_name);
+                .text(d => customSectors.includes(d.sector_name) ? "⭐ " + d.sector_name : d.sector_name);
         }
 
         // Smooth transition on timeline change
@@ -919,12 +956,13 @@
                 .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
             // Transition color rendering of individual circles based on new quadrant
+            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
             svg.selectAll(".bubble")
                 .data(nodes, d => d.sector_name)
                 .transition()
                 .duration(800)
-                .style("fill", d => getQuadrantInfo(d[flowKey], d.acceleration_m).color)
-                .style("stroke", d => getQuadrantInfo(d[flowKey], d.acceleration_m).color);
+                .style("fill", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
+                .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color);
 
             // Re-position central coordinate lines dynamically
             svg.select(".axis-x-line")
