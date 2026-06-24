@@ -458,7 +458,7 @@ svg {
     pointer-events: none;
     font-size: 0.85rem;
     box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-    z-index: 200;
+    z-index: 9999;
     max-width: 325px;
     transition: opacity 0.15s;
     opacity: 0;

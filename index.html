@@ -74,8 +74,6 @@
                     <!-- SVG Chart will be rendered here by D3 -->
                 </div>
                 
-                <!-- Floating interactive Tooltip -->
-                <div class="custom-tooltip" id="map-tooltip"></div>
             </section>
 
             <!-- Sector Quick List Card (repositioned & Grid layout styled) -->
@@ -302,9 +300,17 @@
                 }
                 
                 row.onclick = () => showSectorDetail(sector.sector_name);
-                row.onmouseenter = () => {
-                    hoverLinkageActive(sector.sector_name);
+                row.onmouseenter = (e) => {
+                    hoverLinkageActive(sector.sector_name, e);
                     showSectorDetail(sector.sector_name);
+                };
+                row.onmousemove = (e) => {
+                    const tooltip = d3.select("#map-tooltip");
+                    if (!tooltip.empty() && tooltip.style("opacity") > 0) {
+                        tooltip
+                            .style("left", (e.pageX + 15) + "px")
+                            .style("top", (e.pageY + 15) + "px");
+                    }
                 };
                 row.onmouseleave = () => hoverLinkageReset();
 
@@ -835,12 +841,6 @@
                     hoverLinkageActive(d.sector_name, event);
                     showSectorDetail(d.sector_name);
                 })
-                .on("mousemove", function(event, d) {
-                    const containerBox = document.getElementById("chart-wrapper");
-                    d3.select("#map-tooltip")
-                        .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
-                        .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px");
-                })
                 .on("mouseout", function(event, d) {
                     hoverLinkageReset();
                 })
@@ -1005,19 +1005,27 @@
                 
                 // 計算 Tooltip 位置
                 let tooltipX, tooltipY;
-                if (event) {
-                    tooltipX = event.pageX - containerBox.getBoundingClientRect().left - 10;
-                    tooltipY = event.pageY - containerBox.getBoundingClientRect().top - 180;
+                
+                // 判斷事件來源與設定定位
+                const isListHover = event && !(event.target instanceof SVGElement || event.currentTarget instanceof SVGElement);
+                
+                if (isListHover) {
+                    // 下方板塊資金排序清單的 hover：貼在滑鼠指針的右下方 15px 處
+                    tooltipX = event.pageX + 15;
+                    tooltipY = event.pageY + 15;
                 } else {
+                    // D3 地圖泡泡的 hover 或側邊欄聯動：維持原本綁定泡泡中心的定位
                     const bubbleElement = document.getElementById(`bubble-g-${escapedName}`);
                     if (bubbleElement) {
                         const rect = bubbleElement.getBoundingClientRect();
-                        const parentRect = containerBox.getBoundingClientRect();
-                        tooltipX = rect.left - parentRect.left + rect.width / 2 - 10;
-                        tooltipY = rect.top - parentRect.top - 180;
+                        const tooltipWidth = tooltip.node().offsetWidth || 280;
+                        const tooltipHeight = tooltip.node().offsetHeight || 180;
+                        
+                        tooltipX = rect.left + window.scrollX + rect.width / 2 - tooltipWidth / 2;
+                        tooltipY = rect.top + window.scrollY - tooltipHeight - 10;
                     } else {
-                        tooltipX = d.x - 10;
-                        tooltipY = d.y - 180;
+                        tooltipX = event ? event.pageX + 15 : d.x - 10;
+                        tooltipY = event ? event.pageY + 15 : d.y - 180;
                     }
                 }
                 
@@ -1117,5 +1125,7 @@
         // Initialize loading
         window.onload = loadData;
     </script>
+    <!-- Floating interactive Tooltip -->
+    <div class="custom-tooltip" id="map-tooltip"></div>
 </body>
 </html>
