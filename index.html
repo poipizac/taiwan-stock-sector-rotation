@@ -302,10 +302,11 @@
                 }
                 
                 row.onclick = () => showSectorDetail(sector.sector_name);
-                
-                // Sidebar row Hover linkages
-                row.onmouseover = () => hoverLinkageActive(sector.sector_name);
-                row.onmouseout = () => hoverLinkageReset();
+                row.onmouseenter = () => {
+                    hoverLinkageActive(sector.sector_name);
+                    showSectorDetail(sector.sector_name);
+                };
+                row.onmouseleave = () => hoverLinkageReset();
 
                 const flowVal = sector[flowKey];
                 const flowSign = flowVal >= 0 ? "+" : "";
@@ -831,78 +832,17 @@
                 .style("fill-opacity", d => customSectors.includes(d.sector_name) ? 0.85 : 0.6)
                 .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
                 .on("mouseover", function(event, d) {
-                    hoverLinkageActive(d.sector_name);
-
-                    // Show project lines
-                    d3.select("#proj-x")
-                        .attr("x1", d.x)
-                        .attr("y1", d.y)
-                        .attr("x2", xScale(0))
-                        .attr("y2", d.y)
-                        .transition().duration(150)
-                        .style("opacity", 1);
-
-                    d3.select("#proj-y")
-                        .attr("x1", d.x)
-                        .attr("y1", d.y)
-                        .attr("x2", d.x)
-                        .attr("y2", yScale(0))
-                        .transition().duration(150)
-                        .style("opacity", 1);
-
-                    // Render dynamic tooltip
-                    const currFlowVal = d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"];
-                    const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
-                    
-                    const stockItems = d.individual_stocks.slice(0, 3).map(st => {
-                        const flowSign = st.flow_5d_m >= 0 ? "+" : "";
-                        const flowClass = st.flow_5d_m >= 0 ? "val-positive" : "val-negative";
-                        return `
-                            <div class="tooltip-stock-item">
-                                <span>${st.stock_name}</span>
-                                <span class="${flowClass}">${flowSign}${st.flow_5d_m} M</span>
-                            </div>
-                        `;
-                    }).join("");
-
-                    tooltip.html(`
-                        <div class="tooltip-header">
-                            <span>${d.sector_name}</span>
-                            <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
-                        </div>
-                        <div class="tooltip-row">
-                            <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
-                            <span class="val ${currFlowVal >= 0 ? 'val-positive' : 'val-negative'}">${currFlowVal >= 0 ? '+' : ''}${currFlowVal} M</span>
-                        </div>
-                        <div class="tooltip-row">
-                            <span class="label">資金加速度:</span>
-                            <span class="val ${d.acceleration_m >= 0 ? 'val-positive' : 'val-negative'}">${d.acceleration_m >= 0 ? '+' : ''}${d.acceleration_m} M</span>
-                        </div>
-                        <div class="tooltip-row">
-                            <span class="label">20日資金規模:</span>
-                            <span class="val">${d.size_20d_m} M</span>
-                        </div>
-                        <div class="tooltip-stocks">
-                            <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">核心個股買賣超預覽:</div>
-                            ${stockItems}
-                        </div>
-                    `)
-                    .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
-                    .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px")
-                    .transition().duration(150)
-                    .style("opacity", 1);
+                    hoverLinkageActive(d.sector_name, event);
+                    showSectorDetail(d.sector_name);
                 })
-                .on("mousemove", function(event) {
-                    tooltip
+                .on("mousemove", function(event, d) {
+                    const containerBox = document.getElementById("chart-wrapper");
+                    d3.select("#map-tooltip")
                         .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
                         .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px");
                 })
                 .on("mouseout", function(event, d) {
                     hoverLinkageReset();
-                    
-                    d3.select("#proj-x").transition().duration(150).style("opacity", 0);
-                    d3.select("#proj-y").transition().duration(150).style("opacity", 0);
-                    tooltip.transition().duration(150).style("opacity", 0);
                 })
                 .on("click", (event, d) => {
                     showSectorDetail(d.sector_name);
@@ -986,16 +926,107 @@
         }
 
         // Hover Linkages: Fade out irrelevant elements
-        function hoverLinkageActive(sectorName) {
+        function hoverLinkageActive(sectorName, event = null) {
             d3.selectAll(".bubble-g")
                 .style("opacity", d => d.sector_name === sectorName ? 1 : 0.15);
             
-            // Escape sector name backslash for CSS selector compatibility
             const escapedName = sectorName.replace('/', '-');
-            d3.select(`#bubble-g-${escapedName} .bubble`)
-                .style("fill-opacity", 0.95)
-                .attr("stroke", "#ffffff")
-                .style("filter", "drop-shadow(0 0 10px #ffffff)");
+            const targetBubbleG = d3.select(`#bubble-g-${escapedName}`);
+            
+            if (!targetBubbleG.empty()) {
+                const d = targetBubbleG.datum();
+                const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+                
+                // 放大泡泡
+                targetBubbleG.select(".bubble")
+                    .transition().duration(150)
+                    .attr("r", sizeScale(d.size_20d_m) * 1.2)
+                    .style("fill-opacity", 0.95)
+                    .attr("stroke", "#ffffff")
+                    .style("filter", "drop-shadow(0 0 12px #ffffff)");
+                
+                // 顯示投影線
+                d3.select("#proj-x")
+                    .attr("x1", d.x)
+                    .attr("y1", d.y)
+                    .attr("x2", xScale(0))
+                    .attr("y2", d.y)
+                    .transition().duration(150)
+                    .style("opacity", 1);
+
+                d3.select("#proj-y")
+                    .attr("x1", d.x)
+                    .attr("y1", d.y)
+                    .attr("x2", d.x)
+                    .attr("y2", yScale(0))
+                    .transition().duration(150)
+                    .style("opacity", 1);
+                
+                // 渲染 Tooltip 內容
+                const tooltip = d3.select("#map-tooltip");
+                const containerBox = document.getElementById("chart-wrapper");
+                const currFlowVal = d[flowKey];
+                const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
+                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                
+                const stockItems = d.individual_stocks.slice(0, 3).map(st => {
+                    const flowSign = st.flow_5d_m >= 0 ? "+" : "";
+                    const flowClass = st.flow_5d_m >= 0 ? "val-positive" : "val-negative";
+                    return `
+                        <div class="tooltip-stock-item">
+                            <span>${st.stock_name}</span>
+                            <span class="${flowClass}">${flowSign}${st.flow_5d_m} M</span>
+                        </div>
+                    `;
+                }).join("");
+
+                tooltip.html(`
+                    <div class="tooltip-header">
+                        <span>${d.sector_name}</span>
+                        <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
+                        <span class="val ${currFlowVal >= 0 ? 'val-positive' : 'val-negative'}">${currFlowVal >= 0 ? '+' : ''}${currFlowVal} M</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="label">資金加速度:</span>
+                        <span class="val ${d.acceleration_m >= 0 ? 'val-positive' : 'val-negative'}">${d.acceleration_m >= 0 ? '+' : ''}${d.acceleration_m} M</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="label">20日資金規模:</span>
+                        <span class="val">${d.size_20d_m} M</span>
+                    </div>
+                    <div class="tooltip-stocks">
+                        <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">核心個股買賣超預覽:</div>
+                        ${stockItems}
+                    </div>
+                `);
+                
+                // 計算 Tooltip 位置
+                let tooltipX, tooltipY;
+                if (event) {
+                    tooltipX = event.pageX - containerBox.getBoundingClientRect().left - 10;
+                    tooltipY = event.pageY - containerBox.getBoundingClientRect().top - 180;
+                } else {
+                    const bubbleElement = document.getElementById(`bubble-g-${escapedName}`);
+                    if (bubbleElement) {
+                        const rect = bubbleElement.getBoundingClientRect();
+                        const parentRect = containerBox.getBoundingClientRect();
+                        tooltipX = rect.left - parentRect.left + rect.width / 2 - 10;
+                        tooltipY = rect.top - parentRect.top - 180;
+                    } else {
+                        tooltipX = d.x - 10;
+                        tooltipY = d.y - 180;
+                    }
+                }
+                
+                tooltip
+                    .style("left", tooltipX + "px")
+                    .style("top", tooltipY + "px")
+                    .transition().duration(150)
+                    .style("opacity", 1);
+            }
 
             // Fade out non-target list items
             const listRows = document.querySelectorAll(".sector-row");
@@ -1039,10 +1070,23 @@
             d3.selectAll(".bubble-g")
                 .style("opacity", 1);
 
-            d3.selectAll(".bubble")
-                .style("fill-opacity", d => d.sector_name === selectedSectorName ? 0.95 : 0.6)
-                .attr("stroke", d => d.sector_name === selectedSectorName ? "#ffffff" : getQuadrantInfo(d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"], d.acceleration_m).color)
-                .style("filter", d => d.sector_name === selectedSectorName ? "drop-shadow(0 0 12px #ffffff)" : "none");
+            const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            
+            d3.selectAll(".bubble-g").each(function(d) {
+                const bubble = d3.select(this).select(".bubble");
+                if (!bubble.empty()) {
+                    bubble.transition().duration(150)
+                        .attr("r", sizeScale(d.size_20d_m))
+                        .style("fill-opacity", d.sector_name === selectedSectorName ? 0.95 : (customSectors.includes(d.sector_name) ? 0.85 : 0.6))
+                        .attr("stroke", d.sector_name === selectedSectorName ? "#ffffff" : (customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color))
+                        .style("filter", d.sector_name === selectedSectorName ? "drop-shadow(0 0 12px #ffffff)" : "none");
+                }
+            });
+
+            d3.select("#proj-x").transition().duration(150).style("opacity", 0);
+            d3.select("#proj-y").transition().duration(150).style("opacity", 0);
+            d3.select("#map-tooltip").transition().duration(150).style("opacity", 0);
 
             const listRows = document.querySelectorAll(".sector-row");
             listRows.forEach(row => {
