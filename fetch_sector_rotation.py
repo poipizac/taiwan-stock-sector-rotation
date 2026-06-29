@@ -11,6 +11,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import urllib3
 import yfinance as yf
 
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 urllib3.disable_warnings()
 
 # 設定快取目錄
@@ -114,11 +117,14 @@ def fetch_twse_raw(date_str, endpoint):
                 return result
             else:
                 # 代表該日期無交易（例如週末、假日）
+                time.sleep(3)
                 return None
         else:
             log(f"[警告] {date_str} {endpoint} 下載失敗，狀態碼: {r.status_code}")
+            time.sleep(3)
     except Exception as e:
         log(f"[錯誤] 下載 {date_str} {endpoint} 異常: {str(e)}")
+        time.sleep(3)
     return None
 
 def collect_trading_days(count=20):
@@ -271,7 +277,7 @@ def get_latest_whale_ratios():
     try:
         r = requests.get(url, headers=HEADERS, verify=False, timeout=15)
         if r.status_code == 200:
-            lines = r.text.split("\n")
+            lines = r.content.decode("utf-8-sig").split("\n")
             id_idx = 1
             level_idx = 2
             pct_idx = 5
@@ -293,38 +299,69 @@ def get_latest_whale_ratios():
         log(f"[警告] 下載集保 CSV 失敗: {str(e)}")
     return {}
 
-def fetch_base_ratio_single(stock_id, base_date):
+def fetch_whale_ratios_for_date(base_date, stock_ids):
+    if not stock_ids:
+        return {}
+        
+    log(f"開始批次下載基期 {base_date} 的大戶比例，共 {len(stock_ids)} 檔...")
+    results = {}
     sess = requests.Session()
     try:
-        r = sess.get("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", headers=HEADERS, verify=False, timeout=5)
+        # 1. 取得 token
+        r = sess.get("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", headers=HEADERS, verify=False, timeout=10)
         if r.status_code != 200:
-            return stock_id, None
+            log(f"[錯誤] 無法連線集保所取得 Token (狀態碼: {r.status_code})")
+            return {}
         soup = BeautifulSoup(r.text, "html.parser")
-        token = soup.find("input", {"name": "SYNCHRONIZER_TOKEN"})["value"]
+        token_elem = soup.find("input", {"name": "SYNCHRONIZER_TOKEN"})
+        if not token_elem:
+            log("[錯誤] 無法解析 SYNCHRONIZER_TOKEN")
+            return {}
+        token = token_elem["value"]
         
-        post_data = {
-            "SYNCHRONIZER_TOKEN": token,
-            "SYNCHRONIZER_URI": "/portal/zh/smWeb/qryStock",
-            "method": "submit",
-            "firDate": base_date,
-            "sqlMethod": "StockNo",
-            "stockNo": stock_id,
-            "scaDate": base_date,
-        }
-        resp = sess.post("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", data=post_data, headers=HEADERS, verify=False, timeout=5)
-        if resp.status_code == 200:
-            soup2 = BeautifulSoup(resp.text, "html.parser")
-            table = soup2.find("table", {"class": "table"})
-            if table:
-                rows = table.find_all("tr")
-                for row_elem in rows[1:]:
-                    cols = [td.text.strip() for td in row_elem.find_all("td")]
-                    if cols and cols[0] == '15':
-                        pct_str = cols[4].replace(",", "").strip()
-                        return stock_id, float(pct_str)
-        return stock_id, None
+        # 2. 連續 POST 查詢
+        success_count = 0
+        for idx, sid in enumerate(stock_ids):
+            if idx > 0 and idx % 50 == 0:
+                log(f"-> 基期 {base_date} 下載進度: {idx}/{len(stock_ids)} (成功: {success_count})")
+                
+            post_data = {
+                "SYNCHRONIZER_TOKEN": token,
+                "SYNCHRONIZER_URI": "/portal/zh/smWeb/qryStock",
+                "method": "submit",
+                "firDate": base_date,
+                "sqlMethod": "StockNo",
+                "stockNo": sid,
+                "scaDate": base_date,
+            }
+            try:
+                resp = sess.post("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", data=post_data, headers=HEADERS, verify=False, timeout=3)
+                if resp.status_code == 200:
+                    soup2 = BeautifulSoup(resp.text, "html.parser")
+                    
+                    # 每次 POST 成功後都要解析並更新 token
+                    token_elem = soup2.find("input", {"name": "SYNCHRONIZER_TOKEN"})
+                    if token_elem:
+                        token = token_elem["value"]
+                        
+                    table = soup2.find("table", {"class": "table"})
+                    if table:
+                        rows = table.find_all("tr")
+                        for row_elem in rows[1:]:
+                            cols = [td.text.strip() for td in row_elem.find_all("td")]
+                            if cols and cols[0] == '15':
+                                pct_str = cols[4].replace(",", "").strip()
+                                results[sid] = float(pct_str)
+                                success_count += 1
+                                break
+                time.sleep(0.05) # 微小延遲
+            except Exception:
+                pass
+                
+        log(f"基期 {base_date} 批次下載完成，共成功取得 {success_count}/{len(stock_ids)} 檔。")
     except Exception as e:
-        return stock_id, None
+        log(f"[錯誤] 批次查詢基期 {base_date} 異常: {str(e)}")
+    return results
 
 def detect_whale_locked_stocks(df, stock_info):
     log("=== 開始大戶鎖碼追蹤 (方案 A) ===")
@@ -368,47 +405,40 @@ def detect_whale_locked_stocks(df, stock_info):
             "data": cached_ratios
         }
         
-    # 篩選最新一日活躍個股
+    # 篩選最新一日活躍個股：
+    # 為了防止向集保所發送過多查詢導致 IP 被鎖或程式卡死，
+    # 我們過濾出：今日成交量 >= 2,000張 (2,000,000股) 或者是今日成交金額 >= 50.0 (百萬)，
+    # 或者是屬於我們自訂的概念股成分股，才進行大戶鎖碼追蹤。
     df_latest_date = df["date"].max()
-    active_stocks = df[df["date"] == df_latest_date]["stock_id"].unique()
+    latest_df = df[df["date"] == df_latest_date]
+    active_stocks = latest_df[
+        (latest_df["volume"] >= 2000000) | 
+        (latest_df["amount_m"] >= 50.0) | 
+        (latest_df["stock_id"].isin(STOCK_TO_CONCEPT.keys()))
+    ]["stock_id"].unique()
     
-    # 收集需要查詢的 (stock_id, base_date) 組合
-    to_query = [] # list of (stock_id, base_date, key)
+    # 按 base_date 分組收集需要查詢的股票
+    date_to_stocks = {}
     for sid in active_stocks:
         if sid in latest_whale:
             for k, v in baselines.items():
                 b_date = v["date"]
                 if sid not in caches[k]["data"]:
-                    to_query.append((sid, b_date, k))
+                    if b_date not in date_to_stocks:
+                        date_to_stocks[b_date] = {"key": k, "sids": []}
+                    date_to_stocks[b_date]["sids"].append(sid)
                     
-    if to_query:
-        log(f"共有 {len(to_query)} 筆(股票 x 基期)數據需要向集保所查詢...")
-        new_queries = {} # key -> {sid -> ratio}
-        for k in baselines.keys():
-            new_queries[k] = {}
-            
-        with ThreadPoolExecutor(max_workers=15) as executor:
-            futures = {
-                executor.submit(fetch_base_ratio_single, sid, b_date): (sid, b_date, k)
-                for sid, b_date, k in to_query
-            }
-            completed_count = 0
-            for fut in as_completed(futures):
-                sid, b_date, k = futures[fut]
-                _, base_ratio = fut.result()
-                if base_ratio is not None:
-                    new_queries[k][sid] = base_ratio
-                completed_count += 1
-                if completed_count % 100 == 0:
-                    log(f"已完成 {completed_count}/{len(to_query)} 筆查詢...")
-                    
-        # 更新並儲存快取
-        for k in baselines.keys():
-            if new_queries[k]:
-                caches[k]["data"].update(new_queries[k])
+    # 進行分組批次下載並寫入快取
+    for b_date, info in date_to_stocks.items():
+        k = info["key"]
+        sids = info["sids"]
+        if sids:
+            fetched_ratios = fetch_whale_ratios_for_date(b_date, sids)
+            if fetched_ratios:
+                caches[k]["data"].update(fetched_ratios)
                 with open(caches[k]["file"], "w", encoding="utf-8") as f:
                     json.dump(caches[k]["data"], f, ensure_ascii=False, indent=4)
-                log(f"已將基期 {baselines[k]['date']} ({k}) 最新獲取的 {len(new_queries[k])} 筆資料寫入快取。")
+                log(f"已將基期 {b_date} ({k}) 新獲取的 {len(fetched_ratios)} 筆資料寫入快取。")
                 
     # 計算並篩選
     whale_locked_list = []
