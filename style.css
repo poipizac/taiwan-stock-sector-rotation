@@ -103,6 +103,7 @@ main {
     gap: 1.5rem;
     min-height: calc(100vh - 110px);
     height: auto;
+    align-items: start;
 }
 
 .left-column {
@@ -118,7 +119,9 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 1.5rem;
-    position: relative;
+    position: sticky;
+    top: 60px; /* Below the sticky header (~40px height + 20px margin) */
+    z-index: 50;
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -253,23 +256,7 @@ svg {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    overflow-y: auto;
     padding-right: 0.5rem;
-}
-
-/* Custom Scrollbar */
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-.sidebar::-webkit-scrollbar-track {
-    background: transparent;
-}
-.sidebar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
-}
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 .card {
@@ -884,6 +871,73 @@ svg {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 0.75rem;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+/* Independent Scrollable Panels for sidebar cards */
+.bottom-fishing-card .sector-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+.whale-stocks-list {
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+.stock-table-wrapper {
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+/* Custom Scrollbar — sleek dark fintech style */
+.sector-ranking-card .sector-list::-webkit-scrollbar,
+.bottom-fishing-card .sector-list::-webkit-scrollbar,
+.whale-stocks-list::-webkit-scrollbar,
+.stock-table-wrapper::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sector-ranking-card .sector-list::-webkit-scrollbar-track,
+.bottom-fishing-card .sector-list::-webkit-scrollbar-track,
+.whale-stocks-list::-webkit-scrollbar-track,
+.stock-table-wrapper::-webkit-scrollbar-track,
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 3px;
+}
+
+.sector-ranking-card .sector-list::-webkit-scrollbar-thumb,
+.bottom-fishing-card .sector-list::-webkit-scrollbar-thumb,
+.whale-stocks-list::-webkit-scrollbar-thumb,
+.stock-table-wrapper::-webkit-scrollbar-thumb,
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transition: background 0.2s;
+}
+
+.sector-ranking-card .sector-list::-webkit-scrollbar-thumb:hover,
+.bottom-fishing-card .sector-list::-webkit-scrollbar-thumb:hover,
+.whale-stocks-list::-webkit-scrollbar-thumb:hover,
+.stock-table-wrapper::-webkit-scrollbar-thumb:hover,
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* Firefox scrollbar fallback */
+.sector-ranking-card .sector-list,
+.bottom-fishing-card .sector-list,
+.whale-stocks-list,
+.stock-table-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 /* RRG Tail Trails Styling */
@@ -912,5 +966,3 @@ svg {
     stroke-dasharray: none; /* Turn to solid line */
     filter: drop-shadow(0 0 8px var(--sector-color));
 }
-
-
