@@ -968,13 +968,15 @@
                 .style("fill-opacity", d => customSectors.includes(d.sector_name) ? 0.85 : 0.6)
                 .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
                 .on("mouseover", function(event, d) {
+                    d3.select(this.parentNode).raise();
                     hoverLinkageActive(d.sector_name, event);
                     showSectorDetail(d.sector_name);
                 })
                 .on("mouseout", function(event, d) {
                     hoverLinkageReset();
                 })
-                .on("click", (event, d) => {
+                .on("click", function(event, d) {
+                    d3.select(this.parentNode).raise();
                     showSectorDetail(d.sector_name);
                 });
 
@@ -1074,6 +1076,7 @@
             const targetBubbleG = d3.select(`#bubble-g-${escapedName}`);
             
             if (!targetBubbleG.empty()) {
+                targetBubbleG.raise();
                 const d = targetBubbleG.datum();
                 const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
                 // 獲取當前動畫實際坐標
