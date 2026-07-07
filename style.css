@@ -1,5 +1,5 @@
 /* Import modern typography */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
 
 :root {
     --bg-dark: #0a0d14;
@@ -10,10 +10,10 @@
     --text-muted: #64748b;
     
     /* Neon Quadrant Colors */
-    --color-lead: #00e676;     /* 主力進攻 - 霓虹綠 */
-    --color-rotate: #ffd600;   /* 資金輪動 - 霓虹黃 */
-    --color-outflow: #ff1744;  /* 資金退潮 - 霓虹紅 */
-    --color-watch: #00b0ff;    /* 觀望防守 - 霓虹藍 */
+    --color-lead: #ff2d55;     /* 領先 (Leading) - 鮮紅 */
+    --color-rotate: #ff9f0a;   /* 轉弱 (Weakening) - 橘黃 */
+    --color-outflow: #af52de;  /* 落後 (Lagging) - 粉紫 */
+    --color-watch: #00d2ff;    /* 改善 (Improving) - 霓虹藍 */
     
     /* Taiwan Stock Market Standard (Up is Red, Down is Green) */
     --tw-up: #ff3838;          /* 漲/買超 - 亮紅 */
@@ -35,7 +35,7 @@ body {
         linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
     background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Urbanist', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -214,12 +214,13 @@ svg {
 }
 
 .quadrant-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    fill-opacity: 0.25;
+    font-family: 'Urbanist', 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    fill-opacity: 0.4;
     pointer-events: none;
     letter-spacing: 2px;
+    text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
 }
 
 /* Transition for Bubble fade */
@@ -243,8 +244,8 @@ svg {
     font-weight: 600;
     pointer-events: none;
     text-anchor: middle;
-    font-family: 'Outfit', sans-serif;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    font-family: 'Urbanist', 'Noto Sans TC', sans-serif;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.85), 0 1px 3px rgba(0,0,0,0.9);
 }
 
 /* Sidebar & Details Styles */
@@ -884,5 +885,24 @@ svg {
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 0.75rem;
 }
+
+/* RRG Tail Trails Styling */
+.tail-segment {
+    stroke-linecap: round;
+    transition: stroke-width 0.25s, stroke-opacity 0.25s, filter 0.25s;
+    pointer-events: none;
+}
+
+/* Tails fade out when interactive hover link is active on another sector */
+.tails-group.has-hover .tail-g:not(.hovered) .tail-segment {
+    stroke-opacity: 0.04 !important;
+}
+
+/* Strong neon glow & thickening on the active hovered sector trail */
+.tails-group.has-hover .tail-g.hovered .tail-segment.seg-0 { stroke-width: 4px; stroke-opacity: 0.35; filter: drop-shadow(0 0 4px var(--sector-color)); }
+.tails-group.has-hover .tail-g.hovered .tail-segment.seg-1 { stroke-width: 6px; stroke-opacity: 0.55; filter: drop-shadow(0 0 6px var(--sector-color)); }
+.tails-group.has-hover .tail-g.hovered .tail-segment.seg-2 { stroke-width: 8px; stroke-opacity: 0.75; filter: drop-shadow(0 0 8px var(--sector-color)); }
+.tails-group.has-hover .tail-g.hovered .tail-segment.seg-3 { stroke-width: 10px; stroke-opacity: 0.90; filter: drop-shadow(0 0 10px var(--sector-color)); }
+.tails-group.has-hover .tail-g.hovered .tail-segment.seg-4 { stroke-width: 13px; stroke-opacity: 1.0; filter: drop-shadow(0 0 12px var(--sector-color)); }
 
 

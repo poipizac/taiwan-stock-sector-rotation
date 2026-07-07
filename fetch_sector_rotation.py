@@ -133,8 +133,8 @@ def collect_trading_days(count=20):
     valid_days = []
     curr_date = datetime.now()
     
-    # 防死鎖限制，最多往回推 45 天
-    max_lookback = 45
+    # 防死鎖限制，最多往回推 60 天
+    max_lookback = 60
     days_checked = 0
     
     while len(valid_days) < count and days_checked < max_lookback:
@@ -557,8 +557,8 @@ def main():
         log("[致命錯誤] 無法取得股票基本分類，重構中止。")
         return
         
-    # 2. 收集最近 20 個交易日
-    trading_days = collect_trading_days(20)
+    # 2. 收集最近 30 個交易日 (為計算歷史軌跡預留充足數據)
+    trading_days = collect_trading_days(30)
     if not trading_days:
         log("[致命錯誤] 無法取得交易日資料，重構中止。")
         return
@@ -708,6 +708,25 @@ def main():
                 "flow_20d_m": round(stock_flow_20d, 2)
             })
             
+        # 計算過去 5 個交易日的歷史軌跡坐標 (不包含今日，今日為 iloc[-1])
+        # 過去 5 個交易日分別是 iloc[-6] ~ iloc[-2] (即倒數第 6 到第 2 個元素)
+        history_5d = []
+        history_20d = []
+        L = len(sec_df)
+        if L >= 2:
+            start_idx = max(0, L - 6)
+            end_idx = L - 1
+            for i in range(start_idx, end_idx):
+                h_flow_5d = float(sec_df["today_net_flow_m"].iloc[max(0, i-4):i+1].sum())
+                h_flow_20d = float(sec_df["today_net_flow_m"].iloc[max(0, i-19):i+1].sum())
+                h_today_flow = float(sec_df["today_net_flow_m"].iloc[i])
+                h_prev_5d_flow = sec_df["today_net_flow_m"].iloc[max(0, i-5):i]
+                h_prev_5d_avg = float(h_prev_5d_flow.mean()) if not h_prev_5d_flow.empty else 0.0
+                h_acceleration = h_today_flow - h_prev_5d_avg
+                
+                history_5d.append({"x": round(h_flow_5d, 2), "y": round(h_acceleration, 2)})
+                history_20d.append({"x": round(h_flow_20d, 2), "y": round(h_acceleration, 2)})
+
         sectors_results.append({
             "sector_name": sector_name,
             "flow_5d_m": round(flow_5d, 2),
@@ -716,7 +735,11 @@ def main():
             "acceleration_m": round(acceleration, 2),
             "bottom_fishing_score": round(bottom_fishing_score, 2),
             "bottom_fishing_stocks": bottom_fishing_stocks_data,
-            "individual_stocks": individual_stocks_data
+            "individual_stocks": individual_stocks_data,
+            "history": {
+                "5d": history_5d,
+                "20d": history_20d
+            }
         })
         
     # 執行大戶鎖碼追蹤 (方案 A)

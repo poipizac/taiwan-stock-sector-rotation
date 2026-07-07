@@ -53,19 +53,19 @@
                     <div class="legend">
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-lead);"></span>
-                            <span>主力進攻 (右上)</span>
+                            <span>領先 (Leading)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-rotate);"></span>
-                            <span>資金輪動 (右下)</span>
+                            <span>轉弱 (Weakening)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-outflow);"></span>
-                            <span>資金退潮 (左下)</span>
+                            <span>落後 (Lagging)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-watch);"></span>
-                            <span>觀望防守 (左上)</span>
+                            <span>改善 (Improving)</span>
                         </div>
                     </div>
                 </div>
@@ -201,14 +201,40 @@
         // Determine Quadrant by X (flow) and Y (acceleration_m)
         function getQuadrantInfo(x, y) {
             if (x >= 0 && y >= 0) {
-                return { name: "主力進攻", color: "var(--color-lead)", bgClass: "lead" };
+                return { name: "領先 (Leading)", color: "var(--color-lead)", bgClass: "lead" };
             } else if (x >= 0 && y < 0) {
-                return { name: "資金輪動", color: "var(--color-rotate)", bgClass: "rotate" };
+                return { name: "轉弱 (Weakening)", color: "var(--color-rotate)", bgClass: "rotate" };
             } else if (x < 0 && y < 0) {
-                return { name: "資金退潮", color: "var(--color-outflow)", bgClass: "outflow" };
+                return { name: "落後 (Lagging)", color: "var(--color-outflow)", bgClass: "outflow" };
             } else {
-                return { name: "觀望防守", color: "var(--color-watch)", bgClass: "watch" };
+                return { name: "改善 (Improving)", color: "var(--color-watch)", bgClass: "watch" };
             }
+        }
+
+        // Helper to generate 5 connecting segments from history data (and connecting to today's node position)
+        function getTailSegments(d, flowKey) {
+            const segments = [];
+            const tf = currentTimeFrame; // '5d' or '20d'
+            const history = d.history && d.history[tf] ? d.history[tf] : [];
+            
+            // Generate coordinates for history points
+            const points = history.map(pt => ({
+                x: xScale(pt.x),
+                y: yScale(pt.y)
+            }));
+            
+            // Connect last history point to the current bubble position (which has collision offset)
+            points.push({ x: d.x, y: d.y });
+            
+            for (let i = 0; i < points.length - 1; i++) {
+                segments.push({
+                    x1: points[i].x,
+                    y1: points[i].y,
+                    x2: points[i+1].x,
+                    y2: points[i+1].y
+                });
+            }
+            return segments;
         }
 
         async function loadData() {
@@ -717,10 +743,10 @@
             const quadHeight = (height - margin.top - margin.bottom) / 2;
 
             const quadrants = [
-                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "#00e676" },
-                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "#00b0ff" },
-                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "#ff1744" },
-                { id: "rotate", x: xScale(0), y: yScale(0), fill: "#ffd600" }
+                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "var(--color-lead)" },
+                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "var(--color-watch)" },
+                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "var(--color-outflow)" },
+                { id: "rotate", x: xScale(0), y: yScale(0), fill: "var(--color-rotate)" }
             ];
 
             svg.selectAll(".quadrant-bg")
@@ -736,10 +762,10 @@
 
             // Add Quadrant Text Labels
             const labelsData = [
-                { text: "主力進攻", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
-                { text: "觀望防守", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
-                { text: "資金退潮", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
-                { text: "資金輪動", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
+                { text: "領先 (Leading)", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
+                { text: "改善 (Improving)", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
+                { text: "落後 (Lagging)", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
+                { text: "轉弱 (Weakening)", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
             ];
 
             svg.selectAll(".quadrant-label")
@@ -783,6 +809,33 @@
                 .attr("text-anchor", "start")
                 .text("▲ 資金加速度 (今日淨流向 - 5日均值)");
 
+            // 2.5 Grid concentric circles (RRG style)
+            const center_x = xScale(0);
+            const center_y = yScale(0);
+            const radii = [50, 100, 150, 200, 250];
+
+            svg.selectAll(".grid-circle")
+                .data(radii)
+                .enter()
+                .append("circle")
+                .attr("class", "grid-circle")
+                .attr("cx", center_x)
+                .attr("cy", center_y)
+                .attr("r", d => d)
+                .style("fill", "none")
+                .style("stroke", "rgba(255, 255, 255, 0.04)")
+                .style("stroke-width", 1)
+                .style("stroke-dasharray", "3,3");
+
+            svg.append("text")
+                .attr("class", "axis-center-label")
+                .attr("x", center_x + 8)
+                .attr("y", center_y + 14)
+                .style("fill", "var(--text-muted)")
+                .style("font-size", "10px")
+                .style("font-weight", "600")
+                .text("(100, 100)");
+
             // Projection guidelines
             svg.append("line")
                 .attr("id", "proj-x")
@@ -817,6 +870,35 @@
                 simulation.tick();
                 constrainQuadrant(nodes, flowKey);
             }
+            // 3.5 Render Tails Group (under the bubbles)
+            const tailsGroup = svg.append("g").attr("class", "tails-group");
+            
+            const tailG = tailsGroup.selectAll(".tail-g")
+                .data(nodes, d => d.sector_name)
+                .enter()
+                .append("g")
+                .attr("class", "tail-g")
+                .attr("id", d => `tail-g-${d.sector_name.replace('/', '-')}`)
+                .style("--sector-color", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                });
+
+            tailG.each(function(d) {
+                const segs = getTailSegments(d, flowKey);
+                d3.select(this).selectAll(".tail-segment")
+                    .data(segs)
+                    .enter()
+                    .append("line")
+                    .attr("class", (seg, i) => `tail-segment seg-${i}`)
+                    .attr("x1", seg => seg.x1)
+                    .attr("y1", seg => seg.y1)
+                    .attr("x2", seg => seg.x2)
+                    .attr("y2", seg => seg.y2)
+                    .style("stroke", "var(--sector-color)")
+                    .style("stroke-width", (seg, i) => 1.5 + (i / 4) * 4.5)
+                    .style("stroke-opacity", (seg, i) => 0.15 + (i / 4) * 0.75);
+            });
 
             // 4. Render Bubbles Group
             const bubbleGroup = svg.selectAll(".bubble-g")
@@ -887,6 +969,26 @@
                 constrainQuadrant(nodes, flowKey);
             }
 
+            // Transition tail line segments
+            svg.selectAll(".tail-g")
+                .data(nodes, d => d.sector_name)
+                .style("--sector-color", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                })
+                .each(function(d) {
+                    const segs = getTailSegments(d, flowKey);
+                    d3.select(this).selectAll(".tail-segment")
+                        .data(segs)
+                        .transition()
+                        .duration(800)
+                        .ease(d3.easeCubicInOut)
+                        .attr("x1", seg => seg.x1)
+                        .attr("y1", seg => seg.y1)
+                        .attr("x2", seg => seg.x2)
+                        .attr("y2", seg => seg.y2);
+                });
+
             // Transition bubble group position coordinates
             svg.selectAll(".bubble-g")
                 .data(nodes, d => d.sector_name)
@@ -923,10 +1025,25 @@
             svg.select(".axis-y-label")
                 .transition().duration(800)
                 .attr("x", xScale(0) + 12);
+
+            // Transition circular grid coordinates and center label
+            svg.selectAll(".grid-circle")
+                .transition().duration(800)
+                .attr("cx", xScale(0))
+                .attr("cy", yScale(0));
+
+            svg.select(".axis-center-label")
+                .transition().duration(800)
+                .attr("x", xScale(0) + 8)
+                .attr("y", yScale(0) + 14);
         }
 
         // Hover Linkages: Fade out irrelevant elements
         function hoverLinkageActive(sectorName, event = null) {
+            // 尾跡交互聯動
+            d3.select(".tails-group").classed("has-hover", true);
+            d3.selectAll(".tail-g").classed("hovered", d => d.sector_name === sectorName);
+
             d3.selectAll(".bubble-g")
                 .style("opacity", d => d.sector_name === sectorName ? 1 : 0.15);
             
@@ -1075,6 +1192,10 @@
         }
 
         function hoverLinkageReset() {
+            // 重置尾跡交互聯動
+            d3.select(".tails-group").classed("has-hover", false);
+            d3.selectAll(".tail-g").classed("hovered", false);
+
             d3.selectAll(".bubble-g")
                 .style("opacity", 1);
 
