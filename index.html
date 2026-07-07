@@ -464,8 +464,13 @@
                 item.onmouseout = () => hoverLinkageReset();
                 
                 let stocksHtml = "";
-                if (sector.bottom_fishing_stocks && sector.bottom_fishing_stocks.length > 0) {
-                    sector.bottom_fishing_stocks.forEach(st => {
+                const candidateStocks = (sector.individual_stocks || [])
+                    .filter(st => st.today_net_flow_m > 0)
+                    .sort((a, b) => b.today_net_flow_m - a.today_net_flow_m)
+                    .slice(0, 2);
+                
+                if (candidateStocks.length > 0) {
+                    candidateStocks.forEach(st => {
                         const retSign = st.today_return_pct >= 0 ? "+" : "";
                         const retClass = st.today_return_pct >= 0 ? "val-positive" : "val-negative";
                         stocksHtml += `
@@ -477,7 +482,7 @@
                         `;
                     });
                 } else {
-                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之抗跌個股</div>`;
+                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之個股</div>`;
                 }
                 
                 const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
