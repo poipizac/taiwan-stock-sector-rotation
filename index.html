@@ -196,7 +196,7 @@
         let isSectorsExpanded = false;
 
         // D3 global references for transition
-        let svg, xScale, yScale, sizeScale, width, height, margin;
+        let svg, xScale, yScale, sizeScale, width, height, margin, simulation;
 
         // Determine Quadrant by X (flow) and Y (acceleration_m)
         function getQuadrantInfo(x, y) {
@@ -209,32 +209,6 @@
             } else {
                 return { name: "改善 (Improving)", color: "var(--color-watch)", bgClass: "watch" };
             }
-        }
-
-        // Helper to generate 5 connecting segments from history data (and connecting to today's node position)
-        function getTailSegments(d, flowKey) {
-            const segments = [];
-            const tf = currentTimeFrame; // '5d' or '20d'
-            const history = d.history && d.history[tf] ? d.history[tf] : [];
-            
-            // Generate coordinates for history points
-            const points = history.map(pt => ({
-                x: xScale(pt.x),
-                y: yScale(pt.y)
-            }));
-            
-            // Connect last history point to the current bubble position (which has collision offset)
-            points.push({ x: d.x, y: d.y });
-            
-            for (let i = 0; i < points.length - 1; i++) {
-                segments.push({
-                    x1: points[i].x,
-                    y1: points[i].y,
-                    x2: points[i+1].x,
-                    y2: points[i+1].y
-                });
-            }
-            return segments;
         }
 
         async function loadData() {
@@ -860,45 +834,24 @@
                 y: yScale(d.acceleration_m)
             }));
 
-            const simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.55))
-                .force("y", d3.forceY(d => d.origY).strength(0.55))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
-                .stop();
-
-            for (let i = 0; i < 120; ++i) {
-                simulation.tick();
-                constrainQuadrant(nodes, flowKey);
-            }
             // 3.5 Render Tails Group (under the bubbles)
-            const tailsGroup = svg.append("g").attr("class", "tails-group");
+            const tailsGroup = svg.append("g").attr("class", "tails");
             
-            const tailG = tailsGroup.selectAll(".tail-g")
+            const tailPaths = tailsGroup.selectAll(".tail-path")
                 .data(nodes, d => d.sector_name)
                 .enter()
-                .append("g")
-                .attr("class", "tail-g")
-                .attr("id", d => `tail-g-${d.sector_name.replace('/', '-')}`)
+                .append("path")
+                .attr("class", "tail-path")
+                .attr("id", d => `tail-path-${d.sector_name.replace('/', '-')}`)
+                .style("stroke", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                })
+                .style("fill", "none")
                 .style("--sector-color", d => {
                     const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
-
-            tailG.each(function(d) {
-                const segs = getTailSegments(d, flowKey);
-                d3.select(this).selectAll(".tail-segment")
-                    .data(segs)
-                    .enter()
-                    .append("line")
-                    .attr("class", (seg, i) => `tail-segment seg-${i}`)
-                    .attr("x1", seg => seg.x1)
-                    .attr("y1", seg => seg.y1)
-                    .attr("x2", seg => seg.x2)
-                    .attr("y2", seg => seg.y2)
-                    .style("stroke", "var(--sector-color)")
-                    .style("stroke-width", (seg, i) => 1.5 + (i / 4) * 4.5)
-                    .style("stroke-opacity", (seg, i) => 0.15 + (i / 4) * 0.75);
-            });
 
             // 4. Render Bubbles Group
             const bubbleGroup = svg.selectAll(".bubble-g")
@@ -906,8 +859,31 @@
                 .enter()
                 .append("g")
                 .attr("class", "bubble-g")
-                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`) // Escape special character
-                .attr("transform", d => `translate(${d.x}, ${d.y})`);
+                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`);
+
+            // Initialize global force simulation (running dynamically)
+            simulation = d3.forceSimulation(nodes)
+                .force("x", d3.forceX(d => d.origX).strength(0.92))
+                .force("y", d3.forceY(d => d.origY).strength(0.92))
+                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) * 0.2));
+
+            simulation.on("tick", () => {
+                constrainQuadrant(nodes, flowKey);
+                
+                // Realtime update bubbles
+                bubbleGroup.attr("transform", d => `translate(${d.x}, ${d.y})`);
+                
+                // Realtime update tails paths
+                tailPaths.attr("d", d => {
+                    const tf = currentTimeFrame;
+                    const history = d.history && d.history[tf] ? d.history[tf] : [];
+                    const points = [[d.x, d.y]];
+                    history.forEach(h => {
+                        points.push([xScale(h.x), yScale(h.y)]);
+                    });
+                    return d3.line()(points);
+                });
+            });
 
             const tooltip = d3.select("#map-tooltip");
             const containerBox = document.getElementById("chart-wrapper");
@@ -949,53 +925,39 @@
             xScale.domain([-xLimit, xLimit]);
             yScale.domain([-yLimit, yLimit]);
 
-            // Re-calculate collisions
-            const nodes = data.map(d => ({
-                ...d,
-                origX: xScale(d[flowKey]),
-                origY: yScale(d.acceleration_m),
-                x: xScale(d[flowKey]),
-                y: yScale(d.acceleration_m)
-            }));
+            // Re-calculate node properties and restart simulation
+            const nodes = simulation.nodes();
+            nodes.forEach(d => {
+                const matched = data.find(s => s.sector_name === d.sector_name);
+                if (matched) {
+                    d[flowKey] = matched[flowKey];
+                    d.acceleration_m = matched.acceleration_m;
+                    d.size_20d_m = matched.size_20d_m;
+                    d.history = matched.history;
+                }
+                d.origX = xScale(d[flowKey]);
+                d.origY = yScale(d.acceleration_m);
+            });
 
-            const simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.55))
-                .force("y", d3.forceY(d => d.origY).strength(0.55))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
-                .stop();
+            // Update force configuration and restart physics engine
+            simulation.nodes(nodes);
+            simulation.force("x", d3.forceX(d => d.origX).strength(0.92));
+            simulation.force("y", d3.forceY(d => d.origY).strength(0.92));
+            simulation.force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) * 0.2));
+            simulation.alpha(1).restart();
 
-            for (let i = 0; i < 120; ++i) {
-                simulation.tick();
-                constrainQuadrant(nodes, flowKey);
-            }
-
-            // Transition tail line segments
-            svg.selectAll(".tail-g")
+            // Transition tail paths color based on new quadrant
+            svg.selectAll(".tail-path")
                 .data(nodes, d => d.sector_name)
-                .style("--sector-color", d => {
+                .transition().duration(800)
+                .style("stroke", d => {
                     const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 })
-                .each(function(d) {
-                    const segs = getTailSegments(d, flowKey);
-                    d3.select(this).selectAll(".tail-segment")
-                        .data(segs)
-                        .transition()
-                        .duration(800)
-                        .ease(d3.easeCubicInOut)
-                        .attr("x1", seg => seg.x1)
-                        .attr("y1", seg => seg.y1)
-                        .attr("x2", seg => seg.x2)
-                        .attr("y2", seg => seg.y2);
+                .style("--sector-color", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
-
-            // Transition bubble group position coordinates
-            svg.selectAll(".bubble-g")
-                .data(nodes, d => d.sector_name)
-                .transition()
-                .duration(800)
-                .ease(d3.easeCubicInOut)
-                .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
             // Transition color rendering of individual circles based on new quadrant
             const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
@@ -1041,8 +1003,8 @@
         // Hover Linkages: Fade out irrelevant elements
         function hoverLinkageActive(sectorName, event = null) {
             // 尾跡交互聯動
-            d3.select(".tails-group").classed("has-hover", true);
-            d3.selectAll(".tail-g").classed("hovered", d => d.sector_name === sectorName);
+            d3.select(".tails").classed("has-hover", true);
+            d3.selectAll(".tail-path").classed("hovered", d => d.sector_name === sectorName);
 
             d3.selectAll(".bubble-g")
                 .style("opacity", d => d.sector_name === sectorName ? 1 : 0.15);
@@ -1193,8 +1155,8 @@
 
         function hoverLinkageReset() {
             // 重置尾跡交互聯動
-            d3.select(".tails-group").classed("has-hover", false);
-            d3.selectAll(".tail-g").classed("hovered", false);
+            d3.select(".tails").classed("has-hover", false);
+            d3.selectAll(".tail-path").classed("hovered", false);
 
             d3.selectAll(".bubble-g")
                 .style("opacity", 1);

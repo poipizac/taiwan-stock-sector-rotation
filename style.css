@@ -887,22 +887,30 @@ svg {
 }
 
 /* RRG Tail Trails Styling */
-.tail-segment {
+.tail-path {
+    fill: none;
     stroke-linecap: round;
-    transition: stroke-width 0.25s, stroke-opacity 0.25s, filter 0.25s;
+    stroke-linejoin: round;
+    transition: stroke-width 0.25s, stroke-opacity 0.25s, stroke-dasharray 0.25s, filter 0.25s;
     pointer-events: none;
+    
+    /* Default style: thin dashed line */
+    stroke-width: 2.5px;
+    stroke-opacity: 0.45;
+    stroke-dasharray: 4,4;
 }
 
 /* Tails fade out when interactive hover link is active on another sector */
-.tails-group.has-hover .tail-g:not(.hovered) .tail-segment {
-    stroke-opacity: 0.04 !important;
+.tails.has-hover .tail-path:not(.hovered) {
+    stroke-opacity: 0.05 !important;
 }
 
-/* Strong neon glow & thickening on the active hovered sector trail */
-.tails-group.has-hover .tail-g.hovered .tail-segment.seg-0 { stroke-width: 4px; stroke-opacity: 0.35; filter: drop-shadow(0 0 4px var(--sector-color)); }
-.tails-group.has-hover .tail-g.hovered .tail-segment.seg-1 { stroke-width: 6px; stroke-opacity: 0.55; filter: drop-shadow(0 0 6px var(--sector-color)); }
-.tails-group.has-hover .tail-g.hovered .tail-segment.seg-2 { stroke-width: 8px; stroke-opacity: 0.75; filter: drop-shadow(0 0 8px var(--sector-color)); }
-.tails-group.has-hover .tail-g.hovered .tail-segment.seg-3 { stroke-width: 10px; stroke-opacity: 0.90; filter: drop-shadow(0 0 10px var(--sector-color)); }
-.tails-group.has-hover .tail-g.hovered .tail-segment.seg-4 { stroke-width: 13px; stroke-opacity: 1.0; filter: drop-shadow(0 0 12px var(--sector-color)); }
+/* Strong neon glow, thickening, and turning into a solid line on the active hovered sector trail */
+.tails.has-hover .tail-path.hovered {
+    stroke-width: 5.5px !important;
+    stroke-opacity: 1.0 !important;
+    stroke-dasharray: none; /* Turn to solid line */
+    filter: drop-shadow(0 0 8px var(--sector-color));
+}
 
 
