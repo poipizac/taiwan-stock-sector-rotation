@@ -223,7 +223,7 @@ svg {
     fill-opacity: 0.4;
     pointer-events: none;
     letter-spacing: 2px;
-    text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 4px currentColor;
 }
 
 /* Transition for Bubble fade */
