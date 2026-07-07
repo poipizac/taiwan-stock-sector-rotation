@@ -196,7 +196,9 @@
         let isSectorsExpanded = false;
 
         // D3 global references for transition
-        let svg, xScale, yScale, sizeScale, width, height, margin, simulation;
+        let svg, xScale, yScale, sizeScale, width, height, margin;
+        let timeLapseTimer = null;
+        let currentDayIndex = 0;
 
         // Determine Quadrant by X (flow) and Y (acceleration_m)
         function getQuadrantInfo(x, y) {
@@ -209,6 +211,85 @@
             } else {
                 return { name: "改善 (Improving)", color: "var(--color-watch)", bgClass: "watch" };
             }
+        }
+
+        // RRG Time-Lapse Loop — pure coordinate animation, zero physics
+        function startTimeLapse(data) {
+            // Kill any previous animation loop
+            if (timeLapseTimer) {
+                clearTimeout(timeLapseTimer);
+                timeLapseTimer = null;
+            }
+
+            const tf = currentTimeFrame;
+            const flowKey = tf === "5d" ? "flow_5d_m" : "flow_20d_m";
+
+            // Pre-build a lookup map: sector_name → array of {px, py} screen coords
+            // Index 0 = oldest (Day -5), last index = today
+            const coordMap = {};
+            data.forEach(d => {
+                const history = d.history && d.history[tf] ? d.history[tf] : [];
+                const pts = history.map(pt => ({
+                    px: xScale(pt.x),
+                    py: yScale(pt.y)
+                }));
+                // Append today's real coordinate as the final point
+                pts.push({
+                    px: xScale(d[flowKey]),
+                    py: yScale(d.acceleration_m)
+                });
+                coordMap[d.sector_name] = pts;
+            });
+
+            // Determine the maximum number of steps (should be 6: indices 0..5)
+            const maxSteps = Math.max(...Object.values(coordMap).map(arr => arr.length));
+
+            currentDayIndex = 0;
+
+            function moveBubblesTo(dayIdx, duration, easing) {
+                d3.selectAll(".bubble-g")
+                    .transition("timelapse")
+                    .duration(duration)
+                    .ease(easing)
+                    .attr("transform", function(d) {
+                        const pts = coordMap[d.sector_name];
+                        if (pts && dayIdx < pts.length) {
+                            const coord = pts[dayIdx];
+                            d.current_anim_x = coord.px;
+                            d.current_anim_y = coord.py;
+                            return `translate(${coord.px}, ${coord.py})`;
+                        }
+                        // Fallback: stay where we are
+                        return d3.select(this).attr("transform");
+                    });
+            }
+
+            function playStep() {
+                const dayIdx = currentDayIndex;
+
+                // Move all bubbles to this day's coordinates
+                moveBubblesTo(dayIdx, 800, d3.easeLinear);
+
+                if (currentDayIndex < maxSteps - 1) {
+                    // Not yet at today — advance to next day
+                    currentDayIndex++;
+                    timeLapseTimer = setTimeout(playStep, 1000);
+                } else {
+                    // Reached today — pause 3 seconds, then reset & loop
+                    timeLapseTimer = setTimeout(() => {
+                        // Instant snap back to Day -5 (index 0)
+                        currentDayIndex = 0;
+                        moveBubblesTo(0, 300, d3.easeCubicOut);
+
+                        // Wait for snap-back to finish, then restart
+                        timeLapseTimer = setTimeout(playStep, 500);
+                    }, 3000);
+                }
+            }
+
+            // Kick off: place bubbles at Day -5 instantly, then start stepping
+            moveBubblesTo(0, 0, d3.easeLinear);
+            timeLapseTimer = setTimeout(playStep, 400);
         }
 
         async function loadData() {
@@ -238,7 +319,8 @@
                 
                 // Initial Chart rendering
                 renderQuadrantChart(cachedData);
-
+                startTimeLapse(cachedData);
+                
                 // Default show the first sector detail
                 if (cachedData.length > 0) {
                     showSectorDetail(cachedData[0].sector_name);
@@ -825,24 +907,32 @@
                 .attr("stroke-dasharray", "3,3")
                 .style("opacity", 0);
 
-            // 3. Setup force physics collision prevention
-            const nodes = data.map(d => ({
-                ...d,
-                origX: xScale(d[flowKey]),
-                origY: yScale(d.acceleration_m),
-                x: xScale(d[flowKey]),
-                y: yScale(d.acceleration_m)
-            }));
+            // Helper to get coordinates at dayIndex (0 to 5) for sector d
+            function getSectorPointAt(d, dayIndex) {
+                const tf = currentTimeFrame;
+                const history = d.history && d.history[tf] ? d.history[tf] : [];
+                if (dayIndex < history.length) {
+                    return { x: history[dayIndex].x, y: history[dayIndex].y };
+                }
+                return { x: d[flowKey], y: d.acceleration_m };
+            }
 
-            // 3.5 Render Tails Group (under the bubbles)
+            // 3. Render Tails Group (static background track trails under the bubbles)
             const tailsGroup = svg.append("g").attr("class", "tails");
             
             const tailPaths = tailsGroup.selectAll(".tail-path")
-                .data(nodes, d => d.sector_name)
+                .data(data, d => d.sector_name)
                 .enter()
                 .append("path")
                 .attr("class", "tail-path")
                 .attr("id", d => `tail-path-${d.sector_name.replace('/', '-')}`)
+                .attr("d", d => {
+                    const tf = currentTimeFrame;
+                    const history = d.history && d.history[tf] ? d.history[tf] : [];
+                    const points = history.map(pt => [xScale(pt.x), yScale(pt.y)]);
+                    points.push([xScale(d[flowKey]), yScale(d.acceleration_m)]); // 今日 (Day 0)
+                    return d3.line()(points);
+                })
                 .style("stroke", d => {
                     const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
@@ -853,37 +943,19 @@
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
 
-            // 4. Render Bubbles Group
+            // 4. Render Bubbles Group (initially placed at Day -5)
             const bubbleGroup = svg.selectAll(".bubble-g")
-                .data(nodes, d => d.sector_name)
+                .data(data, d => d.sector_name)
                 .enter()
                 .append("g")
                 .attr("class", "bubble-g")
-                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`);
-
-            // Initialize global force simulation (running dynamically)
-            simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.92))
-                .force("y", d3.forceY(d => d.origY).strength(0.92))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) * 0.2));
-
-            simulation.on("tick", () => {
-                constrainQuadrant(nodes, flowKey);
-                
-                // Realtime update bubbles
-                bubbleGroup.attr("transform", d => `translate(${d.x}, ${d.y})`);
-                
-                // Realtime update tails paths
-                tailPaths.attr("d", d => {
-                    const tf = currentTimeFrame;
-                    const history = d.history && d.history[tf] ? d.history[tf] : [];
-                    const points = [[d.x, d.y]];
-                    history.forEach(h => {
-                        points.push([xScale(h.x), yScale(h.y)]);
-                    });
-                    return d3.line()(points);
+                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`)
+                .attr("transform", d => {
+                    const pt = getSectorPointAt(d, 0); // Day -5
+                    d.current_anim_x = xScale(pt.x);
+                    d.current_anim_y = yScale(pt.y);
+                    return `translate(${xScale(pt.x)}, ${yScale(pt.y)})`;
                 });
-            });
 
             const tooltip = d3.select("#map-tooltip");
             const containerBox = document.getElementById("chart-wrapper");
@@ -925,31 +997,17 @@
             xScale.domain([-xLimit, xLimit]);
             yScale.domain([-yLimit, yLimit]);
 
-            // Re-calculate node properties and restart simulation
-            const nodes = simulation.nodes();
-            nodes.forEach(d => {
-                const matched = data.find(s => s.sector_name === d.sector_name);
-                if (matched) {
-                    d[flowKey] = matched[flowKey];
-                    d.acceleration_m = matched.acceleration_m;
-                    d.size_20d_m = matched.size_20d_m;
-                    d.history = matched.history;
-                }
-                d.origX = xScale(d[flowKey]);
-                d.origY = yScale(d.acceleration_m);
-            });
-
-            // Update force configuration and restart physics engine
-            simulation.nodes(nodes);
-            simulation.force("x", d3.forceX(d => d.origX).strength(0.92));
-            simulation.force("y", d3.forceY(d => d.origY).strength(0.92));
-            simulation.force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) * 0.2));
-            simulation.alpha(1).restart();
-
-            // Transition tail paths color based on new quadrant
+            // Transition tail paths to new history coordinate shapes
             svg.selectAll(".tail-path")
-                .data(nodes, d => d.sector_name)
+                .data(data, d => d.sector_name)
                 .transition().duration(800)
+                .attr("d", d => {
+                    const tf = currentTimeFrame;
+                    const history = d.history && d.history[tf] ? d.history[tf] : [];
+                    const points = history.map(pt => [xScale(pt.x), yScale(pt.y)]);
+                    points.push([xScale(d[flowKey]), yScale(d.acceleration_m)]);
+                    return d3.line()(points);
+                })
                 .style("stroke", d => {
                     const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
@@ -962,7 +1020,7 @@
             // Transition color rendering of individual circles based on new quadrant
             const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
             svg.selectAll(".bubble")
-                .data(nodes, d => d.sector_name)
+                .data(data, d => d.sector_name)
                 .transition()
                 .duration(800)
                 .style("fill", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
@@ -998,6 +1056,9 @@
                 .transition().duration(800)
                 .attr("x", xScale(0) + 8)
                 .attr("y", yScale(0) + 14);
+
+            // Restart Time-Lapse Loop animation
+            startTimeLapse(data);
         }
 
         // Hover Linkages: Fade out irrelevant elements
@@ -1015,7 +1076,12 @@
             if (!targetBubbleG.empty()) {
                 const d = targetBubbleG.datum();
                 const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
-                
+                // 獲取當前動畫實際坐標
+                const tf = currentTimeFrame;
+                const history = d.history && d.history[tf] ? d.history[tf] : [];
+                const curX = d.current_anim_x !== undefined ? d.current_anim_x : (history.length > 0 ? xScale(history[0].x) : xScale(d[flowKey]));
+                const curY = d.current_anim_y !== undefined ? d.current_anim_y : (history.length > 0 ? yScale(history[0].y) : yScale(d.acceleration_m));
+
                 // 放大泡泡
                 targetBubbleG.select(".bubble")
                     .transition().duration(150)
@@ -1026,17 +1092,17 @@
                 
                 // 顯示投影線
                 d3.select("#proj-x")
-                    .attr("x1", d.x)
-                    .attr("y1", d.y)
+                    .attr("x1", curX)
+                    .attr("y1", curY)
                     .attr("x2", xScale(0))
-                    .attr("y2", d.y)
+                    .attr("y2", curY)
                     .transition().duration(150)
                     .style("opacity", 1);
 
                 d3.select("#proj-y")
-                    .attr("x1", d.x)
-                    .attr("y1", d.y)
-                    .attr("x2", d.x)
+                    .attr("x1", curX)
+                    .attr("y1", curY)
+                    .attr("x2", curX)
                     .attr("y2", yScale(0))
                     .transition().duration(150)
                     .style("opacity", 1);
@@ -1103,8 +1169,8 @@
                         tooltipX = rect.left + window.scrollX + rect.width / 2 - tooltipWidth / 2;
                         tooltipY = rect.top + window.scrollY - tooltipHeight - 10;
                     } else {
-                        tooltipX = event ? event.pageX + 15 : d.x - 10;
-                        tooltipY = event ? event.pageY + 15 : d.y - 180;
+                        tooltipX = event ? event.pageX + 15 : curX - 10;
+                        tooltipY = event ? event.pageY + 15 : curY - 180;
                     }
                 }
                 
