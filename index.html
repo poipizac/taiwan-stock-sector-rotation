@@ -301,6 +301,35 @@
                 const resJson = await response.json();
                 
                 cachedData = resJson.sectors;
+                cachedWhaleStocks = resJson.whale_locked_stocks;
+                
+                // 板塊名稱映射機制 (Name Mapping)
+                const nameMapping = {
+                    "轉單受惠與國防儲能": "軍工概念股"
+                };
+                const mapName = name => nameMapping[name] || name;
+
+                if (cachedData) {
+                    cachedData.forEach(sector => {
+                        sector.sector_name = mapName(sector.sector_name);
+                        if (sector.individual_stocks) {
+                            sector.individual_stocks.forEach(st => {
+                                if (st.sector) st.sector = mapName(st.sector);
+                            });
+                        }
+                        if (sector.bottom_fishing_stocks) {
+                            sector.bottom_fishing_stocks.forEach(st => {
+                                if (st.sector) st.sector = mapName(st.sector);
+                            });
+                        }
+                    });
+                }
+                if (cachedWhaleStocks) {
+                    cachedWhaleStocks.forEach(st => {
+                        if (st.sector) st.sector = mapName(st.sector);
+                    });
+                }
+
                 cachedMarketInfo = resJson.market_info;
                 
                 const now = new Date();
@@ -313,7 +342,6 @@
                 // Render components
                 updateUI();
                 renderBottomFishing(cachedData, cachedMarketInfo);
-                cachedWhaleStocks = resJson.whale_locked_stocks;
                 renderWhaleLockedStocks(cachedWhaleStocks, 15, 20);
                 
                 // Initialize SVG Container
@@ -369,7 +397,7 @@
             const displayData = sortedData.slice(0, displayCount);
 
             displayData.forEach(sector => {
-                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                 const isCustom = customSectors.includes(sector.sector_name);
                 const row = document.createElement("div");
                 row.className = "sector-row";
@@ -446,7 +474,7 @@
             }
             
             bfSectors.forEach(sector => {
-                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                 const isCustom = customSectors.includes(sector.sector_name);
                 const item = document.createElement("div");
                 item.className = "bf-sector-item";
@@ -586,7 +614,7 @@
                 const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
                 const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
                 
-                const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(stock.sector);
+                const isCustom = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"].includes(stock.sector);
                 const badgeStyle = isCustom ? 'style="background: #ff007f; color: #fff; font-weight: bold; box-shadow: 0 0 5px rgba(255, 0, 127, 0.5); border: none;"' : '';
 
                 item.innerHTML = `
@@ -645,7 +673,7 @@
             content.style.display = "block";
 
             // Fill text
-            const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(sectorName);
+            const isCustom = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"].includes(sectorName);
             document.getElementById("detail-sector-name").innerHTML = isCustom ? `★ ${sector.sector_name} <span style="background:#ff007f; color:#fff; font-size:0.75rem; padding:2px 6px; border-radius:3px; margin-left:6px; font-weight:bold; vertical-align: middle;">特調虛擬板塊</span>` : sector.sector_name;
             
             const flowVal = currentTimeFrame === "5d" ? sector.flow_5d_m : sector.flow_20d_m;
@@ -929,12 +957,12 @@
                     return d3.line()(points);
                 })
                 .style("stroke", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 })
                 .style("fill", "none")
                 .style("--sector-color", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
 
@@ -955,7 +983,7 @@
             const tooltip = d3.select("#map-tooltip");
             const containerBox = document.getElementById("chart-wrapper");
 
-            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
             bubbleGroup.append("circle")
                 .attr("class", d => customSectors.includes(d.sector_name) ? "bubble custom-sector" : "bubble")
                 .attr("r", d => sizeScale(d.size_20d_m))
@@ -1006,16 +1034,16 @@
                     return d3.line()(points);
                 })
                 .style("stroke", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 })
                 .style("--sector-color", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
 
             // Transition color rendering of individual circles based on new quadrant
-            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
             svg.selectAll(".bubble")
                 .data(data, d => d.sector_name)
                 .transition()
@@ -1099,7 +1127,7 @@
                 const containerBox = document.getElementById("chart-wrapper");
                 const currFlowVal = d[flowKey];
                 const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
-                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                 
                 const stockItems = d.individual_stocks.slice(0, 3).map(st => {
                     const flowSign = st.flow_5d_m >= 0 ? "+" : "";
@@ -1211,7 +1239,7 @@
                 .style("opacity", 1);
 
             const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
-            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
             
             d3.selectAll(".bubble-g").each(function(d) {
                 const bubble = d3.select(this).select(".bubble");
