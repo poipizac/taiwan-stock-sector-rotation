@@ -29,8 +29,17 @@ CONCEPT_SECTORS = {
     "低軌衛星": ['3491', '3152', '2314', '6285', '2313', '3380'],
     "機器人": ['2359', '6188', '2464', '8374', '2365', '4562'],
     "台積先進封裝設備": ['3131', '6187', '3583', '6640', '5443', '2464'],
-    "轉單受惠與國防儲能": ['3037', '2308', '6431', '1301', '4763'],
+    "軍工概念股": ['3037', '6431', '1301', '4763'],
     "高值化半導體材料": ['1303', '1402', '1717', '4770', '1727']
+}
+
+# 強制歸類字典 (Ticker Override Mechanism)
+CUSTOM_SECTOR_MAP = {
+    "8033": "軍工概念股",      # 雷虎 (原為其他)
+    "2634": "軍工概念股",      # 漢翔 (原為其他)
+    "6753": "軍工概念股",      # 龍德造船 (原為其他)
+    "8222": "軍工概念股",      # 寶一 (原為其他)
+    "2308": "電子零組件業",    # 台達電 (從原本的自訂混合板塊移出，回歸電子零組件業)
 }
 
 STOCK_TO_CONCEPT = {}
@@ -209,7 +218,12 @@ def parse_daily_data(date_str, stock_info):
                 continue
                 
             stock_name = stock_info[stock_id]["name"]
-            sector = STOCK_TO_CONCEPT.get(stock_id, stock_info[stock_id]["industry"])
+            
+            # 個股強制歸類 (Ticker Override) 優先
+            if stock_id in CUSTOM_SECTOR_MAP:
+                sector = CUSTOM_SECTOR_MAP[stock_id]
+            else:
+                sector = STOCK_TO_CONCEPT.get(stock_id, stock_info[stock_id]["industry"])
             
             close_str = row[8].replace(",", "").strip()
             volume_str = row[2].replace(",", "").strip()

@@ -302,34 +302,6 @@
                 
                 cachedData = resJson.sectors;
                 cachedWhaleStocks = resJson.whale_locked_stocks;
-                
-                // 板塊名稱映射機制 (Name Mapping)
-                const nameMapping = {
-                    "轉單受惠與國防儲能": "軍工概念股"
-                };
-                const mapName = name => nameMapping[name] || name;
-
-                if (cachedData) {
-                    cachedData.forEach(sector => {
-                        sector.sector_name = mapName(sector.sector_name);
-                        if (sector.individual_stocks) {
-                            sector.individual_stocks.forEach(st => {
-                                if (st.sector) st.sector = mapName(st.sector);
-                            });
-                        }
-                        if (sector.bottom_fishing_stocks) {
-                            sector.bottom_fishing_stocks.forEach(st => {
-                                if (st.sector) st.sector = mapName(st.sector);
-                            });
-                        }
-                    });
-                }
-                if (cachedWhaleStocks) {
-                    cachedWhaleStocks.forEach(st => {
-                        if (st.sector) st.sector = mapName(st.sector);
-                    });
-                }
-
                 cachedMarketInfo = resJson.market_info;
                 
                 const now = new Date();
