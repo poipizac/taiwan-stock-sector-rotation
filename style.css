@@ -102,19 +102,22 @@ header .meta-info {
 }
 
 main {
-    flex: 1; /* 填滿 body 扣除 header 後的所有剩餘空間 */
+    flex: 1;
     max-width: 1650px;
     width: 100%;
     margin: 0 auto;
     padding: 1rem 1.5rem;
-    display: flex; /* 左圖右表 Flex 水平排列 */
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: row;   /* 強制水平排列 */
+    flex-wrap: nowrap;     /* 絕對禁止換行 */
+    gap: 1.25rem;
     overflow: hidden;
     min-height: 0;
 }
 
 .left-column {
-    flex: 0 0 60%; /* 左欄佔 60% 寬度 */
+    flex: 0 0 65%;  /* 左欄佔 65% 寬度，只裝地圖 */
+    max-width: 65%;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -263,14 +266,14 @@ svg {
 /* Right Column / Sidebar Styles */
 .sidebar,
 .right-column {
-    flex: 0 0 40%; /* 右欄佔 40% 寬度 */
+    flex: 1;  /* 自動填滿剩餘 35% 寬度 */
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
     padding-right: 0.5rem;
     height: 100%;
-    overflow-y: auto; /* 右欄獨立捲動 */
-    min-height: 0;
+    overflow-y: auto;
 }
 
 .card {
@@ -532,27 +535,29 @@ svg {
     border-radius: 50%;
 }
 
-/* Responsive adjust */
-@media (max-width: 1200px) {
+/* Responsive adjust — 斷點下修至 992px，避免筆電 125% 縮放誤觸發 */
+@media (max-width: 992px) {
     body {
-        overflow-y: auto !important; /* 單欄模式解鎖全域捲動 */
+        overflow-y: auto !important;
         height: auto;
     }
     main {
-        flex-direction: column; /* 堆疊為上下排列 */
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
         overflow: visible;
         flex: none;
         height: auto;
     }
     .left-column {
-        flex: none;
+        flex: none !important;
+        max-width: 100% !important;
         height: 50vh;
         min-height: 320px;
         overflow: hidden;
     }
     .sidebar,
     .right-column {
-        flex: none;
+        flex: none !important;
         height: auto;
         overflow-y: visible;
     }
