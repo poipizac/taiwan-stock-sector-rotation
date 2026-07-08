@@ -797,10 +797,10 @@ html_content = """<!DOCTYPE html>
             const quadHeight = (height - margin.top - margin.bottom) / 2;
 
             const quadrants = [
-                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "#00e676" },
-                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "#00b0ff" },
-                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "#ff1744" },
-                { id: "rotate", x: xScale(0), y: yScale(0), fill: "#ffd600" }
+                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "var(--color-lead)" },
+                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "var(--color-watch)" },
+                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "var(--color-outflow)" },
+                { id: "rotate", x: xScale(0), y: yScale(0), fill: "var(--color-rotate)" }
             ];
 
             svg.selectAll(".quadrant-bg")
@@ -816,10 +816,10 @@ html_content = """<!DOCTYPE html>
 
             // Add Quadrant Text Labels
             const labelsData = [
-                { text: "主力進攻", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
-                { text: "觀望防守", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
-                { text: "資金退潮", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
-                { text: "資金輪動", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
+                { text: "領先 (Leading)", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
+                { text: "改善 (Improving)", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
+                { text: "落後 (Lagging)", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
+                { text: "轉弱 (Weakening)", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
             ];
 
             svg.selectAll(".quadrant-label")
