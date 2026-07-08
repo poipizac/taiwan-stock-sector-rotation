@@ -26,6 +26,14 @@
     padding: 0;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden !important; /* 絕對禁止瀏覽器出現全域捲軸 */
+}
+
 body {
     background-color: var(--bg-dark);
     background-image: 
@@ -36,8 +44,8 @@ body {
     background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
     color: var(--text-primary);
     font-family: 'Urbanist', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -45,8 +53,7 @@ header {
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border-color);
     padding: 0.35rem 1.5rem;
-    position: sticky;
-    top: 0;
+    flex: 0 0 auto; /* Navbar 固定高度，不伸縮 */
     z-index: 100;
     display: flex;
     flex-direction: row;
@@ -95,23 +102,24 @@ header .meta-info {
 }
 
 main {
+    flex: 1; /* 填滿 body 扣除 header 後的所有剩餘空間 */
     max-width: 1650px;
-    margin: 1.5rem auto;
-    padding: 0 1.5rem;
+    width: 100%;
+    margin: 0 auto; /* 水平居中，垂直方向零邊距 */
+    padding: 1rem 1.5rem;
     display: grid;
     grid-template-columns: 1fr 480px;
     gap: 1.5rem;
-    min-height: calc(100vh - 110px);
-    height: auto;
-    align-items: start;
+    overflow: hidden; /* 封殺 main 層的捲動 */
+    min-height: 0; /* Flex 子項目正確收縮 */
 }
 
 .left-column {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     min-width: 0;
-    height: calc(100vh - 80px);
+    height: 100%; /* 從 Grid 父層繼承精確高度 */
     overflow: hidden;
 }
 
@@ -120,15 +128,14 @@ main {
     backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1rem 1.5rem;
     z-index: 50;
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    height: 55vh;
-    max-height: 500px;
-    min-height: 280px;
-    flex-shrink: 0;
+    flex: 0 0 55%; /* 佔左欄 55% 高度，固定比例 */
+    min-height: 0; /* 允許 Flex 收縮 */
+    overflow: hidden;
 }
 
 .map-title-row {
@@ -260,6 +267,9 @@ svg {
     flex-direction: column;
     gap: 1.25rem;
     padding-right: 0.5rem;
+    height: 100%; /* 從 Grid 父層繼承精確高度 */
+    overflow-y: auto; /* 右欄獨立捲動 */
+    min-height: 0;
 }
 
 .card {
@@ -523,8 +533,14 @@ svg {
 
 /* Responsive adjust */
 @media (max-width: 1200px) {
+    body {
+        overflow-y: auto !important; /* 單欄模式解鎖全域捲動 */
+        height: auto;
+    }
     main {
         grid-template-columns: 1fr;
+        overflow: visible;
+        flex: none;
         height: auto;
     }
     .left-column {
@@ -532,6 +548,7 @@ svg {
         overflow: visible;
     }
     .map-container {
+        flex: none;
         height: 50vh;
         max-height: 420px;
         min-height: 260px;
