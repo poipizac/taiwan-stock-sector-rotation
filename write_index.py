@@ -1,0 +1,1088 @@
+# -*- coding: utf-8 -*-
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台股板塊輪動地圖 - 資金流向與加速度監控系統</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load D3.js for visual rendering -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* 特調虛擬板塊的霓虹發光樣式 */
+        .bubble.custom-sector {
+            stroke: #ff007f !important;
+            stroke-width: 3.5px !important;
+            stroke-dasharray: 3, 1 !important;
+            fill-opacity: 0.82 !important;
+            animation: neonPulse 1.8s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            from {
+                filter: drop-shadow(0 0 3px #ff007f) drop-shadow(0 0 8px #ff007f);
+            }
+            to {
+                filter: drop-shadow(0 0 6px #ff007f) drop-shadow(0 0 16px #ff007f);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline; vertical-align:middle; margin-right:5px; color:#ff3838;">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+            台股板塊輪動資金流向地圖
+        </h1>
+        <div class="meta-info">
+            <span id="data-date">更新時間：載入中...</span>
+            <button class="refresh-btn" onclick="loadData()">重新整理</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Section: Quadrant Bubble Map (Full Height) -->
+        <div class="left-column">
+            <section class="map-container" id="map-section">
+                <div class="map-title-row">
+                    <h2>資金輪動四象限地圖</h2>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-lead);"></span>
+                            <span>主力進攻 (右上)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-rotate);"></span>
+                            <span>資金輪動 (右下)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-outflow);"></span>
+                            <span>資金退潮 (左下)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: var(--color-watch);"></span>
+                            <span>觀望防守 (左上)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-wrapper" id="chart-wrapper">
+                    <!-- SVG Chart will be rendered here by D3 -->
+                </div>
+                
+                <!-- Floating interactive Tooltip -->
+                <div class="custom-tooltip" id="map-tooltip"></div>
+            </section>
+        </div>
+
+        <!-- Right Section: Comprehensive War Room Panel -->
+        <section class="sidebar right-column">
+            <!-- Timeframe selector tab button group -->
+            <div class="time-tabs">
+                <button class="tab-btn active" id="tab-5d" onclick="switchTimeFrame('5d')">近 5 日資金布局</button>
+                <button class="tab-btn" id="tab-20d" onclick="switchTimeFrame('20d')">近 20 日資金規模</button>
+            </div>
+
+            <!-- Bottom Fishing Alert Card (now at the top of sidebar) -->
+            <div class="card bottom-fishing-card" id="bottom-fishing-panel">
+                <div class="panel-title" style="color: #ffd600; border-bottom: 1px solid rgba(255, 214, 0, 0.15);">
+                    法人逆勢抄底警報排行
+                    <span style="background: rgba(255, 214, 0, 0.15); color: #ffd600; font-size: 0.75rem; letter-spacing: 0.5px;">逆風吸籌</span>
+                </div>
+                <div class="market-warning" id="market-warning-msg" style="display:none;">
+                    ⚠️ 大盤今日下跌，法人逆勢抄底啟動！
+                </div>
+                <div class="sector-list" id="bottom-fishing-list">
+                    <!-- Dynamic rendering -->
+                </div>
+            </div>
+
+            <!-- Sector Ranking Card (moved from left-column) -->
+            <div class="card sector-ranking-card">
+                <div class="panel-title">
+                    板塊資金排序
+                    <span id="ranking-header-badge" style="background: rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.75rem;">近5日累計</span>
+                </div>
+                <div class="sector-list" id="sector-quick-list">
+                    <!-- Dynamic rendering -->
+                </div>
+                <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">展開全部板塊</button>
+            </div>
+
+            <!-- Whale Locked Stocks Card -->
+            <div class="card whale-locked-card glow-aurora" id="whale-locked-panel">
+                <div class="panel-title" style="color: #00e676; border-bottom: 1px solid rgba(0, 230, 118, 0.15);">
+                    千張大戶密集鎖碼偵測雷達
+                    <span style="background: rgba(0, 230, 118, 0.15); color: #00e676; font-size: 0.75rem; letter-spacing: 0.5px;">主力鎖碼</span>
+                </div>
+                <!-- 監測時間區間 Tab 組 -->
+                <div class="whale-time-tabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.65rem; background: rgba(0, 0, 0, 0.2); padding: 0.2rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
+                    <button class="whale-time-btn" onclick="changeWhaleTime('1m', this)">1個月</button>
+                    <button class="whale-time-btn active" onclick="changeWhaleTime('2m', this)">2個月</button>
+                    <button class="whale-time-btn" onclick="changeWhaleTime('3m', this)">3個月</button>
+                    <button class="whale-time-btn" onclick="changeWhaleTime('4m', this)">4個月</button>
+                </div>
+                <!-- 篩選門檻控制鈕組 -->
+                <div class="whale-filter-tabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                    <button class="whale-filter-btn active" style="color: #00e676; border-color: rgba(0, 230, 118, 0.4); background: rgba(0, 230, 118, 0.15);" onclick="changeWhaleThreshold(15, 20, this)">15%~20%</button>
+                    <button class="whale-filter-btn" onclick="changeWhaleThreshold(10, 15, this)">10%~15%</button>
+                    <button class="whale-filter-btn" onclick="changeWhaleThreshold(5, 10, this)">5%~10%</button>
+                    <button class="whale-filter-btn" onclick="changeWhaleThreshold(4, 5, this)">4%~5%</button>
+                </div>
+                <div class="whale-stocks-list" id="whale-locked-list">
+                    <!-- Dynamic rendering -->
+                </div>
+            </div>
+
+            <!-- Detail Stock Breakdown Card -->
+            <div class="card detail-card" id="detail-panel">
+                <div class="empty-state" id="detail-empty">
+                    請點擊或懸浮板塊泡泡，以檢視核心個股買賣超分化明細
+                </div>
+                <div id="detail-content" style="display: none;">
+                    <div class="panel-title">
+                        <span id="detail-sector-name" style="font-size: 1.15rem; font-weight: 700; padding: 0;">板塊名稱</span>
+                        <div id="detail-quadrant-badge" class="dual-badge-container"></div>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <div class="label" id="metric-label-flow">5日累計流向</div>
+                            <div class="value" id="metric-flow">0.0</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="label">資金加速度</div>
+                            <div class="value" id="metric-accel">0.0</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="label">20日資金規模</div>
+                            <div class="value" id="metric-scale-20d">0.0</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="font-size: 0.85rem; margin-bottom: 0.65rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif;">板塊核心個股分化數據</h3>
+                    <div class="stock-table-wrapper">
+                        <table class="stock-table">
+                            <thead>
+                                <tr>
+                                    <th>個股名稱</th>
+                                    <th style="text-align: right;">今日流向</th>
+                                    <th style="text-align: right;">今日漲跌</th>
+                                    <th style="text-align: right;" id="th-accum-flow">5日流向</th>
+                                    <th style="text-align: right;">5日漲跌</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stock-table-body">
+                                <!-- Dynamic rendering -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let cachedData = null;
+        let cachedMarketInfo = null;
+        let selectedSectorName = null;
+        let currentTimeFrame = "5d"; // Default state '5d' or '20d'
+        let cachedWhaleStocks = null;
+        let currentMinThreshold = 15;
+        let currentMaxThreshold = 20;
+        let currentTimeWhale = "2m";
+        let isSectorsExpanded = false;
+
+        // D3 global references for transition
+        let svg, xScale, yScale, sizeScale, width, height, margin;
+
+        // Determine Quadrant by X (flow) and Y (acceleration_m)
+        function getQuadrantInfo(x, y) {
+            if (x >= 0 && y >= 0) {
+                return { name: "主力進攻", color: "var(--color-lead)", bgClass: "lead" };
+            } else if (x >= 0 && y < 0) {
+                return { name: "資金輪動", color: "var(--color-rotate)", bgClass: "rotate" };
+            } else if (x < 0 && y < 0) {
+                return { name: "資金退潮", color: "var(--color-outflow)", bgClass: "outflow" };
+            } else {
+                return { name: "觀望防守", color: "var(--color-watch)", bgClass: "watch" };
+            }
+        }
+
+        async function loadData() {
+            try {
+                // Fetch data from local source sectors_data.json
+                const response = await fetch("sectors_data.json?" + new Date().getTime());
+                const resJson = await response.json();
+                
+                cachedData = resJson.sectors;
+                cachedMarketInfo = resJson.market_info;
+                
+                const now = new Date();
+                const mReturn = cachedMarketInfo.market_return_pct;
+                const mReturnSign = mReturn >= 0 ? "+" : "";
+                const mReturnClass = mReturn >= 0 ? "val-positive" : "val-negative";
+                
+                document.getElementById("data-date").innerHTML = `大盤加權指數: ${cachedMarketInfo.market_close.toLocaleString()} (<span class="${mReturnClass}">${mReturnSign}${mReturn.toFixed(2)}%</span>) | 更新時間: ${now.toLocaleDateString("zh-TW")} ${now.toLocaleTimeString("zh-TW")}`;
+
+                // Render components
+                updateUI();
+                renderBottomFishing(cachedData, cachedMarketInfo);
+                cachedWhaleStocks = resJson.whale_locked_stocks;
+                renderWhaleLockedStocks(cachedWhaleStocks, 15, 20);
+                
+                // Initialize SVG Container
+                initChartContainer();
+                
+                // Initial Chart rendering
+                renderQuadrantChart(cachedData);
+
+                // Default show the first sector detail
+                if (cachedData.length > 0) {
+                    showSectorDetail(cachedData[0].sector_name);
+                }
+            } catch (error) {
+                console.error("載入 sectors_data.json 錯誤:", error);
+                document.getElementById("data-date").textContent = "數據載入失敗";
+            }
+        }
+
+        function switchTimeFrame(timeframe) {
+            if (currentTimeFrame === timeframe) return;
+            currentTimeFrame = timeframe;
+
+            // Toggle active classes on tab buttons
+            document.getElementById("tab-5d").classList.toggle("active", timeframe === "5d");
+            document.getElementById("tab-20d").classList.toggle("active", timeframe === "20d");
+
+            // Update Header badges in panels
+            document.getElementById("ranking-header-badge").textContent = timeframe === "5d" ? "近5日累計" : "近20日累計";
+            
+            // Re-render UI list & slide bubbles smoothly
+            updateUI();
+            transitionQuadrantChart(cachedData);
+            
+            // Re-display detail panel with updated column names
+            if (selectedSectorName) {
+                showSectorDetail(selectedSectorName);
+            }
+        }
+
+        function updateUI() {
+            if (!cachedData) return;
+            
+            const listContainer = document.getElementById("sector-quick-list");
+            listContainer.innerHTML = "";
+
+            // Sort by flow magnitude to show most active sectors first (Descending Order)
+            const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+            const sortedData = [...cachedData].sort((a, b) => b[flowKey] - a[flowKey]);
+
+            // 根據摺疊狀態決定顯示的板塊數量
+            const displayCount = isSectorsExpanded ? sortedData.length : 8;
+            const displayData = sortedData.slice(0, displayCount);
+
+            displayData.forEach(sector => {
+                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const isCustom = customSectors.includes(sector.sector_name);
+                const row = document.createElement("div");
+                row.className = "sector-row";
+                row.setAttribute("data-sector", sector.sector_name);
+                if (sector.sector_name === selectedSectorName) {
+                    row.classList.add("active");
+                }
+                
+                if (isCustom) {
+                    row.style.border = "1px dashed rgba(255, 0, 127, 0.4)";
+                    row.style.boxShadow = "0 0 6px rgba(255, 0, 127, 0.12)";
+                }
+                
+                row.onclick = () => showSectorDetail(sector.sector_name);
+                
+                // Sidebar row Hover linkages
+                row.onmouseover = () => hoverLinkageActive(sector.sector_name);
+                row.onmouseout = () => hoverLinkageReset();
+
+                const flowVal = sector[flowKey];
+                const flowSign = flowVal >= 0 ? "+" : "";
+                const flowClass = flowVal >= 0 ? "val-positive" : "val-negative";
+                const qInfo = getQuadrantInfo(flowVal, sector.acceleration_m);
+                
+                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
+
+                row.innerHTML = `
+                    <div>
+                        <div class="name">${nameHtml}</div>
+                        <div class="accel-val" style="color: ${qInfo.color}">${qInfo.name}</div>
+                    </div>
+                    <div class="stats">
+                        <div class="flow-val ${flowClass}">${flowSign}${flowVal.toLocaleString()} M</div>
+                        <div class="accel-val">加速度: ${sector.acceleration_m > 0 ? "+" : ""}${sector.acceleration_m.toLocaleString()} M</div>
+                    </div>
+                `;
+                listContainer.appendChild(row);
+            });
+
+            // 更新按鈕文字
+            const toggleBtn = document.getElementById("sector-toggle-btn");
+            if (isSectorsExpanded) {
+                toggleBtn.textContent = "收攏板塊列表 ▴";
+            } else {
+                const remaining = sortedData.length - 8;
+                toggleBtn.textContent = `展開全部板塊 (+${remaining}) ▾`;
+            }
+        }
+
+        function toggleSectors() {
+            isSectorsExpanded = !isSectorsExpanded;
+            updateUI();
+        }
+
+        function renderBottomFishing(data, marketInfo) {
+            const warningMsg = document.getElementById("market-warning-msg");
+            if (marketInfo.market_return_pct < 0) {
+                warningMsg.style.display = "block";
+            } else {
+                warningMsg.style.display = "none";
+            }
+            
+            const listContainer = document.getElementById("bottom-fishing-list");
+            listContainer.innerHTML = "";
+            
+            // Filter sectors with bottom fishing potential, sort by score desc
+            const bfSectors = data.filter(s => s.bottom_fishing_score > 0)
+                                  .sort((a, b) => b.bottom_fishing_score - a.bottom_fishing_score)
+                                  .slice(0, 3);
+                                  
+            if (bfSectors.length === 0) {
+                listContainer.innerHTML = `<div class="empty-state" style="padding: 1rem 0; font-size:0.8rem;">目前全市場無符合「法人逆風布局」之板塊</div>`;
+                return;
+            }
+            
+            bfSectors.forEach(sector => {
+                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const isCustom = customSectors.includes(sector.sector_name);
+                const item = document.createElement("div");
+                item.className = "bf-sector-item";
+                item.onclick = () => showSectorDetail(sector.sector_name);
+                
+                // Sidebar row hover linkage triggers
+                item.onmouseover = () => hoverLinkageActive(sector.sector_name);
+                item.onmouseout = () => hoverLinkageReset();
+                
+                let stocksHtml = "";
+                if (sector.bottom_fishing_stocks && sector.bottom_fishing_stocks.length > 0) {
+                    sector.bottom_fishing_stocks.forEach(st => {
+                        const retSign = st.today_return_pct >= 0 ? "+" : "";
+                        const retClass = st.today_return_pct >= 0 ? "val-positive" : "val-negative";
+                        stocksHtml += `
+                            <div class="bf-stock-tag">
+                                <span class="stock-title">${st.stock_name} (${st.stock_id})</span>
+                                <span class="stock-flow val-positive">買超: +${st.today_net_flow_m.toFixed(1)}M</span>
+                                <span style="font-size:0.7rem; font-weight:600; text-align:right;" class="${retClass}">${retSign}${st.today_return_pct.toFixed(2)}%</span>
+                            </div>
+                        `;
+                    });
+                } else {
+                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之抗跌個股</div>`;
+                }
+                
+                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
+
+                item.innerHTML = `
+                    <div class="bf-sector-header">
+                        <span class="name">${nameHtml}</span>
+                        <span class="score">強度得分: ${sector.bottom_fishing_score.toFixed(1)}</span>
+                    </div>
+                    <div class="bf-stocks-row">
+                        ${stocksHtml}
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        function changeWhaleTime(timeframe, btn) {
+            const buttons = document.querySelectorAll(".whale-time-btn");
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            currentTimeWhale = timeframe;
+            
+            renderWhaleLockedStocks(cachedWhaleStocks, currentMinThreshold, currentMaxThreshold);
+        }
+
+        function changeWhaleThreshold(min, max, btn) {
+            const buttons = document.querySelectorAll(".whale-filter-btn");
+            buttons.forEach(b => {
+                b.classList.remove("active");
+                b.style.color = "";
+                b.style.borderColor = "";
+                b.style.background = "";
+                b.style.boxShadow = "";
+            });
+            btn.classList.add("active");
+            
+            currentMinThreshold = min;
+            currentMaxThreshold = max;
+
+            // 動態改變看板的外觀邊框與呼吸燈
+            const panel = document.getElementById("whale-locked-panel");
+            panel.className = "card whale-locked-card"; // reset
+            
+            if (min >= 15) {
+                panel.classList.add("glow-aurora");
+                btn.style.color = "#00e676";
+                btn.style.borderColor = "rgba(0, 230, 118, 0.4)";
+                btn.style.background = "rgba(0, 230, 118, 0.15)";
+                btn.style.boxShadow = "0 0 10px rgba(0, 230, 118, 0.1)";
+            } else if (min >= 10) {
+                panel.classList.add("glow-aurora");
+                btn.style.color = "#00e676";
+                btn.style.borderColor = "rgba(0, 230, 118, 0.4)";
+                btn.style.background = "rgba(0, 230, 118, 0.15)";
+                btn.style.boxShadow = "0 0 10px rgba(0, 230, 118, 0.1)";
+            } else if (min >= 5) {
+                panel.classList.add("glow-neon-blue");
+                btn.style.color = "#00b0ff";
+                btn.style.borderColor = "rgba(0, 176, 255, 0.4)";
+                btn.style.background = "rgba(0, 176, 255, 0.15)";
+                btn.style.boxShadow = "0 0 10px rgba(0, 176, 255, 0.1)";
+            } else {
+                panel.classList.add("glow-dim");
+                btn.style.color = "#ffd600";
+                btn.style.borderColor = "rgba(255, 214, 0, 0.4)";
+                btn.style.background = "rgba(255, 214, 0, 0.15)";
+                btn.style.boxShadow = "0 0 10px rgba(255, 214, 0, 0.1)";
+            }
+
+            renderWhaleLockedStocks(cachedWhaleStocks, min, max);
+        }
+
+        function renderWhaleLockedStocks(whaleStocks, min, max) {
+            const listContainer = document.getElementById("whale-locked-list");
+            listContainer.innerHTML = "";
+            
+            if (!whaleStocks || whaleStocks.length === 0) {
+                listContainer.innerHTML = `<div class="empty-state" style="padding: 1rem 0; font-size:0.8rem; color: var(--text-muted);">目前無符合「大戶鎖碼」之個股</div>`;
+                return;
+            }
+            
+            const diffKey = "diff_" + currentTimeWhale;
+            // 根據傳入的門檻與選中的時間區間過濾個股
+            const filtered = whaleStocks.filter(st => st[diffKey] >= min && st[diffKey] <= max);
+            
+            const labelText = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "增減";
+            
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state" style="padding: 1.5rem 0.5rem; font-size:0.8rem; line-height: 1.5; color: var(--text-muted);">
+                        ⚠️ 此區間目前無符合個股。<br>
+                        <span style="font-size:0.75rem; color:#ffd600; font-weight:500;">今日大盤無此強度的鎖碼股，建議切換至「10%~15%」或「5%~10%」區間檢測。</span>
+                    </div>`;
+                return;
+            }
+            
+            filtered.forEach(stock => {
+                const item = document.createElement("div");
+                item.className = "whale-stock-item";
+                item.setAttribute("data-sector", stock.sector);
+                
+                // Click and Hover Linkages
+                item.onclick = () => showSectorDetail(stock.sector);
+                item.onmouseover = () => hoverLinkageActive(stock.sector);
+                item.onmouseout = () => hoverLinkageReset();
+                
+                // 動態時間區間累計漲跌幅
+                const priceChangeKey = currentTimeWhale + "_price_change";
+                const priceChangeVal = stock[priceChangeKey] !== undefined ? stock[priceChangeKey] : 0.0;
+                const priceChangeLabel = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "漲跌";
+                const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
+                const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
+                
+                const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(stock.sector);
+                const badgeStyle = isCustom ? 'style="background: #ff007f; color: #fff; font-weight: bold; box-shadow: 0 0 5px rgba(255, 0, 127, 0.5); border: none;"' : '';
+
+                item.innerHTML = `
+                    <div class="whale-stock-header">
+                        <span class="stock-info">
+                            <span class="name">${stock.stock_name}</span>
+                            <span class="id">${stock.stock_id}.TW</span>
+                        </span>
+                        <span class="sector-badge" ${badgeStyle}>${stock.sector}</span>
+                    </div>
+                    <div class="whale-stock-body">
+                        <div class="detail-val">
+                            <span class="label">大戶持股</span>
+                            <span class="val" style="color: var(--text-primary); font-weight: 500;">${stock.current_ratio.toFixed(2)}%</span>
+                        </div>
+                        <div class="detail-val">
+                            <span class="label">${labelText}</span>
+                            <span class="val val-positive" style="font-weight: 700;">+${stock[diffKey].toFixed(2)}%</span>
+                        </div>
+                        <div class="detail-val">
+                            <span class="label">${priceChangeLabel}</span>
+                            <span class="${priceChangeClass}" style="font-weight: 600;">${priceChangeSign}${priceChangeVal.toFixed(2)}%</span>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        function showSectorDetail(sectorName) {
+            selectedSectorName = sectorName;
+            
+            // Highlight row in list
+            const rows = document.querySelectorAll(".sector-row");
+            rows.forEach(r => {
+                const rName = r.querySelector(".name").textContent;
+                if (rName === sectorName) {
+                    r.classList.add("active");
+                } else {
+                    r.classList.remove("active");
+                }
+            });
+
+            // Highlight corresponding bubble in SVG with glow filter
+            d3.selectAll(".bubble")
+                .transition().duration(200)
+                .style("fill-opacity", d => d.sector_name === sectorName ? 0.95 : 0.6)
+                .attr("stroke", d => d.sector_name === sectorName ? "#ffffff" : getQuadrantInfo(d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"], d.acceleration_m).color)
+                .style("filter", d => d.sector_name === sectorName ? "drop-shadow(0 0 12px #ffffff)" : "none");
+
+            const sector = cachedData.find(s => s.sector_name === sectorName);
+            if (!sector) return;
+
+            document.getElementById("detail-empty").style.display = "none";
+            const content = document.getElementById("detail-content");
+            content.style.display = "block";
+
+            // Fill text
+            const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(sectorName);
+            document.getElementById("detail-sector-name").innerHTML = isCustom ? `★ ${sector.sector_name} <span style="background:#ff007f; color:#fff; font-size:0.75rem; padding:2px 6px; border-radius:3px; margin-left:6px; font-weight:bold; vertical-align: middle;">特調虛擬板塊</span>` : sector.sector_name;
+            
+            const flowVal = currentTimeFrame === "5d" ? sector.flow_5d_m : sector.flow_20d_m;
+            
+            // Calculate dual timeframe quadrants
+            const qLong = getQuadrantInfo(sector.flow_20d_m, sector.acceleration_m);
+            const qShort = getQuadrantInfo(sector.flow_5d_m, sector.acceleration_m);
+            
+            const badgeContainer = document.getElementById("detail-quadrant-badge");
+            badgeContainer.innerHTML = `
+                <span class="dual-badge-item" style="background: ${qLong.color};">[長線] ${qLong.name}</span>
+                <span class="dual-badge-separator">|</span>
+                <span class="dual-badge-item" style="background: ${qShort.color};">[短線] ${qShort.name}</span>
+            `;
+
+            // Metrics boxes
+            document.getElementById("metric-label-flow").textContent = currentTimeFrame === "5d" ? "5日累計流向" : "20日累計流向";
+            const flowBox = document.getElementById("metric-flow");
+            flowBox.textContent = (flowVal >= 0 ? "+" : "") + flowVal.toLocaleString() + " 百萬";
+            flowBox.className = "value " + (flowVal >= 0 ? "val-positive" : "val-negative");
+
+            const accelBox = document.getElementById("metric-accel");
+            accelBox.textContent = (sector.acceleration_m >= 0 ? "+" : "") + sector.acceleration_m.toLocaleString() + " 百萬";
+            accelBox.className = "value " + (sector.acceleration_m >= 0 ? "val-positive" : "val-negative");
+
+            document.getElementById("metric-scale-20d").textContent = sector.size_20d_m.toLocaleString() + " 百萬";
+
+            // Dynamic header label for accumulated flow in stock table
+            document.getElementById("th-accum-flow").textContent = currentTimeFrame === "5d" ? "5日買賣超" : "20日買賣超";
+
+            // Fill individual stocks table
+            const tbody = document.getElementById("stock-table-body");
+            tbody.innerHTML = "";
+
+            sector.individual_stocks.forEach(stock => {
+                const tr = document.createElement("tr");
+                
+                // Today flow
+                const todayFlowClass = stock.today_net_flow_m >= 0 ? "val-positive" : "val-negative";
+                const todayFlowSign = stock.today_net_flow_m >= 0 ? "+" : "";
+
+                // Today Return
+                const todayReturnClass = stock.today_return_pct >= 0 ? "val-positive" : "val-negative";
+                const todayReturnSign = stock.today_return_pct >= 0 ? "+" : "";
+
+                // Accumulated Flow
+                const accumFlowVal = currentTimeFrame === "5d" ? stock.flow_5d_m : stock.flow_20d_m;
+                const accumFlowClass = accumFlowVal >= 0 ? "val-positive" : "val-negative";
+                const accumFlowSign = accumFlowVal >= 0 ? "+" : "";
+
+                // 5D Return
+                const return5dClass = stock.return_5d_pct >= 0 ? "val-positive" : "val-negative";
+                const return5dSign = stock.return_5d_pct >= 0 ? "+" : "";
+
+                tr.innerHTML = `
+                    <td>
+                        <span class="stock-name">${stock.stock_name}</span>
+                        <span class="stock-id">${stock.stock_id}.TW</span>
+                    </td>
+                    <td style="text-align: right; font-weight: 500;" class="${todayFlowClass}">${todayFlowSign}${stock.today_net_flow_m.toFixed(1)}M</td>
+                    <td style="text-align: right;" class="${todayReturnClass}">${todayReturnSign}${stock.today_return_pct.toFixed(2)}%</td>
+                    <td style="text-align: right; font-weight: 600;" class="${accumFlowClass}">${accumFlowSign}${accumFlowVal.toLocaleString()}M</td>
+                    <td style="text-align: right;" class="${return5dClass}">${return5dSign}${stock.return_5d_pct.toFixed(1)}%</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Setup SVG element structure
+        function initChartContainer() {
+            const container = document.getElementById("chart-wrapper");
+            container.innerHTML = "";
+
+            // 使用固定的 viewBox 座標系統，SVG 會自動等比例縮放至容器
+            width = 800;
+            height = 600;
+            margin = { top: 40, right: 40, bottom: 40, left: 40 };
+
+            sizeScale = d3.scaleSqrt().range([18, 48]);
+
+            svg = d3.select("#chart-wrapper")
+                .append("svg")
+                .attr("viewBox", "0 0 800 600")
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("width", "100%")
+                .attr("height", "100%");
+
+            // Add SVG definition for shadow glow filter
+            const defs = svg.append("defs");
+            const filter = defs.append("filter")
+                .attr("id", "glow")
+                .attr("x", "-20%")
+                .attr("y", "-20%")
+                .attr("width", "140%")
+                .attr("height", "140%");
+            filter.append("feGaussianBlur")
+                .attr("stdDeviation", 6)
+                .attr("result", "blur");
+            filter.append("feComposite")
+                .attr("in", "SourceGraphic")
+                .attr("in2", "blur")
+                .attr("operator", "over");
+        }
+
+        function constrainQuadrant(nodes, flowKey) {
+            nodes.forEach(d => {
+                const trueFlow = d[flowKey];
+                const trueAccel = d.acceleration_m;
+                const r = sizeScale(d.size_20d_m);
+                
+                // X boundary constraint
+                if (trueFlow >= 0) {
+                    d.x = Math.max(xScale(0) + r + 2, d.x);
+                    d.x = Math.min(width - margin.right - r, d.x);
+                } else {
+                    d.x = Math.min(xScale(0) - r - 2, d.x);
+                    d.x = Math.max(margin.left + r, d.x);
+                }
+                
+                // Y boundary constraint
+                if (trueAccel >= 0) {
+                    d.y = Math.min(yScale(0) - r - 2, d.y);
+                    d.y = Math.max(margin.top + r, d.y);
+                } else {
+                    d.y = Math.max(yScale(0) + r + 2, d.y);
+                    d.y = Math.min(height - margin.bottom - r, d.y);
+                }
+            });
+        }
+
+        function renderQuadrantChart(data) {
+            const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+            
+            const maxAbsX = d3.max(data, d => Math.abs(d[flowKey])) || 1000;
+            const maxAbsY = d3.max(data, d => Math.abs(d.acceleration_m)) || 1000;
+            const xLimit = maxAbsX * 1.25;
+            const yLimit = maxAbsY * 1.25;
+
+            // Setup scales
+            xScale = d3.scaleLinear().domain([-xLimit, xLimit]).range([margin.left, width - margin.right]);
+            yScale = d3.scaleLinear().domain([-yLimit, yLimit]).range([height - margin.bottom, margin.top]);
+            sizeScale.domain([0, d3.max(data, d => d.size_20d_m) || 10000]);
+
+            // 1. Quadrant background rectangles
+            const quadWidth = (width - margin.left - margin.right) / 2;
+            const quadHeight = (height - margin.top - margin.bottom) / 2;
+
+            const quadrants = [
+                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "#00e676" },
+                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "#00b0ff" },
+                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "#ff1744" },
+                { id: "rotate", x: xScale(0), y: yScale(0), fill: "#ffd600" }
+            ];
+
+            svg.selectAll(".quadrant-bg")
+                .data(quadrants, d => d.id)
+                .enter()
+                .append("rect")
+                .attr("class", "quadrant-bg")
+                .attr("x", d => d.x)
+                .attr("y", d => d.y)
+                .attr("width", quadWidth)
+                .attr("height", quadHeight)
+                .style("fill", d => d.fill);
+
+            // Add Quadrant Text Labels
+            const labelsData = [
+                { text: "主力進攻", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
+                { text: "觀望防守", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
+                { text: "資金退潮", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
+                { text: "資金輪動", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
+            ];
+
+            svg.selectAll(".quadrant-label")
+                .data(labelsData)
+                .enter()
+                .append("text")
+                .attr("class", "quadrant-label")
+                .attr("x", d => d.x)
+                .attr("y", d => d.y)
+                .attr("text-anchor", d => d.anchor)
+                .style("fill", d => d.color)
+                .text(d => d.text);
+
+            // 2. Axes lines
+            svg.append("line")
+                .attr("class", "axis-line axis-x-line")
+                .attr("x1", xScale(0))
+                .attr("y1", margin.top)
+                .attr("x2", xScale(0))
+                .attr("y2", height - margin.bottom);
+
+            svg.append("line")
+                .attr("class", "axis-line axis-y-line")
+                .attr("x1", margin.left)
+                .attr("y1", yScale(0))
+                .attr("x2", width - margin.right)
+                .attr("y2", yScale(0));
+
+            // Axes text labels
+            svg.append("text")
+                .attr("class", "axis-label axis-x-label")
+                .attr("x", width - margin.right)
+                .attr("y", yScale(0) - 10)
+                .attr("text-anchor", "end")
+                .text(`${currentTimeFrame === "5d" ? "5日" : "20日"}法人累計淨流入流出 (百萬 NTD) ➔`);
+
+            svg.append("text")
+                .attr("class", "axis-label axis-y-label")
+                .attr("x", xScale(0) + 12)
+                .attr("y", margin.top)
+                .attr("text-anchor", "start")
+                .text("▲ 資金加速度 (今日淨流向 - 5日均值)");
+
+            // Projection guidelines
+            svg.append("line")
+                .attr("id", "proj-x")
+                .attr("stroke", "rgba(255,255,255,0.25)")
+                .attr("stroke-width", 1)
+                .attr("stroke-dasharray", "3,3")
+                .style("opacity", 0);
+
+            svg.append("line")
+                .attr("id", "proj-y")
+                .attr("stroke", "rgba(255,255,255,0.25)")
+                .attr("stroke-width", 1)
+                .attr("stroke-dasharray", "3,3")
+                .style("opacity", 0);
+
+            // 3. Setup force physics collision prevention
+            const nodes = data.map(d => ({
+                ...d,
+                origX: xScale(d[flowKey]),
+                origY: yScale(d.acceleration_m),
+                x: xScale(d[flowKey]),
+                y: yScale(d.acceleration_m)
+            }));
+
+            const simulation = d3.forceSimulation(nodes)
+                .force("x", d3.forceX(d => d.origX).strength(0.55))
+                .force("y", d3.forceY(d => d.origY).strength(0.55))
+                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
+                .stop();
+
+            for (let i = 0; i < 120; ++i) {
+                simulation.tick();
+                constrainQuadrant(nodes, flowKey);
+            }
+
+            // 4. Render Bubbles Group
+            const bubbleGroup = svg.selectAll(".bubble-g")
+                .data(nodes, d => d.sector_name)
+                .enter()
+                .append("g")
+                .attr("class", "bubble-g")
+                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`) // Escape special character
+                .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+            const tooltip = d3.select("#map-tooltip");
+            const containerBox = document.getElementById("chart-wrapper");
+
+            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            bubbleGroup.append("circle")
+                .attr("class", d => customSectors.includes(d.sector_name) ? "bubble custom-sector" : "bubble")
+                .attr("r", d => sizeScale(d.size_20d_m))
+                .style("fill", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
+                .style("fill-opacity", d => customSectors.includes(d.sector_name) ? 0.85 : 0.6)
+                .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
+                .on("mouseover", function(event, d) {
+                    hoverLinkageActive(d.sector_name);
+
+                    // Show project lines
+                    d3.select("#proj-x")
+                        .attr("x1", d.x)
+                        .attr("y1", d.y)
+                        .attr("x2", xScale(0))
+                        .attr("y2", d.y)
+                        .transition().duration(150)
+                        .style("opacity", 1);
+
+                    d3.select("#proj-y")
+                        .attr("x1", d.x)
+                        .attr("y1", d.y)
+                        .attr("x2", d.x)
+                        .attr("y2", yScale(0))
+                        .transition().duration(150)
+                        .style("opacity", 1);
+
+                    // Render dynamic tooltip
+                    const currFlowVal = d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"];
+                    const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
+                    
+                    const stockItems = d.individual_stocks.slice(0, 3).map(st => {
+                        const flowSign = st.flow_5d_m >= 0 ? "+" : "";
+                        const flowClass = st.flow_5d_m >= 0 ? "val-positive" : "val-negative";
+                        return `
+                            <div class="tooltip-stock-item">
+                                <span>${st.stock_name}</span>
+                                <span class="${flowClass}">${flowSign}${st.flow_5d_m} M</span>
+                            </div>
+                        `;
+                    }).join("");
+
+                    tooltip.html(`
+                        <div class="tooltip-header">
+                            <span>${d.sector_name}</span>
+                            <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
+                            <span class="val ${currFlowVal >= 0 ? 'val-positive' : 'val-negative'}">${currFlowVal >= 0 ? '+' : ''}${currFlowVal} M</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="label">資金加速度:</span>
+                            <span class="val ${d.acceleration_m >= 0 ? 'val-positive' : 'val-negative'}">${d.acceleration_m >= 0 ? '+' : ''}${d.acceleration_m} M</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="label">20日資金規模:</span>
+                            <span class="val">${d.size_20d_m} M</span>
+                        </div>
+                        <div class="tooltip-stocks">
+                            <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">核心個股買賣超預覽:</div>
+                            ${stockItems}
+                        </div>
+                    `)
+                    .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
+                    .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px")
+                    .transition().duration(150)
+                    .style("opacity", 1);
+                })
+                .on("mousemove", function(event) {
+                    tooltip
+                        .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
+                        .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px");
+                })
+                .on("mouseout", function(event, d) {
+                    hoverLinkageReset();
+                    
+                    d3.select("#proj-x").transition().duration(150).style("opacity", 0);
+                    d3.select("#proj-y").transition().duration(150).style("opacity", 0);
+                    tooltip.transition().duration(150).style("opacity", 0);
+                })
+                .on("click", (event, d) => {
+                    showSectorDetail(d.sector_name);
+                });
+
+            bubbleGroup.append("text")
+                .attr("class", "bubble-label")
+                .attr("dy", ".3em")
+                .text(d => customSectors.includes(d.sector_name) ? "⭐ " + d.sector_name : d.sector_name);
+        }
+
+        // Smooth transition on timeline change
+        function transitionQuadrantChart(data) {
+            const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+
+            const maxAbsX = d3.max(data, d => Math.abs(d[flowKey])) || 1000;
+            const maxAbsY = d3.max(data, d => Math.abs(d.acceleration_m)) || 1000;
+            const xLimit = maxAbsX * 1.25;
+            const yLimit = maxAbsY * 1.25;
+
+            // Update scale limits
+            xScale.domain([-xLimit, xLimit]);
+            yScale.domain([-yLimit, yLimit]);
+
+            // Re-calculate collisions
+            const nodes = data.map(d => ({
+                ...d,
+                origX: xScale(d[flowKey]),
+                origY: yScale(d.acceleration_m),
+                x: xScale(d[flowKey]),
+                y: yScale(d.acceleration_m)
+            }));
+
+            const simulation = d3.forceSimulation(nodes)
+                .force("x", d3.forceX(d => d.origX).strength(0.55))
+                .force("y", d3.forceY(d => d.origY).strength(0.55))
+                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
+                .stop();
+
+            for (let i = 0; i < 120; ++i) {
+                simulation.tick();
+                constrainQuadrant(nodes, flowKey);
+            }
+
+            // Transition bubble group position coordinates
+            svg.selectAll(".bubble-g")
+                .data(nodes, d => d.sector_name)
+                .transition()
+                .duration(800)
+                .ease(d3.easeCubicInOut)
+                .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+            // Transition color rendering of individual circles based on new quadrant
+            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            svg.selectAll(".bubble")
+                .data(nodes, d => d.sector_name)
+                .transition()
+                .duration(800)
+                .style("fill", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
+                .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color);
+
+            // Re-position central coordinate lines dynamically
+            svg.select(".axis-x-line")
+                .transition().duration(800)
+                .attr("x1", xScale(0))
+                .attr("x2", xScale(0));
+
+            svg.select(".axis-y-line")
+                .transition().duration(800)
+                .attr("y1", yScale(0))
+                .attr("y2", yScale(0));
+
+            svg.select(".axis-x-label")
+                .transition().duration(800)
+                .attr("y", yScale(0) - 10)
+                .text(`${currentTimeFrame === "5d" ? "5日" : "20日"}法人累計淨流入流出 (百萬 NTD) ➔`);
+
+            svg.select(".axis-y-label")
+                .transition().duration(800)
+                .attr("x", xScale(0) + 12);
+        }
+
+        // Hover Linkages: Fade out irrelevant elements
+        function hoverLinkageActive(sectorName) {
+            d3.selectAll(".bubble-g")
+                .style("opacity", d => d.sector_name === sectorName ? 1 : 0.15);
+            
+            // Escape sector name backslash for CSS selector compatibility
+            const escapedName = sectorName.replace('/', '-');
+            d3.select(`#bubble-g-${escapedName} .bubble`)
+                .style("fill-opacity", 0.95)
+                .attr("stroke", "#ffffff")
+                .style("filter", "drop-shadow(0 0 10px #ffffff)");
+
+            // Fade out non-target list items
+            const listRows = document.querySelectorAll(".sector-row");
+            listRows.forEach(row => {
+                const rowSec = row.getAttribute("data-sector");
+                if (rowSec === sectorName) {
+                    row.style.opacity = "1";
+                    row.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                } else {
+                    row.style.opacity = "0.2";
+                }
+            });
+            
+            // Also highlight in Bottom Fishing card list if present
+            const bfRows = document.querySelectorAll(".bf-sector-item");
+            bfRows.forEach(row => {
+                const secText = row.querySelector(".name").textContent;
+                if (secText === sectorName) {
+                    row.style.border = "1px solid rgba(255, 214, 0, 0.5)";
+                    row.style.backgroundColor = "rgba(255, 214, 0, 0.08)";
+                } else {
+                    row.style.opacity = "0.3";
+                }
+            });
+
+            // Also highlight in Whale Locked Stocks card list if present
+            const whaleRows = document.querySelectorAll(".whale-stock-item");
+            whaleRows.forEach(row => {
+                const rowSec = row.getAttribute("data-sector");
+                if (rowSec === sectorName) {
+                    row.style.opacity = "1";
+                    row.style.border = "1px solid rgba(0, 230, 118, 0.6)";
+                    row.style.backgroundColor = "rgba(0, 230, 118, 0.08)";
+                } else {
+                    row.style.opacity = "0.2";
+                }
+            });
+        }
+
+        function hoverLinkageReset() {
+            d3.selectAll(".bubble-g")
+                .style("opacity", 1);
+
+            d3.selectAll(".bubble")
+                .style("fill-opacity", d => d.sector_name === selectedSectorName ? 0.95 : 0.6)
+                .attr("stroke", d => d.sector_name === selectedSectorName ? "#ffffff" : getQuadrantInfo(d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"], d.acceleration_m).color)
+                .style("filter", d => d.sector_name === selectedSectorName ? "drop-shadow(0 0 12px #ffffff)" : "none");
+
+            const listRows = document.querySelectorAll(".sector-row");
+            listRows.forEach(row => {
+                row.style.opacity = "1";
+                const rowSec = row.getAttribute("data-sector");
+                if (rowSec === selectedSectorName) {
+                    row.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                } else {
+                    row.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+                }
+            });
+
+            const bfRows = document.querySelectorAll(".bf-sector-item");
+            bfRows.forEach(row => {
+                row.style.opacity = "1";
+                row.style.border = "1px solid rgba(255, 214, 0, 0.06)";
+                row.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+            });
+
+            const whaleRows = document.querySelectorAll(".whale-stock-item");
+            whaleRows.forEach(row => {
+                row.style.opacity = "1";
+                row.style.border = "1px solid rgba(0, 230, 118, 0.06)";
+                row.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+            });
+        }
+
+        // Initialize loading
+        window.onload = loadData;
+    </script>
+</body>
+</html>
+"""
+
+# Write the index.html with UTF-8
+with open('d:\\Antigravity\\Stock Block Flow\\index.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("[SUCCESS] HTML file written correctly via Python.")
