@@ -105,21 +105,20 @@ main {
     flex: 1; /* 填滿 body 扣除 header 後的所有剩餘空間 */
     max-width: 1650px;
     width: 100%;
-    margin: 0 auto; /* 水平居中，垂直方向零邊距 */
+    margin: 0 auto;
     padding: 1rem 1.5rem;
-    display: grid;
-    grid-template-columns: 1fr 480px;
+    display: flex; /* 左圖右表 Flex 水平排列 */
     gap: 1.5rem;
-    overflow: hidden; /* 封殺 main 層的捲動 */
-    min-height: 0; /* Flex 子項目正確收縮 */
+    overflow: hidden;
+    min-height: 0;
 }
 
 .left-column {
+    flex: 0 0 60%; /* 左欄佔 60% 寬度 */
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     min-width: 0;
-    height: 100%; /* 從 Grid 父層繼承精確高度 */
+    height: 100%;
     overflow: hidden;
 }
 
@@ -133,8 +132,8 @@ main {
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    flex: 0 0 55%; /* 佔左欄 55% 高度，固定比例 */
-    min-height: 0; /* 允許 Flex 收縮 */
+    flex: 1; /* 地圖填滿整個左欄高度 */
+    min-height: 0;
     overflow: hidden;
 }
 
@@ -261,13 +260,15 @@ svg {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.85), 0 1px 3px rgba(0,0,0,0.9);
 }
 
-/* Sidebar & Details Styles */
-.sidebar {
+/* Right Column / Sidebar Styles */
+.sidebar,
+.right-column {
+    flex: 0 0 40%; /* 右欄佔 40% 寬度 */
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
     padding-right: 0.5rem;
-    height: 100%; /* 從 Grid 父層繼承精確高度 */
+    height: 100%;
     overflow-y: auto; /* 右欄獨立捲動 */
     min-height: 0;
 }
@@ -538,24 +539,22 @@ svg {
         height: auto;
     }
     main {
-        grid-template-columns: 1fr;
+        flex-direction: column; /* 堆疊為上下排列 */
         overflow: visible;
         flex: none;
         height: auto;
     }
     .left-column {
-        height: auto;
-        overflow: visible;
-    }
-    .map-container {
         flex: none;
         height: 50vh;
-        max-height: 420px;
-        min-height: 260px;
+        min-height: 320px;
+        overflow: hidden;
     }
-    .sidebar {
-        overflow-y: visible;
+    .sidebar,
+    .right-column {
+        flex: none;
         height: auto;
+        overflow-y: visible;
     }
 }
 
@@ -914,20 +913,17 @@ svg {
     color: var(--text-primary);
 }
 
-/* Custom Grid Style for the repositioned Sector ranking quick list */
+/* Sector ranking card in right column — single-column list */
 .sector-ranking-card {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
 
 .sector-ranking-card .sector-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 0.75rem;
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-height: 400px;
     overflow-y: auto;
     padding-right: 0.25rem;
 }
@@ -991,7 +987,9 @@ svg {
 .sector-ranking-card .sector-list,
 .bottom-fishing-card .sector-list,
 .whale-stocks-list,
-.stock-table-wrapper {
+.stock-table-wrapper,
+.sidebar,
+.right-column {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }

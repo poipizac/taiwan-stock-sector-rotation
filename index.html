@@ -44,9 +44,8 @@
     </header>
 
     <main>
-        <!-- Left Section: Map & Sector Ranking Accordion -->
+        <!-- Left Section: Quadrant Bubble Map (Full Height) -->
         <div class="left-column">
-            <!-- Left Section: Quadrant Bubble Map -->
             <section class="map-container" id="map-section">
                 <div class="map-title-row">
                     <h2>資金輪動四象限地圖</h2>
@@ -75,29 +74,17 @@
                 </div>
                 
             </section>
-
-            <!-- Sector Quick List Card (repositioned & Grid layout styled) -->
-            <div class="card sector-ranking-card">
-                <div class="panel-title">
-                    板塊資金排序
-                    <span id="ranking-header-badge" style="background: rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.75rem;">近5日累計</span>
-                </div>
-                <div class="sector-list" id="sector-quick-list">
-                    <!-- Dynamic rendering -->
-                </div>
-                <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">展開全部板塊</button>
-            </div>
         </div>
 
-        <!-- Right Section: Sidebar Sector Monitor & Stock breakdown -->
-        <section class="sidebar">
+        <!-- Right Section: Comprehensive War Room Panel -->
+        <section class="sidebar right-column">
             <!-- Timeframe selector tab button group -->
             <div class="time-tabs">
                 <button class="tab-btn active" id="tab-5d" onclick="switchTimeFrame('5d')">近 5 日資金布局</button>
                 <button class="tab-btn" id="tab-20d" onclick="switchTimeFrame('20d')">近 20 日資金規模</button>
             </div>
 
-            <!-- Bottom Fishing Alert Card (now at the top of sidebar) -->
+            <!-- Bottom Fishing Alert Card -->
             <div class="card bottom-fishing-card" id="bottom-fishing-panel">
                 <div class="panel-title" style="color: #ffd600; border-bottom: 1px solid rgba(255, 214, 0, 0.15);">
                     法人逆勢抄底警報排行
@@ -109,6 +96,18 @@
                 <div class="sector-list" id="bottom-fishing-list">
                     <!-- Dynamic rendering -->
                 </div>
+            </div>
+
+            <!-- Sector Ranking Card (moved from left-column) -->
+            <div class="card sector-ranking-card">
+                <div class="panel-title">
+                    板塊資金排序
+                    <span id="ranking-header-badge" style="background: rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.75rem;">近5日累計</span>
+                </div>
+                <div class="sector-list" id="sector-quick-list">
+                    <!-- Dynamic rendering -->
+                </div>
+                <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">展開全部板塊</button>
             </div>
 
             <!-- Whale Locked Stocks Card -->
