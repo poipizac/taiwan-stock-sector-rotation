@@ -537,29 +537,43 @@ svg {
 
 /* Responsive adjust — 斷點下修至 992px，避免筆電 125% 縮放誤觸發 */
 @media (max-width: 992px) {
-    body {
-        overflow-y: auto !important;
-        height: auto;
+    html, body {
+        height: auto !important;
+        overflow-y: auto !important; /* 還給手機原生的滾動能力 */
+        overflow-x: hidden;
     }
     main {
+        height: auto !important;
+        display: flex;
         flex-direction: column !important;
-        flex-wrap: wrap !important;
-        overflow: visible;
+        flex-wrap: nowrap !important;
+        overflow: visible !important;
         flex: none;
-        height: auto;
     }
     .left-column {
         flex: none !important;
         max-width: 100% !important;
-        height: 50vh;
-        min-height: 320px;
-        overflow: hidden;
+        width: 100% !important;
+        height: 50vh !important;
+        min-height: 400px !important;
+        overflow: hidden !important;
     }
     .sidebar,
     .right-column {
         flex: none !important;
-        height: auto;
-        overflow-y: visible;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        overflow-y: visible !important;
+    }
+    /* 解鎖卡片列表在手機上的 max-height 限制，改用手機全網頁原生滾動 */
+    .sector-ranking-card .sector-list,
+    .bottom-fishing-card .sector-list,
+    .whale-stocks-list,
+    .stock-table-wrapper {
+        max-height: none !important;
+        overflow: visible !important;
+        overflow-y: visible !important;
     }
 }
 
