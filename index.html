@@ -52,19 +52,19 @@
                     <div class="legend">
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-lead);"></span>
-                            <span>主力進攻 (右上)</span>
+                            <span>領先 (Leading)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-rotate);"></span>
-                            <span>資金輪動 (右下)</span>
+                            <span>轉弱 (Weakening)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-outflow);"></span>
-                            <span>資金退潮 (左下)</span>
+                            <span>落後 (Lagging)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-watch);"></span>
-                            <span>觀望防守 (左上)</span>
+                            <span>改善 (Improving)</span>
                         </div>
                     </div>
                 </div>
@@ -202,14 +202,96 @@
         // Determine Quadrant by X (flow) and Y (acceleration_m)
         function getQuadrantInfo(x, y) {
             if (x >= 0 && y >= 0) {
-                return { name: "主力進攻", color: "var(--color-lead)", bgClass: "lead" };
+                return { name: "領先 (Leading)", color: "var(--color-lead)", bgClass: "lead" };
             } else if (x >= 0 && y < 0) {
-                return { name: "資金輪動", color: "var(--color-rotate)", bgClass: "rotate" };
+                return { name: "轉弱 (Weakening)", color: "var(--color-rotate)", bgClass: "rotate" };
             } else if (x < 0 && y < 0) {
-                return { name: "資金退潮", color: "var(--color-outflow)", bgClass: "outflow" };
+                return { name: "落後 (Lagging)", color: "var(--color-outflow)", bgClass: "outflow" };
             } else {
-                return { name: "觀望防守", color: "var(--color-watch)", bgClass: "watch" };
+                return { name: "改善 (Improving)", color: "var(--color-watch)", bgClass: "watch" };
             }
+        }
+
+        let timeLapseTimer = null;
+        let currentDayIndex = 0;
+
+        // RRG Time-Lapse Loop — pure coordinate animation, zero physics
+        function startTimeLapse(data) {
+            // Kill any previous animation loop
+            if (timeLapseTimer) {
+                clearTimeout(timeLapseTimer);
+                timeLapseTimer = null;
+            }
+
+            const tf = currentTimeFrame;
+            const flowKey = tf === "5d" ? "flow_5d_m" : "flow_20d_m";
+
+            // Pre-build a lookup map: sector_name → array of {px, py} screen coords
+            // Index 0 = oldest (Day -5), last index = today
+            const coordMap = {};
+            data.forEach(d => {
+                const history = d.history && d.history[tf] ? d.history[tf] : [];
+                const pts = history.map(pt => ({
+                    px: xScale(pt.x),
+                    py: yScale(pt.y)
+                }));
+                // Append today's real coordinate as the final point
+                pts.push({
+                    px: xScale(d[flowKey]),
+                    py: yScale(d.acceleration_m)
+                });
+                coordMap[d.sector_name] = pts;
+            });
+
+            // Determine the maximum number of steps (should be 6: indices 0..5)
+            const maxSteps = Math.max(...Object.values(coordMap).map(arr => arr.length));
+
+            currentDayIndex = 0;
+
+            function moveBubblesTo(dayIdx, duration, easing) {
+                d3.selectAll(".bubble-g")
+                    .transition("timelapse")
+                    .duration(duration)
+                    .ease(easing)
+                    .attr("transform", function(d) {
+                        const pts = coordMap[d.sector_name];
+                        if (pts && dayIdx < pts.length) {
+                            const coord = pts[dayIdx];
+                            d.current_anim_x = coord.px;
+                            d.current_anim_y = coord.py;
+                            return `translate(${coord.px}, ${coord.py})`;
+                        }
+                        // Fallback: stay where we are
+                        return d3.select(this).attr("transform");
+                    });
+            }
+
+            function playStep() {
+                const dayIdx = currentDayIndex;
+
+                // Move all bubbles to this day's coordinates
+                moveBubblesTo(dayIdx, 800, d3.easeLinear);
+
+                if (currentDayIndex < maxSteps - 1) {
+                    // Not yet at today — advance to next day
+                    currentDayIndex++;
+                    timeLapseTimer = setTimeout(playStep, 1000);
+                } else {
+                    // Reached today — pause 3 seconds, then reset & loop
+                    timeLapseTimer = setTimeout(() => {
+                        // Instant snap back to Day -5 (index 0)
+                        currentDayIndex = 0;
+                        moveBubblesTo(0, 300, d3.easeCubicOut);
+
+                        // Wait for snap-back to finish, then restart
+                        timeLapseTimer = setTimeout(playStep, 500);
+                    }, 3000);
+                }
+            }
+
+            // Kick off: place bubbles at Day -5 instantly, then start stepping
+            moveBubblesTo(0, 0, d3.easeLinear);
+            timeLapseTimer = setTimeout(playStep, 400);
         }
 
         async function loadData() {
@@ -239,6 +321,7 @@
                 
                 // Initial Chart rendering
                 renderQuadrantChart(cachedData);
+                startTimeLapse(cachedData);
 
                 // Default show the first sector detail
                 if (cachedData.length > 0) {
@@ -792,34 +875,82 @@
                 .attr("stroke-dasharray", "3,3")
                 .style("opacity", 0);
 
-            // 3. Setup force physics collision prevention
-            const nodes = data.map(d => ({
-                ...d,
-                origX: xScale(d[flowKey]),
-                origY: yScale(d.acceleration_m),
-                x: xScale(d[flowKey]),
-                y: yScale(d.acceleration_m)
-            }));
+            // 2.5 Grid concentric circles (RRG style)
+            const center_x = xScale(0);
+            const center_y = yScale(0);
+            const radii = [50, 100, 150, 200, 250];
 
-            const simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.55))
-                .force("y", d3.forceY(d => d.origY).strength(0.55))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
-                .stop();
+            svg.selectAll(".grid-circle")
+                .data(radii)
+                .enter()
+                .append("circle")
+                .attr("class", "grid-circle")
+                .attr("cx", center_x)
+                .attr("cy", center_y)
+                .attr("r", d => d)
+                .style("fill", "none")
+                .style("stroke", "rgba(255, 255, 255, 0.04)")
+                .style("stroke-width", 1)
+                .style("stroke-dasharray", "3,3");
 
-            for (let i = 0; i < 120; ++i) {
-                simulation.tick();
-                constrainQuadrant(nodes, flowKey);
+            svg.append("text")
+                .attr("class", "axis-center-label")
+                .attr("x", center_x + 8)
+                .attr("y", center_y + 14)
+                .style("fill", "var(--text-muted)")
+                .style("font-size", "10px")
+                .style("font-weight", "600")
+                .text("(100, 100)");
+
+            // Helper to get coordinates at dayIndex (0 to 5) for sector d
+            function getSectorPointAt(d, dayIndex) {
+                const tf = currentTimeFrame;
+                const history = d.history && d.history[tf] ? d.history[tf] : [];
+                if (dayIndex < history.length) {
+                    return { x: history[dayIndex].x, y: history[dayIndex].y };
+                }
+                return { x: d[flowKey], y: d.acceleration_m };
             }
 
-            // 4. Render Bubbles Group
+            // 3. Render Tails Group (static background track trails under the bubbles)
+            const tailsGroup = svg.append("g").attr("class", "tails");
+            
+            const tailPaths = tailsGroup.selectAll(".tail-path")
+                .data(data, d => d.sector_name)
+                .enter()
+                .append("path")
+                .attr("class", "tail-path")
+                .attr("id", d => `tail-path-${d.sector_name.replace('/', '-')}`)
+                .attr("d", d => {
+                    const tf = currentTimeFrame;
+                    const history = d.history && d.history[tf] ? d.history[tf] : [];
+                    const points = history.map(pt => [xScale(pt.x), yScale(pt.y)]);
+                    points.push([xScale(d[flowKey]), yScale(d.acceleration_m)]); // 今日 (Day 0)
+                    return d3.line()(points);
+                })
+                .style("stroke", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                })
+                .style("fill", "none")
+                .style("--sector-color", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                });
+
+            // 4. Render Bubbles Group (initially placed at Day -5)
             const bubbleGroup = svg.selectAll(".bubble-g")
-                .data(nodes, d => d.sector_name)
+                .data(data, d => d.sector_name)
                 .enter()
                 .append("g")
                 .attr("class", "bubble-g")
-                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`) // Escape special character
-                .attr("transform", d => `translate(${d.x}, ${d.y})`);
+                .attr("id", d => `bubble-g-${d.sector_name.replace('/', '-')}`)
+                .attr("transform", d => {
+                    const pt = getSectorPointAt(d, 0); // Day -5
+                    d.current_anim_x = xScale(pt.x);
+                    d.current_anim_y = yScale(pt.y);
+                    return `translate(${xScale(pt.x)}, ${yScale(pt.y)})`;
+                });
 
             const tooltip = d3.select("#map-tooltip");
             const containerBox = document.getElementById("chart-wrapper");
@@ -832,80 +963,15 @@
                 .style("fill-opacity", d => customSectors.includes(d.sector_name) ? 0.85 : 0.6)
                 .style("stroke", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
                 .on("mouseover", function(event, d) {
-                    hoverLinkageActive(d.sector_name);
-
-                    // Show project lines
-                    d3.select("#proj-x")
-                        .attr("x1", d.x)
-                        .attr("y1", d.y)
-                        .attr("x2", xScale(0))
-                        .attr("y2", d.y)
-                        .transition().duration(150)
-                        .style("opacity", 1);
-
-                    d3.select("#proj-y")
-                        .attr("x1", d.x)
-                        .attr("y1", d.y)
-                        .attr("x2", d.x)
-                        .attr("y2", yScale(0))
-                        .transition().duration(150)
-                        .style("opacity", 1);
-
-                    // Render dynamic tooltip
-                    const currFlowVal = d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"];
-                    const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
-                    
-                    const stockItems = d.individual_stocks.slice(0, 3).map(st => {
-                        const flowSign = st.flow_5d_m >= 0 ? "+" : "";
-                        const flowClass = st.flow_5d_m >= 0 ? "val-positive" : "val-negative";
-                        return `
-                            <div class="tooltip-stock-item">
-                                <span>${st.stock_name}</span>
-                                <span class="${flowClass}">${flowSign}${st.flow_5d_m} M</span>
-                            </div>
-                        `;
-                    }).join("");
-
-                    tooltip.html(`
-                        <div class="tooltip-header">
-                            <span>${d.sector_name}</span>
-                            <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
-                        </div>
-                        <div class="tooltip-row">
-                            <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
-                            <span class="val ${currFlowVal >= 0 ? 'val-positive' : 'val-negative'}">${currFlowVal >= 0 ? '+' : ''}${currFlowVal} M</span>
-                        </div>
-                        <div class="tooltip-row">
-                            <span class="label">資金加速度:</span>
-                            <span class="val ${d.acceleration_m >= 0 ? 'val-positive' : 'val-negative'}">${d.acceleration_m >= 0 ? '+' : ''}${d.acceleration_m} M</span>
-                        </div>
-                        <div class="tooltip-row">
-                            <span class="label">20日資金規模:</span>
-                            <span class="val">${d.size_20d_m} M</span>
-                        </div>
-                        <div class="tooltip-stocks">
-                            <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">核心個股買賣超預覽:</div>
-                            ${stockItems}
-                        </div>
-                    `)
-                    .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
-                    .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px")
-                    .transition().duration(150)
-                    .style("opacity", 1);
-                })
-                .on("mousemove", function(event) {
-                    tooltip
-                        .style("left", (event.pageX - containerBox.getBoundingClientRect().left - 10) + "px")
-                        .style("top", (event.pageY - containerBox.getBoundingClientRect().top - 180) + "px");
+                    d3.select(this.parentNode).raise();
+                    hoverLinkageActive(d.sector_name, event);
+                    showSectorDetail(d.sector_name);
                 })
                 .on("mouseout", function(event, d) {
                     hoverLinkageReset();
-                    
-                    d3.select("#proj-x").transition().duration(150).style("opacity", 0);
-                    d3.select("#proj-y").transition().duration(150).style("opacity", 0);
-                    tooltip.transition().duration(150).style("opacity", 0);
                 })
-                .on("click", (event, d) => {
+                .on("click", function(event, d) {
+                    d3.select(this.parentNode).raise();
                     showSectorDetail(d.sector_name);
                 });
 
@@ -928,38 +994,30 @@
             xScale.domain([-xLimit, xLimit]);
             yScale.domain([-yLimit, yLimit]);
 
-            // Re-calculate collisions
-            const nodes = data.map(d => ({
-                ...d,
-                origX: xScale(d[flowKey]),
-                origY: yScale(d.acceleration_m),
-                x: xScale(d[flowKey]),
-                y: yScale(d.acceleration_m)
-            }));
-
-            const simulation = d3.forceSimulation(nodes)
-                .force("x", d3.forceX(d => d.origX).strength(0.55))
-                .force("y", d3.forceY(d => d.origY).strength(0.55))
-                .force("collide", d3.forceCollide(d => sizeScale(d.size_20d_m) + 2.5))
-                .stop();
-
-            for (let i = 0; i < 120; ++i) {
-                simulation.tick();
-                constrainQuadrant(nodes, flowKey);
-            }
-
-            // Transition bubble group position coordinates
-            svg.selectAll(".bubble-g")
-                .data(nodes, d => d.sector_name)
-                .transition()
-                .duration(800)
-                .ease(d3.easeCubicInOut)
-                .attr("transform", d => `translate(${d.x}, ${d.y})`);
+            // Transition tail paths to new history coordinate shapes
+            svg.selectAll(".tail-path")
+                .data(data, d => d.sector_name)
+                .transition().duration(800)
+                .attr("d", d => {
+                    const tf = currentTimeFrame;
+                    const history = d.history && d.history[tf] ? d.history[tf] : [];
+                    const points = history.map(pt => [xScale(pt.x), yScale(pt.y)]);
+                    points.push([xScale(d[flowKey]), yScale(d.acceleration_m)]);
+                    return d3.line()(points);
+                })
+                .style("stroke", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                })
+                .style("--sector-color", d => {
+                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
+                });
 
             // Transition color rendering of individual circles based on new quadrant
             const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
             svg.selectAll(".bubble")
-                .data(nodes, d => d.sector_name)
+                .data(data, d => d.sector_name)
                 .transition()
                 .duration(800)
                 .style("fill", d => customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color)
@@ -984,19 +1042,127 @@
             svg.select(".axis-y-label")
                 .transition().duration(800)
                 .attr("x", xScale(0) + 12);
+
+            // Restart time-lapse animation loop with new scale domain mapping
+            startTimeLapse(data);
         }
 
-        // Hover Linkages: Fade out irrelevant elements
-        function hoverLinkageActive(sectorName) {
+        // Hover Linkages: Fade out irrelevant elements & show projection + tooltip
+        function hoverLinkageActive(sectorName, event = null) {
+            d3.select(".tails").classed("has-hover", true);
+            d3.selectAll(".tail-path").classed("hovered", d => d.sector_name === sectorName);
+
             d3.selectAll(".bubble-g")
                 .style("opacity", d => d.sector_name === sectorName ? 1 : 0.15);
             
             // Escape sector name backslash for CSS selector compatibility
             const escapedName = sectorName.replace('/', '-');
-            d3.select(`#bubble-g-${escapedName} .bubble`)
-                .style("fill-opacity", 0.95)
-                .attr("stroke", "#ffffff")
-                .style("filter", "drop-shadow(0 0 10px #ffffff)");
+            const targetBubbleG = d3.select(`#bubble-g-${escapedName}`);
+            
+            if (!targetBubbleG.empty()) {
+                targetBubbleG.raise();
+                const d = targetBubbleG.datum();
+                const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+                
+                // Get current animation coordinates
+                const tf = currentTimeFrame;
+                const history = d.history && d.history[tf] ? d.history[tf] : [];
+                const curX = d.current_anim_x !== undefined ? d.current_anim_x : (history.length > 0 ? xScale(history[0].x) : xScale(d[flowKey]));
+                const curY = d.current_anim_y !== undefined ? d.current_anim_y : (history.length > 0 ? yScale(history[0].y) : yScale(d.acceleration_m));
+
+                targetBubbleG.select(".bubble")
+                    .transition().duration(150)
+                    .attr("r", sizeScale(d.size_20d_m) * 1.2)
+                    .style("fill-opacity", 0.95)
+                    .attr("stroke", "#ffffff")
+                    .style("filter", "drop-shadow(0 0 12px #ffffff)");
+
+                // Show projection lines
+                d3.select("#proj-x")
+                    .attr("x1", curX)
+                    .attr("y1", curY)
+                    .attr("x2", xScale(0))
+                    .attr("y2", curY)
+                    .transition().duration(150)
+                    .style("opacity", 1);
+
+                d3.select("#proj-y")
+                    .attr("x1", curX)
+                    .attr("y1", curY)
+                    .attr("x2", curX)
+                    .attr("y2", yScale(0))
+                    .transition().duration(150)
+                    .style("opacity", 1);
+
+                // Render dynamic tooltip
+                const tooltip = d3.select("#map-tooltip");
+                const containerBox = document.getElementById("chart-wrapper");
+                const currFlowVal = d[flowKey];
+                const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
+                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                
+                const stockItems = d.individual_stocks.slice(0, 3).map(st => {
+                    const flowSign = st.flow_5d_m >= 0 ? "+" : "";
+                    const flowClass = st.flow_5d_m >= 0 ? "val-positive" : "val-negative";
+                    return `
+                        <div class="tooltip-stock-item">
+                            <span>${st.stock_name}</span>
+                            <span class="${flowClass}">${flowSign}${st.flow_5d_m} M</span>
+                        </div>
+                    `;
+                }).join("");
+
+                tooltip.html(`
+                    <div class="tooltip-header">
+                        <span>${d.sector_name}</span>
+                        <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
+                        <span class="val ${currFlowVal >= 0 ? 'val-positive' : 'val-negative'}">${currFlowVal >= 0 ? '+' : ''}${currFlowVal} M</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="label">資金加速度:</span>
+                        <span class="val ${d.acceleration_m >= 0 ? 'val-positive' : 'val-negative'}">${d.acceleration_m >= 0 ? '+' : ''}${d.acceleration_m} M</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="label">20日資金規模:</span>
+                        <span class="val">${d.size_20d_m} M</span>
+                    </div>
+                    <div class="tooltip-stocks">
+                        <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">核心個股買賣超預覽:</div>
+                        ${stockItems}
+                    </div>
+                `);
+
+                // Calculate Tooltip position based on event source
+                let tooltipX, tooltipY;
+                const isListHover = event && !(event.target instanceof SVGElement || event.currentTarget instanceof SVGElement);
+                
+                if (isListHover) {
+                    tooltipX = event.pageX + 15;
+                    tooltipY = event.pageY + 15;
+                } else {
+                    const bubbleElement = document.getElementById(`bubble-g-${escapedName}`);
+                    if (bubbleElement) {
+                        const rect = bubbleElement.getBoundingClientRect();
+                        const tooltipWidth = tooltip.node().offsetWidth || 280;
+                        const tooltipHeight = tooltip.node().offsetHeight || 180;
+                        
+                        tooltipX = rect.left + window.scrollX + rect.width / 2 - tooltipWidth / 2;
+                        tooltipY = rect.top + window.scrollY - tooltipHeight - 10;
+                    } else {
+                        tooltipX = event ? event.pageX + 15 : curX - 10;
+                        tooltipY = event ? event.pageY + 15 : curY - 180;
+                    }
+                }
+                
+                tooltip
+                    .style("left", tooltipX + "px")
+                    .style("top", tooltipY + "px")
+                    .transition().duration(150)
+                    .style("opacity", 1);
+            }
 
             // Fade out non-target list items
             const listRows = document.querySelectorAll(".sector-row");
@@ -1037,13 +1203,30 @@
         }
 
         function hoverLinkageReset() {
+            // Reset tails interactive styling
+            d3.select(".tails").classed("has-hover", false);
+            d3.selectAll(".tail-path").classed("hovered", false);
+
             d3.selectAll(".bubble-g")
                 .style("opacity", 1);
 
-            d3.selectAll(".bubble")
-                .style("fill-opacity", d => d.sector_name === selectedSectorName ? 0.95 : 0.6)
-                .attr("stroke", d => d.sector_name === selectedSectorName ? "#ffffff" : getQuadrantInfo(d[currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m"], d.acceleration_m).color)
-                .style("filter", d => d.sector_name === selectedSectorName ? "drop-shadow(0 0 12px #ffffff)" : "none");
+            const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
+            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            
+            d3.selectAll(".bubble-g").each(function(d) {
+                const bubble = d3.select(this).select(".bubble");
+                if (!bubble.empty()) {
+                    bubble.transition().duration(150)
+                        .attr("r", sizeScale(d.size_20d_m))
+                        .style("fill-opacity", d.sector_name === selectedSectorName ? 0.95 : (customSectors.includes(d.sector_name) ? 0.85 : 0.6))
+                        .attr("stroke", d.sector_name === selectedSectorName ? "#ffffff" : (customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color))
+                        .style("filter", d.sector_name === selectedSectorName ? "drop-shadow(0 0 12px #ffffff)" : "none");
+                }
+            });
+
+            d3.select("#proj-x").transition().duration(150).style("opacity", 0);
+            d3.select("#proj-y").transition().duration(150).style("opacity", 0);
+            d3.select("#map-tooltip").transition().duration(150).style("opacity", 0);
 
             const listRows = document.querySelectorAll(".sector-row");
             listRows.forEach(row => {

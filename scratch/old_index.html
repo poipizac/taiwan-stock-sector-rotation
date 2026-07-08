@@ -1,17 +1,14 @@
-# -*- coding: utf-8 -*-
-import os
-
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台股板塊輪動地圖 - 資金流向與加速度監控系統</title>
+    <title>?啗?踹?頛芸??啣? - 鞈?瘚????漲??蝟餌絞</title>
     <link rel="stylesheet" href="style.css">
     <!-- Load D3.js for visual rendering -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        /* 特調虛擬板塊的霓虹發光樣式 */
+        /* ?寡矽??踹????寧?見撘?*/
         .bubble.custom-sector {
             stroke: #ff007f !important;
             stroke-width: 3.5px !important;
@@ -38,36 +35,37 @@ html_content = """<!DOCTYPE html>
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                 <polyline points="17 6 23 6 23 12"></polyline>
             </svg>
-            台股板塊輪動資金流向地圖
+            ?啗?踹?頛芸?鞈?瘚??啣?
         </h1>
         <div class="meta-info">
-            <span id="data-date">更新時間：載入中...</span>
-            <button class="refresh-btn" onclick="loadData()">重新整理</button>
+            <span id="data-date">?湔??嚗??乩葉...</span>
+            <button class="refresh-btn" onclick="loadData()">??渡?</button>
         </div>
     </header>
 
     <main>
-        <!-- Left Section: Quadrant Bubble Map (Full Height) -->
+        <!-- Left Section: Map & Sector Ranking Accordion -->
         <div class="left-column">
+            <!-- Left Section: Quadrant Bubble Map -->
             <section class="map-container" id="map-section">
                 <div class="map-title-row">
-                    <h2>資金輪動四象限地圖</h2>
+                    <h2>鞈?頛芸??情???/h2>
                     <div class="legend">
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-lead);"></span>
-                            <span>領先 (Leading)</span>
+                            <span>?? (Leading)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-rotate);"></span>
-                            <span>轉弱 (Weakening)</span>
+                            <span>頧摹 (Weakening)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-outflow);"></span>
-                            <span>落後 (Lagging)</span>
+                            <span>?賢? (Lagging)</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: var(--color-watch);"></span>
-                            <span>改善 (Improving)</span>
+                            <span>?孵? (Improving)</span>
                         </div>
                     </div>
                 </div>
@@ -76,59 +74,56 @@ html_content = """<!DOCTYPE html>
                     <!-- SVG Chart will be rendered here by D3 -->
                 </div>
                 
-                <!-- Floating interactive Tooltip -->
-                <div class="custom-tooltip" id="map-tooltip"></div>
             </section>
+
+            <!-- Sector Quick List Card (repositioned & Grid layout styled) -->
+            <div class="card sector-ranking-card">
+                <div class="panel-title">
+                    ?踹?鞈???
+                    <span id="ranking-header-badge" style="background: rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.75rem;">餈??亦敞閮?/span>
+                </div>
+                <div class="sector-list" id="sector-quick-list">
+                    <!-- Dynamic rendering -->
+                </div>
+                <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">撅??券?踹?</button>
+            </div>
         </div>
 
-        <!-- Right Section: Comprehensive War Room Panel -->
-        <section class="sidebar right-column">
+        <!-- Right Section: Sidebar Sector Monitor & Stock breakdown -->
+        <section class="sidebar">
             <!-- Timeframe selector tab button group -->
             <div class="time-tabs">
-                <button class="tab-btn active" id="tab-5d" onclick="switchTimeFrame('5d')">近 5 日資金布局</button>
-                <button class="tab-btn" id="tab-20d" onclick="switchTimeFrame('20d')">近 20 日資金規模</button>
+                <button class="tab-btn active" id="tab-5d" onclick="switchTimeFrame('5d')">餈?5 ?亥???撅</button>
+                <button class="tab-btn" id="tab-20d" onclick="switchTimeFrame('20d')">餈?20 ?亥???璅?/button>
             </div>
 
             <!-- Bottom Fishing Alert Card (now at the top of sidebar) -->
             <div class="card bottom-fishing-card" id="bottom-fishing-panel">
                 <div class="panel-title" style="color: #ffd600; border-bottom: 1px solid rgba(255, 214, 0, 0.15);">
-                    法人逆勢抄底警報排行
-                    <span style="background: rgba(255, 214, 0, 0.15); color: #ffd600; font-size: 0.75rem; letter-spacing: 0.5px;">逆風吸籌</span>
+                    瘜犖???霅血??
+                    <span style="background: rgba(255, 214, 0, 0.15); color: #ffd600; font-size: 0.75rem; letter-spacing: 0.5px;">?◢?貊?</span>
                 </div>
                 <div class="market-warning" id="market-warning-msg" style="display:none;">
-                    ⚠️ 大盤今日下跌，法人逆勢抄底啟動！
-                </div>
+                    ?? 憭抒隞銝?嚗?鈭粹????嚗?                </div>
                 <div class="sector-list" id="bottom-fishing-list">
                     <!-- Dynamic rendering -->
                 </div>
             </div>
 
-            <!-- Sector Ranking Card (moved from left-column) -->
-            <div class="card sector-ranking-card">
-                <div class="panel-title">
-                    板塊資金排序
-                    <span id="ranking-header-badge" style="background: rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 0.75rem;">近5日累計</span>
-                </div>
-                <div class="sector-list" id="sector-quick-list">
-                    <!-- Dynamic rendering -->
-                </div>
-                <button id="sector-toggle-btn" class="sector-toggle-btn" onclick="toggleSectors()">展開全部板塊</button>
-            </div>
-
             <!-- Whale Locked Stocks Card -->
             <div class="card whale-locked-card glow-aurora" id="whale-locked-panel">
                 <div class="panel-title" style="color: #00e676; border-bottom: 1px solid rgba(0, 230, 118, 0.15);">
-                    千張大戶密集鎖碼偵測雷達
-                    <span style="background: rgba(0, 230, 118, 0.15); color: #00e676; font-size: 0.75rem; letter-spacing: 0.5px;">主力鎖碼</span>
+                    ?撐憭扳撖??Ⅳ?菜葫?琿?
+                    <span style="background: rgba(0, 230, 118, 0.15); color: #00e676; font-size: 0.75rem; letter-spacing: 0.5px;">銝餃??Ⅳ</span>
                 </div>
-                <!-- 監測時間區間 Tab 組 -->
+                <!-- ??葫?????Tab 蝯?-->
                 <div class="whale-time-tabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.65rem; background: rgba(0, 0, 0, 0.2); padding: 0.2rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
-                    <button class="whale-time-btn" onclick="changeWhaleTime('1m', this)">1個月</button>
-                    <button class="whale-time-btn active" onclick="changeWhaleTime('2m', this)">2個月</button>
-                    <button class="whale-time-btn" onclick="changeWhaleTime('3m', this)">3個月</button>
-                    <button class="whale-time-btn" onclick="changeWhaleTime('4m', this)">4個月</button>
+                    <button class="whale-time-btn" onclick="changeWhaleTime('1m', this)">1??</button>
+                    <button class="whale-time-btn active" onclick="changeWhaleTime('2m', this)">2??</button>
+                    <button class="whale-time-btn" onclick="changeWhaleTime('3m', this)">3??</button>
+                    <button class="whale-time-btn" onclick="changeWhaleTime('4m', this)">4??</button>
                 </div>
-                <!-- 篩選門檻控制鈕組 -->
+                <!-- 蝭拚?瑼餅?園?蝯?-->
                 <div class="whale-filter-tabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px dashed rgba(255,255,255,0.05);">
                     <button class="whale-filter-btn active" style="color: #00e676; border-color: rgba(0, 230, 118, 0.4); background: rgba(0, 230, 118, 0.15);" onclick="changeWhaleThreshold(15, 20, this)">15%~20%</button>
                     <button class="whale-filter-btn" onclick="changeWhaleThreshold(10, 15, this)">10%~15%</button>
@@ -143,39 +138,38 @@ html_content = """<!DOCTYPE html>
             <!-- Detail Stock Breakdown Card -->
             <div class="card detail-card" id="detail-panel">
                 <div class="empty-state" id="detail-empty">
-                    請點擊或懸浮板塊泡泡，以檢視核心個股買賣超分化明細
-                </div>
+                    隢????豢筑?踹?瘜⊥部嚗誑瑼Ｚ??詨??鞎瑁都頞???蝝?                </div>
                 <div id="detail-content" style="display: none;">
                     <div class="panel-title">
-                        <span id="detail-sector-name" style="font-size: 1.15rem; font-weight: 700; padding: 0;">板塊名稱</span>
+                        <span id="detail-sector-name" style="font-size: 1.15rem; font-weight: 700; padding: 0;">?踹??迂</span>
                         <div id="detail-quadrant-badge" class="dual-badge-container"></div>
                     </div>
                     
                     <div class="metrics-grid">
                         <div class="metric-box">
-                            <div class="label" id="metric-label-flow">5日累計流向</div>
+                            <div class="label" id="metric-label-flow">5?亦敞閮???/div>
                             <div class="value" id="metric-flow">0.0</div>
                         </div>
                         <div class="metric-box">
-                            <div class="label">資金加速度</div>
+                            <div class="label">鞈??漲</div>
                             <div class="value" id="metric-accel">0.0</div>
                         </div>
                         <div class="metric-box">
-                            <div class="label">20日資金規模</div>
+                            <div class="label">20?亥???璅?/div>
                             <div class="value" id="metric-scale-20d">0.0</div>
                         </div>
                     </div>
                     
-                    <h3 style="font-size: 0.85rem; margin-bottom: 0.65rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif;">板塊核心個股分化數據</h3>
+                    <h3 style="font-size: 0.85rem; margin-bottom: 0.65rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif;">?踹??詨?????豢?</h3>
                     <div class="stock-table-wrapper">
                         <table class="stock-table">
                             <thead>
                                 <tr>
-                                    <th>個股名稱</th>
-                                    <th style="text-align: right;">今日流向</th>
-                                    <th style="text-align: right;">今日漲跌</th>
-                                    <th style="text-align: right;" id="th-accum-flow">5日流向</th>
-                                    <th style="text-align: right;">5日漲跌</th>
+                                    <th>??迂</th>
+                                    <th style="text-align: right;">隞瘚?</th>
+                                    <th style="text-align: right;">隞瞍脰?</th>
+                                    <th style="text-align: right;" id="th-accum-flow">5?交???/th>
+                                    <th style="text-align: right;">5?交撞頝?/th>
                                 </tr>
                             </thead>
                             <tbody id="stock-table-body">
@@ -201,24 +195,23 @@ html_content = """<!DOCTYPE html>
 
         // D3 global references for transition
         let svg, xScale, yScale, sizeScale, width, height, margin;
+        let timeLapseTimer = null;
+        let currentDayIndex = 0;
 
         // Determine Quadrant by X (flow) and Y (acceleration_m)
         function getQuadrantInfo(x, y) {
             if (x >= 0 && y >= 0) {
-                return { name: "領先 (Leading)", color: "var(--color-lead)", bgClass: "lead" };
+                return { name: "?? (Leading)", color: "var(--color-lead)", bgClass: "lead" };
             } else if (x >= 0 && y < 0) {
-                return { name: "轉弱 (Weakening)", color: "var(--color-rotate)", bgClass: "rotate" };
+                return { name: "頧摹 (Weakening)", color: "var(--color-rotate)", bgClass: "rotate" };
             } else if (x < 0 && y < 0) {
-                return { name: "落後 (Lagging)", color: "var(--color-outflow)", bgClass: "outflow" };
+                return { name: "?賢? (Lagging)", color: "var(--color-outflow)", bgClass: "outflow" };
             } else {
-                return { name: "改善 (Improving)", color: "var(--color-watch)", bgClass: "watch" };
+                return { name: "?孵? (Improving)", color: "var(--color-watch)", bgClass: "watch" };
             }
         }
 
-        let timeLapseTimer = null;
-        let currentDayIndex = 0;
-
-        // RRG Time-Lapse Loop — pure coordinate animation, zero physics
+        // RRG Time-Lapse Loop ??pure coordinate animation, zero physics
         function startTimeLapse(data) {
             // Kill any previous animation loop
             if (timeLapseTimer) {
@@ -229,7 +222,7 @@ html_content = """<!DOCTYPE html>
             const tf = currentTimeFrame;
             const flowKey = tf === "5d" ? "flow_5d_m" : "flow_20d_m";
 
-            // Pre-build a lookup map: sector_name → array of {px, py} screen coords
+            // Pre-build a lookup map: sector_name ??array of {px, py} screen coords
             // Index 0 = oldest (Day -5), last index = today
             const coordMap = {};
             data.forEach(d => {
@@ -276,11 +269,11 @@ html_content = """<!DOCTYPE html>
                 moveBubblesTo(dayIdx, 800, d3.easeLinear);
 
                 if (currentDayIndex < maxSteps - 1) {
-                    // Not yet at today — advance to next day
+                    // Not yet at today ??advance to next day
                     currentDayIndex++;
                     timeLapseTimer = setTimeout(playStep, 1000);
                 } else {
-                    // Reached today — pause 3 seconds, then reset & loop
+                    // Reached today ??pause 3 seconds, then reset & loop
                     timeLapseTimer = setTimeout(() => {
                         // Instant snap back to Day -5 (index 0)
                         currentDayIndex = 0;
@@ -311,7 +304,7 @@ html_content = """<!DOCTYPE html>
                 const mReturnSign = mReturn >= 0 ? "+" : "";
                 const mReturnClass = mReturn >= 0 ? "val-positive" : "val-negative";
                 
-                document.getElementById("data-date").innerHTML = `大盤加權指數: ${cachedMarketInfo.market_close.toLocaleString()} (<span class="${mReturnClass}">${mReturnSign}${mReturn.toFixed(2)}%</span>) | 更新時間: ${now.toLocaleDateString("zh-TW")} ${now.toLocaleTimeString("zh-TW")}`;
+                document.getElementById("data-date").innerHTML = `憭抒???: ${cachedMarketInfo.market_close.toLocaleString()} (<span class="${mReturnClass}">${mReturnSign}${mReturn.toFixed(2)}%</span>) | ?湔??: ${now.toLocaleDateString("zh-TW")} ${now.toLocaleTimeString("zh-TW")}`;
 
                 // Render components
                 updateUI();
@@ -325,14 +318,14 @@ html_content = """<!DOCTYPE html>
                 // Initial Chart rendering
                 renderQuadrantChart(cachedData);
                 startTimeLapse(cachedData);
-
+                
                 // Default show the first sector detail
                 if (cachedData.length > 0) {
                     showSectorDetail(cachedData[0].sector_name);
                 }
             } catch (error) {
-                console.error("載入 sectors_data.json 錯誤:", error);
-                document.getElementById("data-date").textContent = "數據載入失敗";
+                console.error("頛 sectors_data.json ?航炊:", error);
+                document.getElementById("data-date").textContent = "?豢?頛憭望?";
             }
         }
 
@@ -345,7 +338,7 @@ html_content = """<!DOCTYPE html>
             document.getElementById("tab-20d").classList.toggle("active", timeframe === "20d");
 
             // Update Header badges in panels
-            document.getElementById("ranking-header-badge").textContent = timeframe === "5d" ? "近5日累計" : "近20日累計";
+            document.getElementById("ranking-header-badge").textContent = timeframe === "5d" ? "餈??亦敞閮? : "餈?0?亦敞閮?;
             
             // Re-render UI list & slide bubbles smoothly
             updateUI();
@@ -367,12 +360,12 @@ html_content = """<!DOCTYPE html>
             const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
             const sortedData = [...cachedData].sort((a, b) => b[flowKey] - a[flowKey]);
 
-            // 根據摺疊狀態決定顯示的板塊數量
+            // ?寞??箇???捱摰＊蝷箇??踹??賊?
             const displayCount = isSectorsExpanded ? sortedData.length : 8;
             const displayData = sortedData.slice(0, displayCount);
 
             displayData.forEach(sector => {
-                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                 const isCustom = customSectors.includes(sector.sector_name);
                 const row = document.createElement("div");
                 row.className = "sector-row";
@@ -387,17 +380,26 @@ html_content = """<!DOCTYPE html>
                 }
                 
                 row.onclick = () => showSectorDetail(sector.sector_name);
-                
-                // Sidebar row Hover linkages
-                row.onmouseover = () => hoverLinkageActive(sector.sector_name);
-                row.onmouseout = () => hoverLinkageReset();
+                row.onmouseenter = (e) => {
+                    hoverLinkageActive(sector.sector_name, e);
+                    showSectorDetail(sector.sector_name);
+                };
+                row.onmousemove = (e) => {
+                    const tooltip = d3.select("#map-tooltip");
+                    if (!tooltip.empty() && tooltip.style("opacity") > 0) {
+                        tooltip
+                            .style("left", (e.pageX + 15) + "px")
+                            .style("top", (e.pageY + 15) + "px");
+                    }
+                };
+                row.onmouseleave = () => hoverLinkageReset();
 
                 const flowVal = sector[flowKey];
                 const flowSign = flowVal >= 0 ? "+" : "";
                 const flowClass = flowVal >= 0 ? "val-positive" : "val-negative";
                 const qInfo = getQuadrantInfo(flowVal, sector.acceleration_m);
                 
-                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
+                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">??/span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">?寡矽</span>` : sector.sector_name;
 
                 row.innerHTML = `
                     <div>
@@ -406,19 +408,19 @@ html_content = """<!DOCTYPE html>
                     </div>
                     <div class="stats">
                         <div class="flow-val ${flowClass}">${flowSign}${flowVal.toLocaleString()} M</div>
-                        <div class="accel-val">加速度: ${sector.acceleration_m > 0 ? "+" : ""}${sector.acceleration_m.toLocaleString()} M</div>
+                        <div class="accel-val">?漲: ${sector.acceleration_m > 0 ? "+" : ""}${sector.acceleration_m.toLocaleString()} M</div>
                     </div>
                 `;
                 listContainer.appendChild(row);
             });
 
-            // 更新按鈕文字
+            // ?湔????
             const toggleBtn = document.getElementById("sector-toggle-btn");
             if (isSectorsExpanded) {
-                toggleBtn.textContent = "收攏板塊列表 ▴";
+                toggleBtn.textContent = "?嗆??踹??” ??;
             } else {
                 const remaining = sortedData.length - 8;
-                toggleBtn.textContent = `展開全部板塊 (+${remaining}) ▾`;
+                toggleBtn.textContent = `撅??券?踹? (+${remaining}) ?霉;
             }
         }
 
@@ -444,12 +446,12 @@ html_content = """<!DOCTYPE html>
                                   .slice(0, 3);
                                   
             if (bfSectors.length === 0) {
-                listContainer.innerHTML = `<div class="empty-state" style="padding: 1rem 0; font-size:0.8rem;">目前全市場無符合「法人逆風布局」之板塊</div>`;
+                listContainer.innerHTML = `<div class="empty-state" style="padding: 1rem 0; font-size:0.8rem;">?桀??典??渡蝚血???鈭粹◢撣????踹?</div>`;
                 return;
             }
             
             bfSectors.forEach(sector => {
-                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                 const isCustom = customSectors.includes(sector.sector_name);
                 const item = document.createElement("div");
                 item.className = "bf-sector-item";
@@ -460,28 +462,33 @@ html_content = """<!DOCTYPE html>
                 item.onmouseout = () => hoverLinkageReset();
                 
                 let stocksHtml = "";
-                if (sector.bottom_fishing_stocks && sector.bottom_fishing_stocks.length > 0) {
-                    sector.bottom_fishing_stocks.forEach(st => {
+                const candidateStocks = (sector.individual_stocks || [])
+                    .filter(st => st.today_net_flow_m > 0)
+                    .sort((a, b) => b.today_net_flow_m - a.today_net_flow_m)
+                    .slice(0, 2);
+                
+                if (candidateStocks.length > 0) {
+                    candidateStocks.forEach(st => {
                         const retSign = st.today_return_pct >= 0 ? "+" : "";
                         const retClass = st.today_return_pct >= 0 ? "val-positive" : "val-negative";
                         stocksHtml += `
                             <div class="bf-stock-tag">
                                 <span class="stock-title">${st.stock_name} (${st.stock_id})</span>
-                                <span class="stock-flow val-positive">買超: +${st.today_net_flow_m.toFixed(1)}M</span>
+                                <span class="stock-flow val-positive">鞎瑁?: +${st.today_net_flow_m.toFixed(1)}M</span>
                                 <span style="font-size:0.7rem; font-weight:600; text-align:right;" class="${retClass}">${retSign}${st.today_return_pct.toFixed(2)}%</span>
                             </div>
                         `;
                     });
                 } else {
-                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之抗跌個股</div>`;
+                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">?∠泵??隞嗡??</div>`;
                 }
                 
-                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
+                const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">??/span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">?寡矽</span>` : sector.sector_name;
 
                 item.innerHTML = `
                     <div class="bf-sector-header">
                         <span class="name">${nameHtml}</span>
-                        <span class="score">強度得分: ${sector.bottom_fishing_score.toFixed(1)}</span>
+                        <span class="score">撘瑕漲敺?: ${sector.bottom_fishing_score.toFixed(1)}</span>
                     </div>
                     <div class="bf-stocks-row">
                         ${stocksHtml}
@@ -515,7 +522,7 @@ html_content = """<!DOCTYPE html>
             currentMinThreshold = min;
             currentMaxThreshold = max;
 
-            // 動態改變看板的外觀邊框與呼吸燈
+            // ???寡????閫????貊?
             const panel = document.getElementById("whale-locked-panel");
             panel.className = "card whale-locked-card"; // reset
             
@@ -553,21 +560,21 @@ html_content = """<!DOCTYPE html>
             listContainer.innerHTML = "";
             
             if (!whaleStocks || whaleStocks.length === 0) {
-                listContainer.innerHTML = `<div class="empty-state" style="padding: 1rem 0; font-size:0.8rem; color: var(--text-muted);">目前無符合「大戶鎖碼」之個股</div>`;
+                listContainer.innerHTML = `<div class="empty-state" style="padding: 1rem 0; font-size:0.8rem; color: var(--text-muted);">?桀??∠泵?之?園?蝣潦??</div>`;
                 return;
             }
             
             const diffKey = "diff_" + currentTimeWhale;
-            // 根據傳入的門檻與選中的時間區間過濾個股
+            // ?寞??喳??瑼餉??訾葉??????瞈曉
             const filtered = whaleStocks.filter(st => st[diffKey] >= min && st[diffKey] <= max);
             
-            const labelText = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "增減";
+            const labelText = "餈? + (currentTimeWhale === "1m" ? "1??" : currentTimeWhale === "2m" ? "2??" : currentTimeWhale === "3m" ? "3??" : "4??") + "憓?";
             
             if (filtered.length === 0) {
                 listContainer.innerHTML = `
                     <div class="empty-state" style="padding: 1.5rem 0.5rem; font-size:0.8rem; line-height: 1.5; color: var(--text-muted);">
-                        ⚠️ 此區間目前無符合個股。<br>
-                        <span style="font-size:0.75rem; color:#ffd600; font-weight:500;">今日大盤無此強度的鎖碼股，建議切換至「10%~15%」或「5%~10%」區間檢測。</span>
+                        ?? 甇文???蝚血????br>
+                        <span style="font-size:0.75rem; color:#ffd600; font-weight:500;">隞憭抒?⊥迨撘瑕漲??蝣潸嚗遣霅啣????0%~15%????%~10%???炎皜研?/span>
                     </div>`;
                 return;
             }
@@ -582,14 +589,14 @@ html_content = """<!DOCTYPE html>
                 item.onmouseover = () => hoverLinkageActive(stock.sector);
                 item.onmouseout = () => hoverLinkageReset();
                 
-                // 動態時間區間累計漲跌幅
+                // ??????敞閮撞頝?
                 const priceChangeKey = currentTimeWhale + "_price_change";
                 const priceChangeVal = stock[priceChangeKey] !== undefined ? stock[priceChangeKey] : 0.0;
-                const priceChangeLabel = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "漲跌";
+                const priceChangeLabel = "餈? + (currentTimeWhale === "1m" ? "1??" : currentTimeWhale === "2m" ? "2??" : currentTimeWhale === "3m" ? "3??" : "4??") + "瞍脰?";
                 const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
                 const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
                 
-                const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(stock.sector);
+                const isCustom = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???].includes(stock.sector);
                 const badgeStyle = isCustom ? 'style="background: #ff007f; color: #fff; font-weight: bold; box-shadow: 0 0 5px rgba(255, 0, 127, 0.5); border: none;"' : '';
 
                 item.innerHTML = `
@@ -602,7 +609,7 @@ html_content = """<!DOCTYPE html>
                     </div>
                     <div class="whale-stock-body">
                         <div class="detail-val">
-                            <span class="label">大戶持股</span>
+                            <span class="label">憭扳?</span>
                             <span class="val" style="color: var(--text-primary); font-weight: 500;">${stock.current_ratio.toFixed(2)}%</span>
                         </div>
                         <div class="detail-val">
@@ -648,8 +655,8 @@ html_content = """<!DOCTYPE html>
             content.style.display = "block";
 
             // Fill text
-            const isCustom = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"].includes(sectorName);
-            document.getElementById("detail-sector-name").innerHTML = isCustom ? `★ ${sector.sector_name} <span style="background:#ff007f; color:#fff; font-size:0.75rem; padding:2px 6px; border-radius:3px; margin-left:6px; font-weight:bold; vertical-align: middle;">特調虛擬板塊</span>` : sector.sector_name;
+            const isCustom = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???].includes(sectorName);
+            document.getElementById("detail-sector-name").innerHTML = isCustom ? `??${sector.sector_name} <span style="background:#ff007f; color:#fff; font-size:0.75rem; padding:2px 6px; border-radius:3px; margin-left:6px; font-weight:bold; vertical-align: middle;">?寡矽??踹?</span>` : sector.sector_name;
             
             const flowVal = currentTimeFrame === "5d" ? sector.flow_5d_m : sector.flow_20d_m;
             
@@ -659,25 +666,25 @@ html_content = """<!DOCTYPE html>
             
             const badgeContainer = document.getElementById("detail-quadrant-badge");
             badgeContainer.innerHTML = `
-                <span class="dual-badge-item" style="background: ${qLong.color};">[長線] ${qLong.name}</span>
+                <span class="dual-badge-item" style="background: ${qLong.color};">[?瑞?] ${qLong.name}</span>
                 <span class="dual-badge-separator">|</span>
-                <span class="dual-badge-item" style="background: ${qShort.color};">[短線] ${qShort.name}</span>
+                <span class="dual-badge-item" style="background: ${qShort.color};">[?剔?] ${qShort.name}</span>
             `;
 
             // Metrics boxes
-            document.getElementById("metric-label-flow").textContent = currentTimeFrame === "5d" ? "5日累計流向" : "20日累計流向";
+            document.getElementById("metric-label-flow").textContent = currentTimeFrame === "5d" ? "5?亦敞閮??? : "20?亦敞閮???;
             const flowBox = document.getElementById("metric-flow");
-            flowBox.textContent = (flowVal >= 0 ? "+" : "") + flowVal.toLocaleString() + " 百萬";
+            flowBox.textContent = (flowVal >= 0 ? "+" : "") + flowVal.toLocaleString() + " ?曇";
             flowBox.className = "value " + (flowVal >= 0 ? "val-positive" : "val-negative");
 
             const accelBox = document.getElementById("metric-accel");
-            accelBox.textContent = (sector.acceleration_m >= 0 ? "+" : "") + sector.acceleration_m.toLocaleString() + " 百萬";
+            accelBox.textContent = (sector.acceleration_m >= 0 ? "+" : "") + sector.acceleration_m.toLocaleString() + " ?曇";
             accelBox.className = "value " + (sector.acceleration_m >= 0 ? "val-positive" : "val-negative");
 
-            document.getElementById("metric-scale-20d").textContent = sector.size_20d_m.toLocaleString() + " 百萬";
+            document.getElementById("metric-scale-20d").textContent = sector.size_20d_m.toLocaleString() + " ?曇";
 
             // Dynamic header label for accumulated flow in stock table
-            document.getElementById("th-accum-flow").textContent = currentTimeFrame === "5d" ? "5日買賣超" : "20日買賣超";
+            document.getElementById("th-accum-flow").textContent = currentTimeFrame === "5d" ? "5?亥眺鞈??" : "20?亥眺鞈??";
 
             // Fill individual stocks table
             const tbody = document.getElementById("stock-table-body");
@@ -722,17 +729,15 @@ html_content = """<!DOCTYPE html>
             const container = document.getElementById("chart-wrapper");
             container.innerHTML = "";
 
-            // 使用固定的 viewBox 座標系統，SVG 會自動等比例縮放至容器
-            width = 800;
-            height = 600;
+            width = container.clientWidth;
+            height = container.clientHeight || 550;
             margin = { top: 40, right: 40, bottom: 40, left: 40 };
 
             sizeScale = d3.scaleSqrt().range([18, 48]);
 
             svg = d3.select("#chart-wrapper")
                 .append("svg")
-                .attr("viewBox", "0 0 800 600")
-                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", `0 0 ${width} ${height}`)
                 .attr("width", "100%")
                 .attr("height", "100%");
 
@@ -797,10 +802,10 @@ html_content = """<!DOCTYPE html>
             const quadHeight = (height - margin.top - margin.bottom) / 2;
 
             const quadrants = [
-                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "#00e676" },
-                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "#00b0ff" },
-                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "#ff1744" },
-                { id: "rotate", x: xScale(0), y: yScale(0), fill: "#ffd600" }
+                { id: "lead", x: xScale(0), y: yScale(yLimit), fill: "var(--color-lead)" },
+                { id: "watch", x: xScale(-xLimit), y: yScale(yLimit), fill: "var(--color-watch)" },
+                { id: "outflow", x: xScale(-xLimit), y: yScale(0), fill: "var(--color-outflow)" },
+                { id: "rotate", x: xScale(0), y: yScale(0), fill: "var(--color-rotate)" }
             ];
 
             svg.selectAll(".quadrant-bg")
@@ -816,10 +821,10 @@ html_content = """<!DOCTYPE html>
 
             // Add Quadrant Text Labels
             const labelsData = [
-                { text: "主力進攻", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
-                { text: "觀望防守", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
-                { text: "資金退潮", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
-                { text: "資金輪動", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
+                { text: "?? (Leading)", x: width - margin.right - 15, y: margin.top + 30, anchor: "end", color: "var(--color-lead)" },
+                { text: "?孵? (Improving)", x: margin.left + 15, y: margin.top + 30, anchor: "start", color: "var(--color-watch)" },
+                { text: "?賢? (Lagging)", x: margin.left + 15, y: height - margin.bottom - 20, anchor: "start", color: "var(--color-outflow)" },
+                { text: "頧摹 (Weakening)", x: width - margin.right - 15, y: height - margin.bottom - 20, anchor: "end", color: "var(--color-rotate)" }
             ];
 
             svg.selectAll(".quadrant-label")
@@ -854,29 +859,14 @@ html_content = """<!DOCTYPE html>
                 .attr("x", width - margin.right)
                 .attr("y", yScale(0) - 10)
                 .attr("text-anchor", "end")
-                .text(`${currentTimeFrame === "5d" ? "5日" : "20日"}法人累計淨流入流出 (百萬 NTD) ➔`);
+                .text(`${currentTimeFrame === "5d" ? "5?? : "20??}瘜犖蝝航?瘛冽??交???(?曇 NTD) ?);
 
             svg.append("text")
                 .attr("class", "axis-label axis-y-label")
                 .attr("x", xScale(0) + 12)
                 .attr("y", margin.top)
                 .attr("text-anchor", "start")
-                .text("▲ 資金加速度 (今日淨流向 - 5日均值)");
-
-            // Projection guidelines
-            svg.append("line")
-                .attr("id", "proj-x")
-                .attr("stroke", "rgba(255,255,255,0.25)")
-                .attr("stroke-width", 1)
-                .attr("stroke-dasharray", "3,3")
-                .style("opacity", 0);
-
-            svg.append("line")
-                .attr("id", "proj-y")
-                .attr("stroke", "rgba(255,255,255,0.25)")
-                .attr("stroke-width", 1)
-                .attr("stroke-dasharray", "3,3")
-                .style("opacity", 0);
+                .text("??鞈??漲 (隞瘛冽???- 5?亙???");
 
             // 2.5 Grid concentric circles (RRG style)
             const center_x = xScale(0);
@@ -905,6 +895,21 @@ html_content = """<!DOCTYPE html>
                 .style("font-weight", "600")
                 .text("(100, 100)");
 
+            // Projection guidelines
+            svg.append("line")
+                .attr("id", "proj-x")
+                .attr("stroke", "rgba(255,255,255,0.25)")
+                .attr("stroke-width", 1)
+                .attr("stroke-dasharray", "3,3")
+                .style("opacity", 0);
+
+            svg.append("line")
+                .attr("id", "proj-y")
+                .attr("stroke", "rgba(255,255,255,0.25)")
+                .attr("stroke-width", 1)
+                .attr("stroke-dasharray", "3,3")
+                .style("opacity", 0);
+
             // Helper to get coordinates at dayIndex (0 to 5) for sector d
             function getSectorPointAt(d, dayIndex) {
                 const tf = currentTimeFrame;
@@ -928,16 +933,16 @@ html_content = """<!DOCTYPE html>
                     const tf = currentTimeFrame;
                     const history = d.history && d.history[tf] ? d.history[tf] : [];
                     const points = history.map(pt => [xScale(pt.x), yScale(pt.y)]);
-                    points.push([xScale(d[flowKey]), yScale(d.acceleration_m)]); // 今日 (Day 0)
+                    points.push([xScale(d[flowKey]), yScale(d.acceleration_m)]); // 隞 (Day 0)
                     return d3.line()(points);
                 })
                 .style("stroke", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 })
                 .style("fill", "none")
                 .style("--sector-color", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
 
@@ -958,7 +963,7 @@ html_content = """<!DOCTYPE html>
             const tooltip = d3.select("#map-tooltip");
             const containerBox = document.getElementById("chart-wrapper");
 
-            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
             bubbleGroup.append("circle")
                 .attr("class", d => customSectors.includes(d.sector_name) ? "bubble custom-sector" : "bubble")
                 .attr("r", d => sizeScale(d.size_20d_m))
@@ -981,7 +986,7 @@ html_content = """<!DOCTYPE html>
             bubbleGroup.append("text")
                 .attr("class", "bubble-label")
                 .attr("dy", ".3em")
-                .text(d => customSectors.includes(d.sector_name) ? "⭐ " + d.sector_name : d.sector_name);
+                .text(d => customSectors.includes(d.sector_name) ? "潃?" + d.sector_name : d.sector_name);
         }
 
         // Smooth transition on timeline change
@@ -1009,16 +1014,16 @@ html_content = """<!DOCTYPE html>
                     return d3.line()(points);
                 })
                 .style("stroke", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 })
                 .style("--sector-color", d => {
-                    const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                    const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                     return customSectors.includes(d.sector_name) ? "#ff007f" : getQuadrantInfo(d[flowKey], d.acceleration_m).color;
                 });
 
             // Transition color rendering of individual circles based on new quadrant
-            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
             svg.selectAll(".bubble")
                 .data(data, d => d.sector_name)
                 .transition()
@@ -1040,25 +1045,36 @@ html_content = """<!DOCTYPE html>
             svg.select(".axis-x-label")
                 .transition().duration(800)
                 .attr("y", yScale(0) - 10)
-                .text(`${currentTimeFrame === "5d" ? "5日" : "20日"}法人累計淨流入流出 (百萬 NTD) ➔`);
+                .text(`${currentTimeFrame === "5d" ? "5?? : "20??}瘜犖蝝航?瘛冽??交???(?曇 NTD) ?);
 
             svg.select(".axis-y-label")
                 .transition().duration(800)
                 .attr("x", xScale(0) + 12);
 
-            // Restart time-lapse animation loop with new scale domain mapping
+            // Transition circular grid coordinates and center label
+            svg.selectAll(".grid-circle")
+                .transition().duration(800)
+                .attr("cx", xScale(0))
+                .attr("cy", yScale(0));
+
+            svg.select(".axis-center-label")
+                .transition().duration(800)
+                .attr("x", xScale(0) + 8)
+                .attr("y", yScale(0) + 14);
+
+            // Restart Time-Lapse Loop animation
             startTimeLapse(data);
         }
 
-        // Hover Linkages: Fade out irrelevant elements & show projection + tooltip
+        // Hover Linkages: Fade out irrelevant elements
         function hoverLinkageActive(sectorName, event = null) {
+            // 撠曇楚鈭支??臬?
             d3.select(".tails").classed("has-hover", true);
             d3.selectAll(".tail-path").classed("hovered", d => d.sector_name === sectorName);
 
             d3.selectAll(".bubble-g")
                 .style("opacity", d => d.sector_name === sectorName ? 1 : 0.15);
             
-            // Escape sector name backslash for CSS selector compatibility
             const escapedName = sectorName.replace('/', '-');
             const targetBubbleG = d3.select(`#bubble-g-${escapedName}`);
             
@@ -1066,22 +1082,21 @@ html_content = """<!DOCTYPE html>
                 targetBubbleG.raise();
                 const d = targetBubbleG.datum();
                 const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
-                
-                // Get current animation coordinates
+                // ?脣??嗅??撖阡???
                 const tf = currentTimeFrame;
                 const history = d.history && d.history[tf] ? d.history[tf] : [];
                 const curX = d.current_anim_x !== undefined ? d.current_anim_x : (history.length > 0 ? xScale(history[0].x) : xScale(d[flowKey]));
                 const curY = d.current_anim_y !== undefined ? d.current_anim_y : (history.length > 0 ? yScale(history[0].y) : yScale(d.acceleration_m));
 
+                // ?曉之瘜⊥部
                 targetBubbleG.select(".bubble")
                     .transition().duration(150)
                     .attr("r", sizeScale(d.size_20d_m) * 1.2)
                     .style("fill-opacity", 0.95)
                     .attr("stroke", "#ffffff")
                     .style("filter", "drop-shadow(0 0 12px #ffffff)");
-
-                // Show projection lines
-                d3.select("#proj-x")
+                
+                // 憿舐內?蔣蝺?                d3.select("#proj-x")
                     .attr("x1", curX)
                     .attr("y1", curY)
                     .attr("x2", xScale(0))
@@ -1096,13 +1111,13 @@ html_content = """<!DOCTYPE html>
                     .attr("y2", yScale(0))
                     .transition().duration(150)
                     .style("opacity", 1);
-
-                // Render dynamic tooltip
+                
+                // 皜脫? Tooltip ?批捆
                 const tooltip = d3.select("#map-tooltip");
                 const containerBox = document.getElementById("chart-wrapper");
                 const currFlowVal = d[flowKey];
                 const qInfo = getQuadrantInfo(currFlowVal, d.acceleration_m);
-                const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+                const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
                 
                 const stockItems = d.individual_stocks.slice(0, 3).map(st => {
                     const flowSign = st.flow_5d_m >= 0 ? "+" : "";
@@ -1118,34 +1133,36 @@ html_content = """<!DOCTYPE html>
                 tooltip.html(`
                     <div class="tooltip-header">
                         <span>${d.sector_name}</span>
-                        <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '特調' : qInfo.name}</span>
+                        <span class="quadrant-badge" style="background: ${customSectors.includes(d.sector_name) ? '#ff007f' : qInfo.color}; color:${customSectors.includes(d.sector_name) ? '#fff' : '#000'};">${customSectors.includes(d.sector_name) ? '?寡矽' : qInfo.name}</span>
                     </div>
                     <div class="tooltip-row">
-                        <span class="label">${currentTimeFrame === "5d" ? "5日" : "20日"}流向:</span>
+                        <span class="label">${currentTimeFrame === "5d" ? "5?? : "20??}瘚?:</span>
                         <span class="val ${currFlowVal >= 0 ? 'val-positive' : 'val-negative'}">${currFlowVal >= 0 ? '+' : ''}${currFlowVal} M</span>
                     </div>
                     <div class="tooltip-row">
-                        <span class="label">資金加速度:</span>
+                        <span class="label">鞈??漲:</span>
                         <span class="val ${d.acceleration_m >= 0 ? 'val-positive' : 'val-negative'}">${d.acceleration_m >= 0 ? '+' : ''}${d.acceleration_m} M</span>
                     </div>
                     <div class="tooltip-row">
-                        <span class="label">20日資金規模:</span>
+                        <span class="label">20?亥???璅?</span>
                         <span class="val">${d.size_20d_m} M</span>
                     </div>
                     <div class="tooltip-stocks">
-                        <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">核心個股買賣超預覽:</div>
+                        <div class="label" style="font-size: 0.7rem; margin-bottom: 0.25rem;">?詨??鞎瑁都頞?閬?</div>
                         ${stockItems}
                     </div>
                 `);
-
-                // Calculate Tooltip position based on event source
+                
+                // 閮? Tooltip 雿蔭
                 let tooltipX, tooltipY;
-                const isListHover = event && !(event.target instanceof SVGElement || event.currentTarget instanceof SVGElement);
+                
+                // ?斗鈭辣靘??身摰?雿?                const isListHover = event && !(event.target instanceof SVGElement || event.currentTarget instanceof SVGElement);
                 
                 if (isListHover) {
-                    tooltipX = event.pageX + 15;
+                    // 銝?踹?鞈???皜??hover嚗票?冽?曌????喃???15px ??                    tooltipX = event.pageX + 15;
                     tooltipY = event.pageY + 15;
                 } else {
+                    // D3 ?啣?瘜⊥部??hover ????臬?嚗雁???祉?摰部瘜∩葉敹?摰?
                     const bubbleElement = document.getElementById(`bubble-g-${escapedName}`);
                     if (bubbleElement) {
                         const rect = bubbleElement.getBoundingClientRect();
@@ -1206,7 +1223,7 @@ html_content = """<!DOCTYPE html>
         }
 
         function hoverLinkageReset() {
-            // Reset tails interactive styling
+            // ?蔭撠曇楚鈭支??臬?
             d3.select(".tails").classed("has-hover", false);
             d3.selectAll(".tail-path").classed("hovered", false);
 
@@ -1214,7 +1231,7 @@ html_content = """<!DOCTYPE html>
                 .style("opacity", 1);
 
             const flowKey = currentTimeFrame === "5d" ? "flow_5d_m" : "flow_20d_m";
-            const customSectors = ["台積先進封裝設備", "轉單受惠與國防儲能", "高值化半導體材料"];
+            const customSectors = ["?啁??脣?鋆身??, "頧?????脣??, "擃澆???擃???];
             
             d3.selectAll(".bubble-g").each(function(d) {
                 const bubble = d3.select(this).select(".bubble");
@@ -1260,12 +1277,7 @@ html_content = """<!DOCTYPE html>
         // Initialize loading
         window.onload = loadData;
     </script>
+    <!-- Floating interactive Tooltip -->
+    <div class="custom-tooltip" id="map-tooltip"></div>
 </body>
 </html>
-"""
-
-# Write the index.html with UTF-8
-with open('d:\\Antigravity\\Stock Block Flow\\index.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-print("[SUCCESS] HTML file written correctly via Python.")
