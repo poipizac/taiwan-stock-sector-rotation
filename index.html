@@ -731,15 +731,17 @@
             const container = document.getElementById("chart-wrapper");
             container.innerHTML = "";
 
-            width = container.clientWidth;
-            height = container.clientHeight || 550;
+            // 使用固定的 viewBox 座標系統，SVG 會自動等比例縮放至容器
+            width = 800;
+            height = 600;
             margin = { top: 40, right: 40, bottom: 40, left: 40 };
 
             sizeScale = d3.scaleSqrt().range([18, 48]);
 
             svg = d3.select("#chart-wrapper")
                 .append("svg")
-                .attr("viewBox", `0 0 ${width} ${height}`)
+                .attr("viewBox", "0 0 800 600")
+                .attr("preserveAspectRatio", "xMidYMid meet")
                 .attr("width", "100%")
                 .attr("height", "100%");
 
