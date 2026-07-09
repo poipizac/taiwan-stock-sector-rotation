@@ -1,0 +1,50 @@
+name: Automated Stock Data Update
+
+on:
+  schedule:
+    # 台北時間晚上 18:30 等於 UTC 時間 10:30 (18:30 - 8小時)
+    # 每週一至週五執行
+    - cron: '30 10 * * 1-5'
+  workflow_dispatch: # 允許手動觸發執行
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 賦予寫入權限，用以 git push
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip' # 自動快取 pip 安裝套件
+
+      - name: Cache data files
+        uses: actions/cache@v4
+        with:
+          path: data_cache
+          # 用 github.run_id 確保每次執行都會生成新的快取版本，但能利用上一次的快取做恢復
+          key: ${{ runner.os }}-data-cache-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-data-cache-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run data fetch script
+        run: |
+          python fetch_sector_rotation.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add sectors_data.json
+          # 如果沒有變更就不要 commit，避免 Action 報錯
+          git diff --quiet && git diff --staged --quiet || (git commit -m "data: 雲端排程自動更新法人資金與集保大戶數據" && git push)
