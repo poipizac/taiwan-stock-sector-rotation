@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>台股板塊輪動地圖 - 資金流向與加速度監控系統</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <!-- Load D3.js for visual rendering -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
@@ -1175,31 +1175,9 @@
                     </div>
                 `);
 
-                // Calculate Tooltip position based on event source
-                let tooltipX, tooltipY;
-                const isListHover = event && !(event.target instanceof SVGElement || event.currentTarget instanceof SVGElement);
-                
-                if (isListHover) {
-                    tooltipX = event.pageX + 15;
-                    tooltipY = event.pageY + 15;
-                } else {
-                    const bubbleElement = document.getElementById(`bubble-g-${escapedName}`);
-                    if (bubbleElement) {
-                        const rect = bubbleElement.getBoundingClientRect();
-                        const tooltipWidth = tooltip.node().offsetWidth || 280;
-                        const tooltipHeight = tooltip.node().offsetHeight || 180;
-                        
-                        tooltipX = rect.left + window.scrollX + rect.width / 2 - tooltipWidth / 2;
-                        tooltipY = rect.top + window.scrollY - tooltipHeight - 10;
-                    } else {
-                        tooltipX = event ? event.pageX + 15 : curX - 10;
-                        tooltipY = event ? event.pageY + 15 : curY - 180;
-                    }
-                }
-                
+                // Tooltip is fixed at the bottom-right corner of the container by CSS.
+                // We no longer calculate pageX/Y or dynamic left/top offsets.
                 tooltip
-                    .style("left", tooltipX + "px")
-                    .style("top", tooltipY + "px")
                     .transition().duration(150)
                     .style("opacity", 1);
             }

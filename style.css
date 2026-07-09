@@ -454,7 +454,12 @@ svg {
 
 /* Tooltip Styling */
 .custom-tooltip {
-    position: absolute;
+    position: absolute !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
     background: rgba(10, 13, 20, 0.95);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -464,6 +469,7 @@ svg {
     font-size: 0.85rem;
     box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     z-index: 9999;
+    width: 280px;
     max-width: 325px;
     transition: opacity 0.15s;
     opacity: 0;
