@@ -29,16 +29,12 @@ CONCEPT_SECTORS = {
     "低軌衛星": ['3491', '3152', '2314', '6285', '2313', '3380'],
     "機器人": ['2359', '6188', '2464', '8374', '2365', '4562'],
     "台積先進封裝設備": ['3131', '6187', '3583', '6640', '5443', '2464'],
-    "軍工概念股": ['3037', '6431', '1301', '4763'],
+    "軍工概念股": ['8033', '2634', '6753', '8222', '2645'],
     "高值化半導體材料": ['1303', '1402', '1717', '4770', '1727']
 }
 
 # 強制歸類字典 (Ticker Override Mechanism)
 CUSTOM_SECTOR_MAP = {
-    "8033": "軍工概念股",      # 雷虎 (原為其他)
-    "2634": "軍工概念股",      # 漢翔 (原為其他)
-    "6753": "軍工概念股",      # 龍德造船 (原為其他)
-    "8222": "軍工概念股",      # 寶一 (原為其他)
     "2308": "電子零組件業",    # 台達電 (從原本的自訂混合板塊移出，回歸電子零組件業)
 }
 
@@ -297,40 +293,46 @@ def get_latest_whale_ratios():
             pct_idx = 5
             
             whale_ratios = {}
+            retail_ratios = {}
             for line in lines[1:]:
                 parts = line.strip().split(",")
                 if len(parts) > pct_idx:
                     stock_id = parts[id_idx].replace('"', '').strip()
                     try:
                         level = int(parts[level_idx].replace('"', '').strip())
+                        pct = float(parts[pct_idx].replace('"', '').strip())
                         if level == 15:
-                            pct = float(parts[pct_idx].replace('"', '').strip())
                             whale_ratios[stock_id] = pct
+                        elif 1 <= level <= 8:
+                            retail_ratios[stock_id] = retail_ratios.get(stock_id, 0.0) + pct
                     except ValueError:
                         continue
-            return whale_ratios
+            for sid in retail_ratios:
+                retail_ratios[sid] = round(retail_ratios[sid], 2)
+            return whale_ratios, retail_ratios
     except Exception as e:
         log(f"[警告] 下載集保 CSV 失敗: {str(e)}")
-    return {}
+    return {}, {}
 
 def fetch_whale_ratios_for_date(base_date, stock_ids):
     if not stock_ids:
-        return {}
+        return {}, {}
         
-    log(f"開始批次下載基期 {base_date} 的大戶比例，共 {len(stock_ids)} 檔...")
-    results = {}
+    log(f"開始批次下載基期 {base_date} 的大戶與散戶比例，共 {len(stock_ids)} 檔...")
+    whale_results = {}
+    retail_results = {}
     sess = requests.Session()
     try:
         # 1. 取得 token
         r = sess.get("https://www.tdcc.com.tw/portal/zh/smWeb/qryStock", headers=HEADERS, verify=False, timeout=10)
         if r.status_code != 200:
             log(f"[錯誤] 無法連線集保所取得 Token (狀態碼: {r.status_code})")
-            return {}
+            return {}, {}
         soup = BeautifulSoup(r.text, "html.parser")
         token_elem = soup.find("input", {"name": "SYNCHRONIZER_TOKEN"})
         if not token_elem:
             log("[錯誤] 無法解析 SYNCHRONIZER_TOKEN")
-            return {}
+            return {}, {}
         token = token_elem["value"]
         
         # 2. 連續 POST 查詢
@@ -361,13 +363,30 @@ def fetch_whale_ratios_for_date(base_date, stock_ids):
                     table = soup2.find("table", {"class": "table"})
                     if table:
                         rows = table.find_all("tr")
+                        stock_whale_pct = 0.0
+                        stock_retail_pct = 0.0
+                        found_whale = False
+                        found_retail = False
+                        
                         for row_elem in rows[1:]:
                             cols = [td.text.strip() for td in row_elem.find_all("td")]
-                            if cols and cols[0] == '15':
-                                pct_str = cols[4].replace(",", "").strip()
-                                results[sid] = float(pct_str)
-                                success_count += 1
-                                break
+                            if cols and len(cols) > 4:
+                                try:
+                                    level = int(cols[0])
+                                    pct_str = cols[4].replace(",", "").strip()
+                                    pct_val = float(pct_str)
+                                    if level == 15:
+                                        stock_whale_pct = pct_val
+                                        found_whale = True
+                                    elif 1 <= level <= 8:
+                                        stock_retail_pct += pct_val
+                                        found_retail = True
+                                except ValueError:
+                                    continue
+                        if found_whale or found_retail:
+                            whale_results[sid] = stock_whale_pct
+                            retail_results[sid] = round(stock_retail_pct, 2)
+                            success_count += 1
                 time.sleep(0.05) # 微小延遲
             except Exception:
                 pass
@@ -375,7 +394,7 @@ def fetch_whale_ratios_for_date(base_date, stock_ids):
         log(f"基期 {base_date} 批次下載完成，共成功取得 {success_count}/{len(stock_ids)} 檔。")
     except Exception as e:
         log(f"[錯誤] 批次查詢基期 {base_date} 異常: {str(e)}")
-    return results
+    return whale_results, retail_results
 
 def detect_whale_locked_stocks(df, stock_info):
     log("=== 開始大戶鎖碼追蹤 (方案 A) ===")
@@ -387,8 +406,9 @@ def detect_whale_locked_stocks(df, stock_info):
         
     latest_date = options[0]
     
-    # 四個基期日期與對應的標籤
+    # 五個基期日期與對應的標籤 (新增 1w 近1週)
     baselines = {
+        "1w": {"date": options[1], "weeks": 1},
         "1m": {"date": options[4], "weeks": 4},
         "2m": {"date": options[8], "weeks": 8},
         "3m": {"date": options[12], "weeks": 12},
@@ -399,30 +419,39 @@ def detect_whale_locked_stocks(df, stock_info):
     for k, v in baselines.items():
         log(f"-> 基期日期 ({k} - {v['weeks']}週前): {v['date']}")
         
-    latest_whale = get_latest_whale_ratios()
+    latest_whale, latest_retail = get_latest_whale_ratios()
     if not latest_whale:
         log("[警告] 無法取得最新集保大戶比例。")
         return []
         
-    # 載入或初始化各基期的本地快取
+    # 載入或初始化各基期的本地快取 (大戶與散戶分開快取)
     caches = {}
     for k, v in baselines.items():
         b_date = v["date"]
-        cache_file = os.path.join(CACHE_DIR, f"whale_history_{b_date}.json")
-        cached_ratios = {}
-        if os.path.exists(cache_file):
+        cache_file_whale = os.path.join(CACHE_DIR, f"whale_history_whale_{b_date}.json")
+        cache_file_retail = os.path.join(CACHE_DIR, f"whale_history_retail_{b_date}.json")
+        
+        cached_whale = {}
+        cached_retail = {}
+        
+        if os.path.exists(cache_file_whale):
             log(f"自本地快取載入基期 {b_date} ({k}) 大戶比例...")
-            with open(cache_file, "r", encoding="utf-8") as f:
-                cached_ratios = json.load(f)
+            with open(cache_file_whale, "r", encoding="utf-8") as f:
+                cached_whale = json.load(f)
+                
+        if os.path.exists(cache_file_retail):
+            log(f"自本地快取載入基期 {b_date} ({k}) 散戶比例...")
+            with open(cache_file_retail, "r", encoding="utf-8") as f:
+                cached_retail = json.load(f)
+                
         caches[k] = {
-            "file": cache_file,
-            "data": cached_ratios
+            "file_whale": cache_file_whale,
+            "file_retail": cache_file_retail,
+            "whale": cached_whale,
+            "retail": cached_retail
         }
         
     # 篩選最新一日活躍個股：
-    # 為了防止向集保所發送過多查詢導致 IP 被鎖或程式卡死，
-    # 我們過濾出：今日成交量 >= 2,000張 (2,000,000股) 或者是今日成交金額 >= 50.0 (百萬)，
-    # 或者是屬於我們自訂的概念股成分股，才進行大戶鎖碼追蹤。
     df_latest_date = df["date"].max()
     latest_df = df[df["date"] == df_latest_date]
     active_stocks = latest_df[
@@ -437,7 +466,7 @@ def detect_whale_locked_stocks(df, stock_info):
         if sid in latest_whale:
             for k, v in baselines.items():
                 b_date = v["date"]
-                if sid not in caches[k]["data"]:
+                if sid not in caches[k]["whale"] or sid not in caches[k]["retail"]:
                     if b_date not in date_to_stocks:
                         date_to_stocks[b_date] = {"key": k, "sids": []}
                     date_to_stocks[b_date]["sids"].append(sid)
@@ -447,12 +476,18 @@ def detect_whale_locked_stocks(df, stock_info):
         k = info["key"]
         sids = info["sids"]
         if sids:
-            fetched_ratios = fetch_whale_ratios_for_date(b_date, sids)
-            if fetched_ratios:
-                caches[k]["data"].update(fetched_ratios)
-                with open(caches[k]["file"], "w", encoding="utf-8") as f:
-                    json.dump(caches[k]["data"], f, ensure_ascii=False, indent=4)
-                log(f"已將基期 {b_date} ({k}) 新獲取的 {len(fetched_ratios)} 筆資料寫入快取。")
+            fetched_whale, fetched_retail = fetch_whale_ratios_for_date(b_date, sids)
+            if fetched_whale or fetched_retail:
+                caches[k]["whale"].update(fetched_whale)
+                caches[k]["retail"].update(fetched_retail)
+                
+                with open(caches[k]["file_whale"], "w", encoding="utf-8") as f:
+                    json.dump(caches[k]["whale"], f, ensure_ascii=False, indent=4)
+                    
+                with open(caches[k]["file_retail"], "w", encoding="utf-8") as f:
+                    json.dump(caches[k]["retail"], f, ensure_ascii=False, indent=4)
+                    
+                log(f"已將基期 {b_date} ({k}) 新獲取資料寫入大戶/散戶快取。")
                 
     # 計算並篩選
     whale_locked_list = []
@@ -462,32 +497,46 @@ def detect_whale_locked_stocks(df, stock_info):
         if sid in latest_whale:
             has_all_data = True
             diffs = {}
+            retail_diffs = {}
             for k in baselines.keys():
-                if sid in caches[k]["data"]:
-                    base_ratio = caches[k]["data"][sid]
+                if sid in caches[k]["whale"] and sid in caches[k]["retail"]:
+                    base_ratio = caches[k]["whale"][sid]
+                    base_retail = caches[k]["retail"][sid]
                     diffs[f"diff_{k}"] = round(latest_whale[sid] - base_ratio, 2)
+                    retail_diffs[f"diff_{k}_retail"] = round(latest_retail.get(sid, 0.0) - base_retail, 2)
                 else:
                     has_all_data = False
                     break
                     
             if has_all_data:
-                # 篩選條件：只要在任何一個時間區間（1m, 2m, 3m, 4m）內大戶比例累計增加大於等於 4.0%，就納入大戶鎖碼股列表
-                max_diff = max(diffs.values())
-                if max_diff >= 4.0:
+                # 篩選條件：
+                # 1. 長線模式：1m, 2m, 3m, 4m 中大戶比例累計增加 >= 4.0%
+                # 2. 極速突變（1週爆發流）：1w 大戶比例增加 >= 2.0%，且 1w 散戶比例減少 <= -2.0%
+                is_long_locked = any(diffs[f"diff_{k}"] >= 4.0 for k in ["1m", "2m", "3m", "4m"])
+                is_rapid_burst = (diffs["diff_1w"] >= 2.0) and (retail_diffs["diff_1w_retail"] <= -2.0)
+                
+                if is_long_locked or is_rapid_burst:
                     stock_row = latest_df[latest_df["stock_id"] == sid]
                     today_return = float(stock_row["today_return_pct"].iloc[0]) if not stock_row.empty else 0.0
                     price_today = float(stock_row["price"].iloc[0]) if not stock_row.empty else 0.0
                     stock_name = stock_info[sid]["name"]
                     sector = STOCK_TO_CONCEPT.get(sid, stock_info[sid]["industry"])
                     
+                    # 計算 5 日法人累計買超
+                    st_df = df[df["stock_id"] == sid].sort_values("date")
+                    inst_flow_5d = float(st_df["today_net_flow_m"].iloc[-min(5, len(st_df)):].sum()) if not st_df.empty else 0.0
+                    
                     whale_locked_list.append({
                         "stock_id": sid,
                         "stock_name": stock_name,
                         "current_ratio": round(latest_whale[sid], 2),
+                        "diff_1w": diffs["diff_1w"],
+                        "diff_1w_retail": retail_diffs["diff_1w_retail"],
                         "diff_1m": diffs["diff_1m"],
                         "diff_2m": diffs["diff_2m"],
                         "diff_3m": diffs["diff_3m"],
                         "diff_4m": diffs["diff_4m"],
+                        "inst_flow_5d": round(inst_flow_5d, 2),
                         "today_return_pct": round(today_return, 2),
                         "price_today": price_today,
                         "sector": sector
@@ -541,7 +590,7 @@ def detect_whale_locked_stocks(df, stock_info):
             ticker = f"{sid}.TW"
             price_today = item["price_today"]
             
-            for k in ["1m", "2m", "3m", "4m"]:
+            for k in ["1w", "1m", "2m", "3m", "4m"]:
                 base_date = baselines[k]["date"]
                 try:
                     target_date_str = datetime.strptime(base_date, "%Y%m%d").strftime("%Y-%m-%d")
@@ -670,8 +719,8 @@ def main():
         if latest_df.empty:
             continue
 
-        # 篩選抄底指標股：法人逆勢買超最強且今日相對抗跌（個股今日漲跌幅 >= 大盤漲跌幅，且今日淨流入為正）
-        bf_candidates = latest_df[(latest_df["today_net_flow_m"] > 0) & (latest_df["today_return_pct"] >= market_return_pct)].copy()
+        # 篩選抄底指標股：三大法人買超金額 >= 50M（無論漲跌）
+        bf_candidates = latest_df[latest_df["today_net_flow_m"] >= 50.0].copy()
         bf_stocks = bf_candidates.sort_values("today_net_flow_m", ascending=False).head(2)
         bottom_fishing_stocks_data = []
         for _, row in bf_stocks.iterrows():

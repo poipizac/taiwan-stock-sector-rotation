@@ -120,6 +120,7 @@
                 </div>
                 <!-- 監測時間區間 Tab 組 -->
                 <div class="whale-time-tabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.65rem; background: rgba(0, 0, 0, 0.2); padding: 0.2rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
+                    <button class="whale-time-btn" onclick="changeWhaleTime('1w', this)">1週爆發</button>
                     <button class="whale-time-btn" onclick="changeWhaleTime('1m', this)">1個月</button>
                     <button class="whale-time-btn active" onclick="changeWhaleTime('2m', this)">2個月</button>
                     <button class="whale-time-btn" onclick="changeWhaleTime('3m', this)">3個月</button>
@@ -495,6 +496,16 @@
             
             currentTimeWhale = timeframe;
             
+            // 如果是 1週爆發流，隱藏傳統門檻按鈕
+            const filterTabs = document.querySelector(".whale-filter-tabs");
+            if (filterTabs) {
+                if (timeframe === "1w") {
+                    filterTabs.style.display = "none";
+                } else {
+                    filterTabs.style.display = "flex";
+                }
+            }
+            
             renderWhaleLockedStocks(cachedWhaleStocks, currentMinThreshold, currentMaxThreshold);
         }
 
@@ -554,18 +565,40 @@
                 return;
             }
             
-            const diffKey = "diff_" + currentTimeWhale;
-            // 根據傳入的門檻與選中的時間區間過濾個股
-            const filtered = whaleStocks.filter(st => st[diffKey] >= min && st[diffKey] <= max);
+            let filtered = [];
+            let labelText = "";
+            let priceChangeLabel = "";
             
-            const labelText = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "增減";
+            if (currentTimeWhale === "1w") {
+                // 1w 極速突變篩選：大戶單週增加 >= 2.0% 且 散戶單週減少 <= -2.0% 且 三大法人買超 >= 10.0 M
+                filtered = whaleStocks.filter(st => 
+                    st.diff_1w >= 2.0 && 
+                    st.diff_1w_retail <= -2.0 && 
+                    st.inst_flow_5d >= 10.0
+                );
+                labelText = "單週大戶/散戶";
+                priceChangeLabel = "近1週漲跌";
+            } else {
+                const diffKey = "diff_" + currentTimeWhale;
+                filtered = whaleStocks.filter(st => st[diffKey] >= min && st[diffKey] <= max);
+                labelText = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "增減";
+                priceChangeLabel = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "漲跌";
+            }
             
             if (filtered.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state" style="padding: 1.5rem 0.5rem; font-size:0.8rem; line-height: 1.5; color: var(--text-muted);">
-                        ⚠️ 此區間目前無符合個股。<br>
-                        <span style="font-size:0.75rem; color:#ffd600; font-weight:500;">今日大盤無此強度的鎖碼股，建議切換至「10%~15%」或「5%~10%」區間檢測。</span>
-                    </div>`;
+                if (currentTimeWhale === "1w") {
+                    listContainer.innerHTML = `
+                        <div class="empty-state" style="padding: 1.5rem 0.5rem; font-size:0.8rem; line-height: 1.5; color: var(--text-muted);">
+                            ⚠️ 目前無符合「極速突變（1週爆發流）」之個股。<br>
+                            <span style="font-size:0.75rem; color:#ffd600; font-weight:500;">（篩選標準：單週大戶增加>+2.0%，單週散戶減少<-2.0%，法人累計買超>=10M）</span>
+                        </div>`;
+                } else {
+                    listContainer.innerHTML = `
+                        <div class="empty-state" style="padding: 1.5rem 0.5rem; font-size:0.8rem; line-height: 1.5; color: var(--text-muted);">
+                            ⚠️ 此區間目前無符合個股。<br>
+                            <span style="font-size:0.75rem; color:#ffd600; font-weight:500;">今日大盤無此強度的鎖碼股，建議切換至「10%~15%」或「5%~10%」區間檢測。</span>
+                        </div>`;
+                }
                 return;
             }
             
@@ -582,12 +615,19 @@
                 // 動態時間區間累計漲跌幅
                 const priceChangeKey = currentTimeWhale + "_price_change";
                 const priceChangeVal = stock[priceChangeKey] !== undefined ? stock[priceChangeKey] : 0.0;
-                const priceChangeLabel = "近" + (currentTimeWhale === "1m" ? "1個月" : currentTimeWhale === "2m" ? "2個月" : currentTimeWhale === "3m" ? "3個月" : "4個月") + "漲跌";
                 const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
                 const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
                 
                 const isCustom = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"].includes(stock.sector);
                 const badgeStyle = isCustom ? 'style="background: #ff007f; color: #fff; font-weight: bold; box-shadow: 0 0 5px rgba(255, 0, 127, 0.5); border: none;"' : '';
+
+                let diffTextHtml = "";
+                if (currentTimeWhale === "1w") {
+                    diffTextHtml = `大戶:+${stock.diff_1w.toFixed(2)}% | 散戶:${stock.diff_1w_retail.toFixed(2)}%`;
+                } else {
+                    const diffKey = "diff_" + currentTimeWhale;
+                    diffTextHtml = `+${stock[diffKey].toFixed(2)}%`;
+                }
 
                 item.innerHTML = `
                     <div class="whale-stock-header">
@@ -599,12 +639,12 @@
                     </div>
                     <div class="whale-stock-body">
                         <div class="detail-val">
-                            <span class="label">大戶持股</span>
-                            <span class="val" style="color: var(--text-primary); font-weight: 500;">${stock.current_ratio.toFixed(2)}%</span>
+                            <span class="label">法人5日買超</span>
+                            <span class="val" style="color: #ffd600; font-weight: 700;">+${stock.inst_flow_5d.toFixed(1)}M</span>
                         </div>
                         <div class="detail-val">
                             <span class="label">${labelText}</span>
-                            <span class="val val-positive" style="font-weight: 700;">+${stock[diffKey].toFixed(2)}%</span>
+                            <span class="val val-positive" style="font-weight: 700;">${diffTextHtml}</span>
                         </div>
                         <div class="detail-val">
                             <span class="label">${priceChangeLabel}</span>
