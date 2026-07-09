@@ -391,8 +391,8 @@
                 row.onmouseout = () => hoverLinkageReset();
 
                 const flowVal = sector[flowKey];
-                const flowSign = flowVal >= 0 ? "+" : "";
-                const flowClass = flowVal >= 0 ? "val-positive" : "val-negative";
+                const flowSign = flowVal > 0 ? "+" : "";
+                const flowClass = flowVal > 0 ? "val-positive" : (flowVal < 0 ? "val-negative" : "val-flat");
                 const qInfo = getQuadrantInfo(flowVal, sector.acceleration_m);
                 
                 const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
@@ -458,10 +458,15 @@
                 item.onmouseout = () => hoverLinkageReset();
                 
                 let stocksHtml = "";
-                if (sector.bottom_fishing_stocks && sector.bottom_fishing_stocks.length > 0) {
-                    sector.bottom_fishing_stocks.forEach(st => {
-                        const retSign = st.today_return_pct >= 0 ? "+" : "";
-                        const retClass = st.today_return_pct >= 0 ? "val-positive" : "val-negative";
+                const candidateStocks = (sector.individual_stocks || [])
+                    .filter(st => st.today_net_flow_m > 0)
+                    .sort((a, b) => b.today_net_flow_m - a.today_net_flow_m)
+                    .slice(0, 2);
+                
+                if (candidateStocks.length > 0) {
+                    candidateStocks.forEach(st => {
+                        const retSign = st.today_return_pct > 0 ? "+" : "";
+                        const retClass = st.today_return_pct > 0 ? "val-positive" : (st.today_return_pct < 0 ? "val-negative" : "val-flat");
                         stocksHtml += `
                             <div class="bf-stock-tag">
                                 <span class="stock-title">${st.stock_name} (${st.stock_id})</span>
@@ -471,7 +476,7 @@
                         `;
                     });
                 } else {
-                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之抗跌個股</div>`;
+                    stocksHtml = `<div style="grid-column: span 2; text-align: center; font-size: 0.725rem; color: var(--text-muted);">無符合條件之個股</div>`;
                 }
                 
                 const nameHtml = isCustom ? `<span style="color:#ff007f; font-weight:700;">★</span> ${sector.sector_name} <span class="custom-badge" style="background:#ff007f; color:#fff; font-size:0.65rem; padding:1px 4px; border-radius:3px; margin-left:4px; font-weight:bold;">特調</span>` : sector.sector_name;
@@ -615,18 +620,22 @@
                 // 動態時間區間累計漲跌幅
                 const priceChangeKey = currentTimeWhale + "_price_change";
                 const priceChangeVal = stock[priceChangeKey] !== undefined ? stock[priceChangeKey] : 0.0;
-                const priceChangeSign = priceChangeVal >= 0 ? "+" : "";
-                const priceChangeClass = priceChangeVal >= 0 ? "val-positive" : "val-negative";
+                const priceChangeSign = priceChangeVal > 0 ? "+" : "";
+                const priceChangeClass = priceChangeVal > 0 ? "val-positive" : (priceChangeVal < 0 ? "val-negative" : "val-flat");
                 
                 const isCustom = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"].includes(stock.sector);
                 const badgeStyle = isCustom ? 'style="background: #ff007f; color: #fff; font-weight: bold; box-shadow: 0 0 5px rgba(255, 0, 127, 0.5); border: none;"' : '';
 
                 let diffTextHtml = "";
+                let diffClass = "val-positive";
                 if (currentTimeWhale === "1w") {
                     diffTextHtml = `大戶:+${stock.diff_1w.toFixed(2)}% | 散戶:${stock.diff_1w_retail.toFixed(2)}%`;
+                    diffClass = "val-positive";
                 } else {
                     const diffKey = "diff_" + currentTimeWhale;
-                    diffTextHtml = `+${stock[diffKey].toFixed(2)}%`;
+                    const diffVal = stock[diffKey];
+                    diffTextHtml = (diffVal > 0 ? "+" : "") + diffVal.toFixed(2) + "%";
+                    diffClass = diffVal > 0 ? "val-positive" : (diffVal < 0 ? "val-negative" : "val-flat");
                 }
 
                 item.innerHTML = `
@@ -644,7 +653,7 @@
                         </div>
                         <div class="detail-val">
                             <span class="label">${labelText}</span>
-                            <span class="val val-positive" style="font-weight: 700;">${diffTextHtml}</span>
+                            <span class="val ${diffClass}" style="font-weight: 700;">${diffTextHtml}</span>
                         </div>
                         <div class="detail-val">
                             <span class="label">${priceChangeLabel}</span>
@@ -724,21 +733,21 @@
                 const tr = document.createElement("tr");
                 
                 // Today flow
-                const todayFlowClass = stock.today_net_flow_m >= 0 ? "val-positive" : "val-negative";
-                const todayFlowSign = stock.today_net_flow_m >= 0 ? "+" : "";
+                const todayFlowClass = stock.today_net_flow_m > 0 ? "val-positive" : (stock.today_net_flow_m < 0 ? "val-negative" : "val-flat");
+                const todayFlowSign = stock.today_net_flow_m > 0 ? "+" : "";
 
                 // Today Return
-                const todayReturnClass = stock.today_return_pct >= 0 ? "val-positive" : "val-negative";
-                const todayReturnSign = stock.today_return_pct >= 0 ? "+" : "";
+                const todayReturnClass = stock.today_return_pct > 0 ? "val-positive" : (stock.today_return_pct < 0 ? "val-negative" : "val-flat");
+                const todayReturnSign = stock.today_return_pct > 0 ? "+" : "";
 
                 // Accumulated Flow
                 const accumFlowVal = currentTimeFrame === "5d" ? stock.flow_5d_m : stock.flow_20d_m;
-                const accumFlowClass = accumFlowVal >= 0 ? "val-positive" : "val-negative";
-                const accumFlowSign = accumFlowVal >= 0 ? "+" : "";
+                const accumFlowClass = accumFlowVal > 0 ? "val-positive" : (accumFlowVal < 0 ? "val-negative" : "val-flat");
+                const accumFlowSign = accumFlowVal > 0 ? "+" : "";
 
                 // 5D Return
-                const return5dClass = stock.return_5d_pct >= 0 ? "val-positive" : "val-negative";
-                const return5dSign = stock.return_5d_pct >= 0 ? "+" : "";
+                const return5dClass = stock.return_5d_pct > 0 ? "val-positive" : (stock.return_5d_pct < 0 ? "val-negative" : "val-flat");
+                const return5dSign = stock.return_5d_pct > 0 ? "+" : "";
 
                 tr.innerHTML = `
                     <td>
@@ -1142,8 +1151,8 @@
                 const customSectors = ["台積先進封裝設備", "軍工概念股", "高值化半導體材料"];
                 
                 const stockItems = d.individual_stocks.slice(0, 3).map(st => {
-                    const flowSign = st.flow_5d_m >= 0 ? "+" : "";
-                    const flowClass = st.flow_5d_m >= 0 ? "val-positive" : "val-negative";
+                    const flowSign = st.flow_5d_m > 0 ? "+" : "";
+                    const flowClass = st.flow_5d_m > 0 ? "val-positive" : (st.flow_5d_m < 0 ? "val-negative" : "val-flat");
                     return `
                         <div class="tooltip-stock-item">
                             <span>${st.stock_name}</span>

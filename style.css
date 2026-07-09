@@ -452,6 +452,10 @@ svg {
     color: var(--tw-down);
 }
 
+.val-flat {
+    color: var(--text-muted) !important;
+}
+
 /* Tooltip Styling */
 .custom-tooltip {
     position: absolute !important;
