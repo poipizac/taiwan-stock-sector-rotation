@@ -4975,6 +4975,25 @@
             "4m_price_change": -92.36
         },
         {
+            "stock_id": "2033",
+            "stock_name": "佳大",
+            "current_ratio": 77.4,
+            "diff_1w": 10.64,
+            "diff_1w_retail": -3.03,
+            "diff_1m": 14.0,
+            "diff_2m": 15.24,
+            "diff_3m": 15.92,
+            "diff_4m": 17.87,
+            "inst_flow_5d": 4.42,
+            "today_return_pct": -1.34,
+            "sector": "鋼鐵工業",
+            "1w_price_change": 8.55,
+            "1m_price_change": 43.47,
+            "2m_price_change": 140.52,
+            "3m_price_change": 122.36,
+            "4m_price_change": 135.9
+        },
+        {
             "stock_id": "3605",
             "stock_name": "宏致",
             "current_ratio": 61.62,
